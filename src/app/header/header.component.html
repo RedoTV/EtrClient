@@ -1,0 +1,45 @@
+<header>
+    <nav class="navbar nav-bg navbar-expand-md border-bottom rounded-bottom-5">
+        <div class="py-1 navbar-brand">
+            <a routerLink="/">
+                <img src="./assets/img/logo.png" class="main-logo px-4 user-select-none" alt="Logo">
+            </a>
+        </div>
+
+        <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav user-select-none">
+                
+                <div class="nav-item dropdown p-3 rounded text-center mx-1 ">
+                  <a class="btn dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fs-4">Ученики</span>
+                  </a>
+                
+                  <ul class="dropdown-menu mw-50 mx-auto" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item"><span class="fs-5">Все</span></a></li>
+                    <li><a class="dropdown-item"><span class="fs-5">Добавить ученика</span></a></li>
+                  </ul>
+                </div>
+                
+                <div class="dropdown rounded p-3 text-center">
+                  <a class="btn dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="fs-4 ">Контесты</span>
+                  </a>
+                
+                  <ul class="dropdown-menu mw-50 mx-auto" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item"><span class="fs-5">Список Контестов</span></a></li>
+                    <li><a class="dropdown-item"><span class="fs-5">Добавить Контест</span></a></li>
+                  </ul>
+                </div>
+                <div class="nav-item text-center p-3">
+                    <a routerLink="/signin" class="btn text-decoration-none transition-1">
+                        <span class="fs-4">О проекте</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
