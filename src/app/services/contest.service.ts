@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { RequestContest } from '../models/request.contest';
+import { Observable, map } from 'rxjs';
+import { Contest } from '../models/contest';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,10 @@ export class ContestService {
     this.http = http;
   }
 
-  public getAllContests():Observable<RequestContest>
+  public getAllContests():Contest[]
   {
-    return this.http.get<RequestContest>('https://dl.gsu.by/etr/api/contest');
+    let contests:Contest[] = []
+    this.http.get<Contest>('https://dl.gsu.by/etr/api/contest').subscribe(data => contests.push(data));
+    return contests;
   }
 }

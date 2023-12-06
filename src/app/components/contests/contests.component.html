@@ -1,2 +1,7 @@
 <p>contests works!</p>
-<div [textContent]="contestService.getAllContests()|async"></div>
+@for (contest of contests; track $index) {
+    <div>
+        <h1>{{contest.name}}</h1>
+        <h2>{{contest.start_datatime}}</h2>
+    </div>
+}

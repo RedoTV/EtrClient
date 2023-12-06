@@ -1,6 +1,6 @@
 import { Time } from "@angular/common";
 
-export type RequestContest = {
+export type Contest = {
     city:string;
     country:string;
     description:string;
