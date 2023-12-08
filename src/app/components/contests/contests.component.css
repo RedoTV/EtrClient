@@ -1,5 +1,5 @@
 .contest-card{
-    width: 30%;
+    width: 48%;
 }
 .contests-container{
     margin: 0px 20px 100px 20px;
@@ -12,7 +12,7 @@
 }
 
 table {
-    width: auto;
+    width: 90%;
     margin: 0px 5% 0px 5%
 }
 
@@ -26,8 +26,41 @@ td {
 tr:first-child {
     background-color: #333333;
     color: white;
+    text-align: left;
 }
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
+
+.sort-start-higher::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid white;
+    pointer-events: none;
+}
+.sort-start-lower::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid white;
+    pointer-events: none;
+}
+
+.table-sort-button-content {
+    pointer-events: none;
+}
+
+.table-sort-button {
+    padding-right: 20px;
+    background-color: transparent;
+    color: white;
+    border: none;
 }
