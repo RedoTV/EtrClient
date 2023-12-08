@@ -18,7 +18,7 @@ export class Contest {
     problems: RequestProblem[] = [];
     relative_time_seconds:number = 0
     season:string = '';
-    start_datatime:string = '';
+    start_datatime:Date = new Date();
     start_time_seconds:number = 0;
     type:string = '';
     type_of_contest: string = '';

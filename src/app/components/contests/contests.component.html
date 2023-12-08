@@ -15,9 +15,9 @@
 @else {
     <table>
         <tr>
-            <td>Id</td>
+            <td><div (click)="clickOnId()" class="table-col">Id</div></td>
             <td>Название</td>
-            <td>Дата</td>
+            <td (click)="clickOnDate()" class="table-col"><div>Дата</div></td>
         </tr>
         @for (contest of contests; track $index) {
             <tr>

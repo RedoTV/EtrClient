@@ -31,3 +31,12 @@ tr:first-child {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.table-col{
+    cursor: pointer;
+}
+
+.table-col:hover{
+    opacity: 50%;
+    transition: 0.4s;
+}
