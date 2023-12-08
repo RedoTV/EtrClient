@@ -1,12 +1,28 @@
 <h1 class="text-center">Contests</h1>
-<div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
-    @for (contest of contests; track $index) {
-        <div class="border rounded contest-card">
-            <h3 class="text-center">{{contest.name}}</h3>
-            <div>
-                <div>{{contest.start_datatime}}</div>
-                <div>Всего задач: {{contest.problems.length}}</div>
+@if (width < 600) {
+    <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
+        @for (contest of contests; track $index) {
+            <div class="border rounded contest-card">
+                <h3 class="text-center">{{contest.name}}</h3>
+                <div>
+                    <div>{{contest.start_datatime}}</div>
+                    <div>Всего задач: {{contest.problems.length}}</div>
+                </div>
             </div>
-        </div>
+        }
+    </div>
+}
+
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Название</td>
+        <td></td>
+    </tr>
+    @for (contest of contests; track $index) {
+        <tr>
+            
+        </tr>
+        
     }
-</div>
+</table>
