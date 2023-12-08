@@ -1,5 +1,5 @@
 <h1 class="text-center">Contests</h1>
-@if (width < 600) {
+@if (width < 768) {
     <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
         @for (contest of contests; track $index) {
             <div class="border rounded contest-card">
@@ -12,17 +12,18 @@
         }
     </div>
 }
-
-<table>
-    <tr>
-        <td>Id</td>
-        <td>Название</td>
-        <td></td>
-    </tr>
-    @for (contest of contests; track $index) {
+@else {
+    <table>
         <tr>
-            
+            <td>Id</td>
+            <td>Название</td>
+            <td></td>
         </tr>
-        
-    }
-</table>
+        @for (contest of contests; track $index) {
+            <tr>
+                
+            </tr>
+            
+        }
+    </table>
+}

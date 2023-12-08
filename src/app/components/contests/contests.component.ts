@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-contests',
@@ -16,7 +17,7 @@ export class ContestsComponent implements OnInit{
   contests:Contest[];
   width:number = 0;
 
-  constructor(contestService: ContestService) {
+  constructor(contestService: ContestService, public router: Router) {
     this.contestService = contestService;
     this.contests = this.contestService.getAllContests();
   }
@@ -24,4 +25,17 @@ export class ContestsComponent implements OnInit{
   ngOnInit(): void {
     this.width = document.body.clientWidth;
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event : Event) {
+    console.log((event.target as Window).innerWidth);
+    this.ngOnInit();
+  }
+  
+  reloadCurrentRoute() {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([this.router.url]);
+    });
+  }
+
 }
