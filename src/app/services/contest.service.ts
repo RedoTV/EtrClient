@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Contest } from '../models/contest';
 
+class ContestResponse{
+  contests:Contest[] = [];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +19,9 @@ export class ContestService {
   public getAllContests():Contest[]
   {
     let contests:Contest[] = []
-    this.http.get<Contest>('https://dl.gsu.by/etr/api/contest').subscribe(data => contests.push(data));
+    this.http.get('http://localhost:5028/Test/getcontests')
+      .pipe(map(r => (<ContestResponse>r).contests))
+      .subscribe(res => res.forEach(x => contests.push(x)));
     return contests;
   }
 }

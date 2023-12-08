@@ -1,7 +1,12 @@
-<p>contests works!</p>
-@for (contest of contests; track $index) {
-    <div>
-        <h1>{{contest.name}}</h1>
-        <h2>{{contest.start_datatime}}</h2>
-    </div>
-}
+<h1 class="text-center">Contests</h1>
+<div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
+    @for (contest of contests; track $index) {
+        <div class="border rounded contest-card">
+            <h3 class="text-center">{{contest.name}}</h3>
+            <div>
+                <div>{{contest.start_datatime}}</div>
+                <div>Всего задач: {{contest.problems.length}}</div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,22 @@
+.contest-card{
+    width: 30%;
+}
+.contests-container{
+    margin: 0px 20px 100px 20px;
+    padding-bottom: 50px;
+}
+@media screen and (max-width: 1200px) {
+    .contest-card{
+        width: 45%;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .contest-card{
+        width: 45%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .contest-card{
+        width: 100%;
+    }
+}
