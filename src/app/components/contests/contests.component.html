@@ -17,11 +17,13 @@
         <tr>
             <td>Id</td>
             <td>Название</td>
-            <td></td>
+            <td>Дата</td>
         </tr>
         @for (contest of contests; track $index) {
             <tr>
-                
+                <td>{{contest.id}}</td>
+                <td>{{contest.name}}</td>
+                <td>{{contest.start_datatime}}</td>
             </tr>
             
         }
