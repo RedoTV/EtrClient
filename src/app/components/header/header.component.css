@@ -1,5 +1,14 @@
 .main-logo{
-    height: 70px;
+    margin-left: 10px;
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    text-align: center;
+    background-color: #0d47a1;
+    color: white;
+    font-size: x-large;
+    border-radius: 15px;
+    text-decoration: none;
 }
 
 .nav-bg{
@@ -13,4 +22,22 @@
 
 .bg-dropdown{
     background-color: rgb(86, 164, 232);
+}
+
+.btn {
+    padding: 0px 10px 0px 10px;
+}
+
+.navbar-button {
+    background-color: #5b78b6;
+    border: none;
+    width: 50px;
+    height: 50px;
+    padding: none;
+}
+
+@media screen and (min-width: 768px) {
+    .navbar-button {
+        display: none;
+    }
 }
