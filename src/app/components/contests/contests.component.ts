@@ -46,11 +46,20 @@ export class ContestsComponent implements OnInit{
 
   clickOnDate() : void{
     if(this.dateOrdered == false){
-      this.contests.sort((a,b) => a.start_datatime.valueOf() - b.start_datatime.valueOf());
+      this.contests.sort((a, b) => new Date(
+          Number.parseInt(a.start_datatime.split(' ')[2]), 
+          Number.parseInt(a.start_datatime.split(' ')[1]),
+          Number.parseInt(a.start_datatime.split(' ')[0])
+        ).valueOf() - new Date(
+          Number.parseInt(b.start_datatime.split(' ')[2]), 
+          Number.parseInt(b.start_datatime.split(' ')[1]),
+          Number.parseInt(b.start_datatime.split(' ')[0])
+        ).valueOf()
+      );
       this.dateOrdered = !this.dateOrdered;
     }
     else {
-      this.contests.sort((a,b) => b.start_datatime.valueOf() - a.start_datatime.valueOf());
+      this.contests = this.contests.reverse();
       this.dateOrdered = !this.dateOrdered;
     } 
   }
