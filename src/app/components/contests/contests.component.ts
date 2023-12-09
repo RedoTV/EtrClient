@@ -26,7 +26,6 @@ export class ContestsComponent implements OnInit{
 
   ngOnInit() : void {
     this.width = document.body.clientWidth;
-    this.sortContestsByDate(-1);
   }
 
   @HostListener('window:resize', ['$event'])
