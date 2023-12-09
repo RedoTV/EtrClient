@@ -1,0 +1,47 @@
+.about-pad {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    background-color: transparent;
+    height: calc(100vh - 74px - 40px) ;
+}
+
+.about-card {
+    position: relative;
+    height: 300px;
+    width: 400px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.container
+{
+    width: 50%;
+    text-align: left;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.sink {
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 40px);
+}
+
+.small-ico {
+    height: 32px;
+    margin: 8px;
+}
