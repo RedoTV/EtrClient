@@ -33,34 +33,11 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-.sort-start-higher::after {
-    content: "";
-    position:absolute;
-    margin-top: 10px;
-    margin-left: 2px;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 7px solid white;
-    pointer-events: none;
-}
-.sort-start-lower::after {
-    content: "";
-    position:absolute;
-    margin-top: 10px;
-    margin-left: 2px;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid white;
-    pointer-events: none;
+.table-col{
+    cursor: pointer;
 }
 
-.table-sort-button-content {
-    pointer-events: none;
-}
-
-.table-sort-button {
-    padding-right: 20px;
-    background-color: transparent;
-    color: white;
-    border: none;
+.table-col:hover{
+    opacity: 50%;
+    transition: 0.4s;
 }
