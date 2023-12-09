@@ -14,4 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'EtrClient';
+  readonly versionMajor = 0;
+  readonly versionMinor = 1;
+  readonly versionPatch = 0;
 }
