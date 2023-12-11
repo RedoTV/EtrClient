@@ -2,7 +2,7 @@ import { Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angu
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
-import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-students-table',
