@@ -86,11 +86,7 @@ export class ContestsComponent implements OnInit{
     else if (buttonElement.id == "sort-by-name")
     {
       this.contests.sort((a, b) => {
-        if (a.name > b.name)
-          return sortDirection;
-        else if (a.name < b.name)
-          return sortDirection * -1;
-        return 0;
+        return a.name.localeCompare(b.name) * sortDirection;
       });
       return;
     }

@@ -1,10 +1,16 @@
+import { ContestUserEntry } from './../models/contestUserEntry';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Contest } from '../models/contest';
 
 class ContestResponse{
   contests:Contest[] = [];
+}
+
+export class ContestInfo {
+  contest : Contest = new Contest;
+  rows : ContestUserEntry[] = [];
 }
 
 @Injectable({
@@ -19,13 +25,13 @@ export class ContestService {
   public getAllContests():Contest[]
   {
     let contests:Contest[] = []
-    this.http.get('http://localhost:5028/Test/getcontests')
+    this.http.get('https://dl.gsu.by/etr/api/contest')
       .pipe(map(r => (<ContestResponse>r).contests))
       .subscribe(res => res.forEach(x => contests.push(x)));
     return contests;
   }
 
-  public getContestByID(id : number) : Observable<Contest> {
-    return this.http.get("https://dl.gsu.by/etr/api/contest/" + id.toString() + "/table") as Observable<Contest>;
+  public getContestInfoByID(id : number) : Observable<ContestInfo> {
+    return this.http.get("https://dl.gsu.by/etr/api/contest/" + id.toString() + "/table") as Observable<ContestInfo>;
   }
 }

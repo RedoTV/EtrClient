@@ -11,8 +11,8 @@ export class Submission {
     public problem : RequestProblem = new RequestProblem;
     public author_id : number = 0;
     public author : User = new User;
-    public team_id : number = 0;
-    public team : Team = new Team;
+    public team_id : number | null = null;
+    public team : Team | null = null;
     public programming_language : string = "";
     public verdict : string = "";
     public testset : string = "";
