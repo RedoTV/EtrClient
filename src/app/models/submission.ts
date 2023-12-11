@@ -10,7 +10,7 @@ export class Submission {
     problem_id : number = 0;
     problem : RequestProblem = new RequestProblem;
     author_id : number = 0;
-    author : User = new User;
+    author : User = new User();
     team_id : number = 0;
     team : Team = new Team;
     programming_language : string = "";

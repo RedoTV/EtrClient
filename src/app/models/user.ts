@@ -3,35 +3,27 @@ import { Submission } from "./submission";
 import { last } from "rxjs";
 
 export class User {
-    id : number = 0;
-    handle : string = "";
-    email : string | null = null;
-    vk_id : string | null = null;
-    open_id : string | null = null;
-    first_name : string | null = null;
-    last_name : string | null = null;
-    country : string | null = null;
-    city : string | null = null;
-    organization : string | null = null;
-    rank : string | null = null;
-    rating : string | null = null;
-    max_rank : string | null = null;
-    last_online_time_seconds : number | null = null;
-    registration_time_seconds : number | null = null;
-    friend_of_count : string | null = null;
-    avatar : string | null = null;
-    title_photo : string | null = null;
-    watch : boolean | null = null;
-    grade : number | null = null;
-    dl_id : string | null = null;
-    teams : Team[] = [];
-    submissions : Submission[] = [];
-    constructor(id:number, first_name:string, last_name:string, organization:string, city:string, grade:number) {
-        this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.organization = organization;
-        this.city = city;
-        this.grade = grade;
-    }
+    public id : number = 0;
+    public handle : string = "";
+    public email : string | null = null;
+    public vk_id : string | null = null;
+    public open_id : string | null = null;
+    public first_name : string | null = null;
+    public last_name : string | null = null;
+    public country : string | null = null;
+    public city : string | null = null;
+    public organization : string | null = null;
+    public rank : string | null = null;
+    public rating : string | null = null;
+    public max_rank : string | null = null;
+    public last_online_time_seconds : number | null = null;
+    public registration_time_seconds : number | null = null;
+    public friend_of_count : string | null = null;
+    public avatar : string | null = null;
+    public title_photo : string | null = null;
+    public watch : boolean | null = null;
+    public grade : number | null = null;
+    public dl_id : string | null = null;
+    public teams : Team[] = [];
+    public submissions : Submission[] = [];
 }

@@ -1,3 +1,4 @@
+<h1 class="text-center">Students Table</h1>
 <table>
     <tr>
         <th>ID</th>
@@ -7,12 +8,14 @@
         <th>Город</th>
         <th>Класс</th>
     </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+    @for (item of users; track $index) {
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.first_name}}</td>
+            <td>{{item.last_name}}</td>
+            <td>{{item.organization}}</td>
+            <td>{{item.city}}</td>
+            <td>{{item.grade}}</td>
+        </tr>
+    }
 </table>

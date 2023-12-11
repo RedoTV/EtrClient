@@ -10,5 +10,25 @@ import { User } from '../../models/user';
   styleUrl: './students-table.component.css'
 })
 export class StudentsTableComponent {
-  users:User[] = [new User(10, "Oleg", "Olegov", "DL", "Gomel", 11)];
+  constructor() {
+    this.u1.id = 9;
+    this.u1.first_name = "Oleg";
+    this.u1.last_name = "Olegov";
+    this.u1.organization = "DL";
+    this.u1.city = "Gomel";
+    this.u1.grade = 11;
+
+    this.u2.id = 9;
+    this.u2.first_name = "Ivan";
+    this.u2.last_name = "Olegov";
+    this.u2.organization = "DL";
+    this.u2.city = "Gomel";
+    this.u2.grade = 11;
+  }
+  u1:User = new User();
+  u2:User = new User();
+
+  users:User[] = [this.u1,this.u2];
+
+  
 }
