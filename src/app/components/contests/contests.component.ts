@@ -22,6 +22,7 @@ export class ContestsComponent implements OnInit{
   constructor(contestService: ContestService, public router: Router) {
     this.contestService = contestService;
     this.contests = this.contestService.getAllContests();
+    
   }
 
   ngOnInit() : void {
