@@ -102,15 +102,25 @@ export class ContestsComponent implements OnInit{
   }
 
   private sortContestsByDate (sortDirection : number) {
-    this.contests.sort((a, b) => new Date(
-      Number.parseInt(a.start_datatime.toString().split(' ')[2]), 
-      Number.parseInt(a.start_datatime.toString().split(' ')[1]),
-      Number.parseInt(a.start_datatime.toString().split(' ')[0])
-      ).valueOf() * sortDirection * -1 - new Date(
-      Number.parseInt(b.start_datatime.toString().split(' ')[2]), 
-      Number.parseInt(b.start_datatime.toString().split(' ')[1]),
-      Number.parseInt(b.start_datatime.toString().split(' ')[0])
-      ).valueOf()
+    this.contests.sort((a, b) => 
+    {
+      if (a.start_datatime == null && b.start_datatime == null)
+        return 0;
+      if (a.start_datatime == null)
+        return -1;
+      if (b.start_datatime == null)
+        return 1;
+      
+      return new Date(
+        Number.parseInt(a.start_datatime!.split(' ')[2]), 
+        Number.parseInt(a.start_datatime!.split(' ')[1]),
+        Number.parseInt(a.start_datatime!.split(' ')[0])
+        ).valueOf() * sortDirection * -1 - new Date(
+        Number.parseInt(b.start_datatime!.split(' ')[2]), 
+        Number.parseInt(b.start_datatime!.split(' ')[1]),
+        Number.parseInt(b.start_datatime!.split(' ')[0])
+        ).valueOf();
+    }
     );
     return;
   }
