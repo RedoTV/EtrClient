@@ -22,11 +22,13 @@ export class ContestsComponent implements OnInit{
   constructor(contestService: ContestService, public router: Router) {
     this.contestService = contestService;
     this.contests = this.contestService.getAllContests();
+    
   }
 
   ngOnInit() : void {
     this.width = document.body.clientWidth;
     this.sortContestsByDate(-1);
+    this.contests.forEach(el => el.start_datatime = '01 01 1900 00:00:00');
   }
 
   @HostListener('window:resize', ['$event'])
