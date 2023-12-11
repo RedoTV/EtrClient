@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-students-table',
@@ -9,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './students-table.component.css'
 })
 export class StudentsTableComponent {
-
+  users:User[] = [new User(10, "Oleg", "Olegov", "DL", "Gomel", 11)];
 }

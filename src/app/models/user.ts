@@ -1,5 +1,6 @@
 import { Team } from "./team";
 import { Submission } from "./submission";
+import { last } from "rxjs";
 
 export class User {
     id : number = 0;
@@ -25,4 +26,12 @@ export class User {
     dl_id : string | null = null;
     teams : Team[] = [];
     submissions : Submission[] = [];
+    constructor(id:number, first_name:string, last_name:string, organization:string, city:string, grade:number) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.organization = organization;
+        this.city = city;
+        this.grade = grade;
+    }
 }
