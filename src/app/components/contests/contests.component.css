@@ -59,6 +59,8 @@ tr:nth-child(even) {
 }
 
 .table-sort-button {
+    width: 100%;
+    text-align: left;
     padding-right: 20px;
     background-color: transparent;
     color: white;
