@@ -7,6 +7,7 @@ class ContestResponse{
   contests:Contest[] = [];
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,7 @@ export class ContestService {
   public getAllContests():Contest[]
   {
     let contests:Contest[] = []
-    this.http.get('http://localhost:5028/Test/getcontests')
+    this.http.get('https://dl.gsu.by/etr/api/contest/')
       .pipe(map(r => (<ContestResponse>r).contests))
       .subscribe(res => res.forEach(x => contests.push(x)));
     return contests;
