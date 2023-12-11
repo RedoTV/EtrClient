@@ -38,6 +38,13 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+tr:last-child {
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: unset;
+}
+
 .sort-start-higher::after {
     content: "";
     position:absolute;

@@ -16,10 +16,8 @@ export class ContestsComponent implements OnInit{
   contestService: ContestService;
   contests:Contest[];
   width:number = 0;
-  idOrdered:boolean = false;
-  dateOrdered:boolean = false;
 
-  constructor(contestService: ContestService, public router: Router) {
+  constructor(contestService: ContestService) {
     this.contestService = contestService;
     this.contests = this.contestService.getAllContests();
   }
@@ -37,7 +35,6 @@ export class ContestsComponent implements OnInit{
   sortTable(event : Event) {
     var sortButtons = document.getElementsByClassName("table-sort-button");
     var clickedButton = event.target as Element;
-    console.log(clickedButton);
     for (var i = 0; i < sortButtons.length; i++)
     {
       if (sortButtons.item(i)?.id == clickedButton.id)
@@ -103,18 +100,18 @@ export class ContestsComponent implements OnInit{
       if (a.start_datatime == null && b.start_datatime == null)
         return 0;
       if (a.start_datatime == null)
-        return -1;
-      if (b.start_datatime == null)
         return 1;
-
+      if (b.start_datatime == null)
+        return -1;
+      
       return new Date(
-        Number.parseInt(a.start_datatime!.split(' ')[2]), 
-        Number.parseInt(a.start_datatime!.split(' ')[1]),
-        Number.parseInt(a.start_datatime!.split(' ')[0])
-        ).valueOf() * sortDirection * -1 - new Date(
         Number.parseInt(b.start_datatime!.split(' ')[2]), 
         Number.parseInt(b.start_datatime!.split(' ')[1]),
         Number.parseInt(b.start_datatime!.split(' ')[0])
+        ).valueOf() * sortDirection - new Date(
+        Number.parseInt(a.start_datatime!.split(' ')[2]), 
+        Number.parseInt(a.start_datatime!.split(' ')[1]),
+        Number.parseInt(a.start_datatime!.split(' ')[0])
         ).valueOf();
     }
     );

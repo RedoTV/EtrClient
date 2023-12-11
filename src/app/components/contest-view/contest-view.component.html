@@ -24,9 +24,9 @@
 
     @for (participant of participants; track $index) {
         <tr>
-            <td>{{participant.user.id}}</td>
-            <td>{{participant.user.handle}}</td>
-            <td>{{participant.user.first_name}} {{participant.user.last_name}}</td>
+            <td>{{participant.user!.id}}</td>
+            <td>{{participant.user!.handle}}</td>
+            <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
             @for (participantProblemResult of participant.problemsResults; track $index) {
                 <td class="contest-problem-index">{{participantProblemResult.bestVerdict}}</td>
             }

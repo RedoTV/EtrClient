@@ -43,7 +43,7 @@ export class ContestViewComponent implements OnDestroy {
     this.contestsService = contestsService;
     this.routeSub = this.route.params.subscribe((o : {id? : number}) => this.id = o.id );
     if (this.id !== undefined)
-      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {this.contestInfo = res as ContestInfo; this.fillUserResults(); console.log(this.contestInfo)});
+      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {this.contestInfo = res as ContestInfo; this.fillUserResults();});
   }
   
   ngOnDestroy () {
@@ -134,7 +134,6 @@ export class ContestViewComponent implements OnDestroy {
   sortTable(event : Event) {
     var sortButtons = document.getElementsByClassName("table-sort-button");
     var clickedButton = event.target as Element;
-    console.log(clickedButton);
     for (var i = 0; i < sortButtons.length; i++)
     {
       if (sortButtons.item(i)?.id == clickedButton.id)

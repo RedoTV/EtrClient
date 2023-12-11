@@ -1,5 +1,6 @@
 import { Team } from "./team";
 import { Submission } from "./submission";
+import { last } from "rxjs";
 
 export class User {
     public id : number = 0;

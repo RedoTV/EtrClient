@@ -1,1 +1,46 @@
-<p>students-table works!</p>
+<h1 class="text-center">Students Table</h1>
+<table>
+    <tr>
+        <th>
+            <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                <div class="table-sort-button-user">ID</div>
+            </button>
+        </th>
+        <th>
+            <button class="table-sort-button" id="sort-by-first-name" (click)="sortTable($event)">
+                <div class="table-sort-button-user">Имя</div>
+            </button>
+        </th>
+        <th>
+            <button class="table-sort-button" id="sort-by-last-name" (click)="sortTable($event)">
+                <div class="table-sort-button-user">Фамилия</div>
+            </button>
+        </th>
+        <th>
+            <button class="table-sort-button" id="sort-by-organization" (click)="sortTable($event)">
+                <div class="table-sort-button-user">Организация</div>
+            </button>
+        </th>
+        <th>
+            <button class="table-sort-button" id="sort-by-city" (click)="sortTable($event)">
+                <div class="table-sort-button-user">Город</div>
+            </button>
+        </th>
+        <th>
+            <button class="table-sort-button" id="sort-by-grade" (click)="sortTable($event)">
+                <div class="table-sort-button-user">Класс</div>
+            </button>
+        </th>
+    </tr>
+    @for (item of users; track $index) {
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.first_name}}</td>
+            <td>{{item.last_name}}</td>
+            <td>{{item.organization}}</td>
+            <td>{{item.city}}</td>
+            <td>{{item.grade}}</td>
+        </tr>
+    }
+    <tr></tr>
+</table>
