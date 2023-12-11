@@ -1,1 +1,26 @@
-<p>contest-view works!</p>
+<table>
+    <tr>
+        <td>
+            <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                <div class="table-sort-button-content">ID</div>
+        </button>
+    </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Название</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-date" (click)="sortTable($event)">
+                <div class="sort-start-higher table-sort-button-content">Дата</div>
+            </button>
+        </td>
+    </tr>
+    @for (contest of contests; track $index) {
+        <tr routerLink="/contests/{{contest.id}}">
+            <td>{{contest.id}}</td>
+            <td>{{contest.name}}</td>
+            <td>{{contest.start_datatime}}</td>
+        </tr>
+    }
+</table>

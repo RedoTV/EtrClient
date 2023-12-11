@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './contests.component.html',
   styleUrl: './contests.component.css'
 })
@@ -110,7 +110,7 @@ export class ContestsComponent implements OnInit{
         return -1;
       if (b.start_datatime == null)
         return 1;
-      
+
       return new Date(
         Number.parseInt(a.start_datatime!.split(' ')[2]), 
         Number.parseInt(a.start_datatime!.split(' ')[1]),

@@ -32,7 +32,7 @@
             </td>
         </tr>
         @for (contest of contests; track $index) {
-            <tr>
+            <tr routerLink="/contests/{{contest.id}}">
                 <td>{{contest.id}}</td>
                 <td>{{contest.name}}</td>
                 <td>{{contest.start_datatime}}</td>
