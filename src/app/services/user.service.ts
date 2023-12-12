@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 class UserResponse{
   status:string|null = null;
@@ -17,12 +17,9 @@ export class UserService {
     this.http = http;
   }
 
-  public getAllUsers():User[]
+  public getAllUsers():Observable<User[]>
   {
-    let users:User[] = []
-    this.http.get('https://dl.gsu.by/etr/api/user/')
+    return this.http.get('https://dl.gsu.by/etr/api/user/')
       .pipe(map(r => (<UserResponse>r).users))
-      .subscribe(res => res.forEach(x => users.push(x)));
-    return users;
   }
 }
