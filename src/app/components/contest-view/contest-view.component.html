@@ -16,6 +16,16 @@
                 <div class="table-sort-button-content">Имя</div>
             </button>
         </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-points" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Баллы</div>
+            </button>
+        </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-total-correct" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Верно</div>
+            </button>
+        </td>
         @for (contestProblem of contestInfo.contest.problems; track $index) {
             <td class="contest-problem-index">{{contestProblem.index}}</td>
         }
@@ -27,6 +37,8 @@
             <td>{{participant.user!.id}}</td>
             <td>{{participant.user!.handle}}</td>
             <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
+            <td>{{participant.points}}</td>
+            <td>{{participant.totalCorrect}}</td>
             @for (participantProblemResult of participant.problemsResults; track $index) {
                 <td class="contest-problem-index">
                     @if (participantProblemResult.bestVerdict === "OK") {
