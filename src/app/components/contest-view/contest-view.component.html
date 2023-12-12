@@ -23,7 +23,7 @@
     
 
     @for (participant of participants; track $index) {
-        <tr>
+        <tr routerLink="/students/{{participant.user.id}}">
             <td>{{participant.user!.id}}</td>
             <td>{{participant.user!.handle}}</td>
             <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
