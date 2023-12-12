@@ -2,8 +2,8 @@ import { Submission } from "./submission";
 import { User } from "./user";
 
 export class Team {
-    id : number = 0;
-    team_name : string = "";
-    users : User[] = [];
-    submissions : Submission[] = [];
+    public id : number = 0;
+    public team_name : string = "";
+    public users : User[] = [];
+    public submissions : Submission[] = [];
 }

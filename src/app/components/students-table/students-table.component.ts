@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import { Component, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+=======
+import { Component, HostListener, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+>>>>>>> 428a16e90eafc22a2949874ea82fbc9746794153
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+<<<<<<< HEAD
 import { RouterLink} from "@angular/router";
+=======
+import { Observable, Subscription } from 'rxjs';
+
+>>>>>>> 428a16e90eafc22a2949874ea82fbc9746794153
 @Component({
   selector: 'app-students-table',
   standalone: true,
@@ -11,18 +20,24 @@ import { RouterLink} from "@angular/router";
   templateUrl: './students-table.component.html',
   styleUrl: './students-table.component.css'
 })
-export class StudentsTableComponent {
+export class StudentsTableComponent implements OnInit, OnDestroy{
   userService: UserService;
   width:number = 0;
-  users:User[];
+  users:User[] = [];
+  userTableSub:Subscription;
 
   constructor(userService: UserService) {
-    this.userService = userService;  
-    this.users = this.userService.getAllUsers();
+    this.userService = userService;
+    this.userTableSub = this.userService.getAllUsers()
+      .subscribe(res => res.forEach(x => this.users.push(x)));
   }
 
   ngOnInit() : void {
     this.width = document.body.clientWidth;
+  }
+
+  ngOnDestroy():void {
+    this.userTableSub.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
