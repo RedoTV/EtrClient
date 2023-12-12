@@ -28,7 +28,17 @@
             <td>{{participant.user!.handle}}</td>
             <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
             @for (participantProblemResult of participant.problemsResults; track $index) {
-                <td class="contest-problem-index">{{participantProblemResult.bestVerdict}}</td>
+                <td class="contest-problem-index">
+                    @if (participantProblemResult.bestVerdict === "OK") {
+                        <div style="color:green; font-size:20px">+{{participantProblemResult.totalSubmissions > 1 ? participantProblemResult.totalSubmissions : ""}}</div>
+                    }
+                    @else if (participantProblemResult.bestVerdict === "NO_SUBMISSIONS") {
+
+                    }
+                    @else {
+                        <div style="color:red; font-size:20px">-{{participantProblemResult.totalSubmissions}}</div>
+                    }
+                </td>
             }
         </tr>
     }

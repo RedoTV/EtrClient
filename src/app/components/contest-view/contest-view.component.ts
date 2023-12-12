@@ -43,7 +43,7 @@ export class ContestViewComponent implements OnDestroy {
     this.contestsService = contestsService;
     this.routeSub = this.route.params.subscribe((o : {id? : number}) => this.id = o.id );
     if (this.id !== undefined)
-      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {this.contestInfo = res as ContestInfo; this.fillUserResults();});
+      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {this.contestInfo = res as ContestInfo; this.fillUserResults(); console.log(this.contestInfo)});
   }
   
   ngOnDestroy () {
@@ -76,20 +76,31 @@ export class ContestViewComponent implements OnDestroy {
           }
           else if (submission.verdict !== "RUNTIME_ERROR")
           {
-            if (problemResults.bestVerdict === "WRONG_ANSWER") {
+            if (problemResults.bestVerdict === "COMPILATION_ERROR")
+            {
               problemResults.bestVerdict = submission.verdict;
             }
-            else if (submission.verdict !== "WRONG_ANSWER")
+            else if (submission.verdict !== "COMPILATION_ERROR")
             {
-              if (problemResults.bestVerdict === "MEMORY_LIMIT_EXCEEDED") {
+              if (problemResults.bestVerdict === "WRONG_ANSWER") {
                 problemResults.bestVerdict = submission.verdict;
-                participant.totalCorrect++;
               }
-              else if (submission.verdict !== "MEMORY_LIMIT_EXCEEDED")
+              else if (submission.verdict !== "WRONG_ANSWER")
               {
-                if (problemResults.bestVerdict === "TIME_LIMIT_EXCEEDED") {
+                if (problemResults.bestVerdict === "MEMORY_LIMIT_EXCEEDED") {
                   problemResults.bestVerdict = submission.verdict;
-                  participant.totalCorrect++;
+                }
+                else if (submission.verdict !== "MEMORY_LIMIT_EXCEEDED")
+                {
+                  if (problemResults.bestVerdict === "TIME_LIMIT_EXCEEDED") {
+                    problemResults.bestVerdict = submission.verdict;
+                  }
+                  else if (submission.verdict !== "TIME_LIMIT_EXCEEDED")
+                  {
+                    if (problemResults.bestVerdict === "CHALLENGED") {
+                      problemResults.bestVerdict = submission.verdict;
+                    }
+                  }
                 }
               }
             }
@@ -118,15 +129,15 @@ export class ContestViewComponent implements OnDestroy {
 
       participant.problemsResults.sort((a, b) => a.index.localeCompare(b.index));
 
-      /* Use to debug contest table if you need to
-      if (participant.user.id == 52) {
-        let row = this.contestInfo.rows.find(row => row.user.id === participant.user.id);
-        row?.submissions.forEach(submission => {console.log(submission.problem.index), console.log(submission.verdict)});
+      this.participants.push(participant);
+
+      // Use to debug contest table if you need to
+      if (participant.user.id == 17) {
+        let row = this.participants.find(row => row.user.id === participant.user.id);
+        //row?.submissions.forEach(submission => {console.log(submission.verdict), console.log(submission.problem.index)});
+        row?.problemsResults.forEach(submission => {console.log(submission.bestVerdict), console.log(submission.index)});
         //console.log(ESubmission);
       }
-      */ 
-
-      this.participants.push(participant);
 
     });
   }
