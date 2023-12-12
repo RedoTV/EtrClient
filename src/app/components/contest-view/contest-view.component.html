@@ -1,0 +1,58 @@
+<h1 class="text-center">{{contestInfo.contest.name}}</h1>
+<table>
+    <tr>
+        <td class="user-id">
+            <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                <div class="table-sort-button-content">ID</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-handle" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Никнейм</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Имя</div>
+            </button>
+        </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-points" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Баллы</div>
+            </button>
+        </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-total-correct" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Верно</div>
+            </button>
+        </td>
+        @for (contestProblem of contestInfo.contest.problems; track $index) {
+            <td class="contest-problem-index">{{contestProblem.index}}</td>
+        }
+    </tr>
+    
+
+    @for (participant of participants; track $index) {
+        <tr routerLink="/students/{{participant.user.handle}}">
+            <td>{{participant.user!.id}}</td>
+            <td>{{participant.user!.handle}}</td>
+            <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
+            <td>{{participant.points}}</td>
+            <td>{{participant.totalCorrect}}</td>
+            @for (participantProblemResult of participant.problemsResults; track $index) {
+                <td class="contest-problem-index">
+                    @if (participantProblemResult.bestVerdict === "OK") {
+                        <div style="color:green; font-size:20px">+{{participantProblemResult.totalSubmissions > 1 ? participantProblemResult.totalSubmissions : ""}}</div>
+                    }
+                    @else if (participantProblemResult.bestVerdict === "NO_SUBMISSIONS") {
+
+                    }
+                    @else {
+                        <div style="color:red; font-size:20px">-{{participantProblemResult.totalSubmissions}}</div>
+                    }
+                </td>
+            }
+        </tr>
+    }
+    <tr></tr>
+</table>

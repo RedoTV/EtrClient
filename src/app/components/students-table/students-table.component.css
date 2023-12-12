@@ -1,15 +1,5 @@
 .contest-card{
     width: 48%;
-    background-color: antiquewhite;
-}
-
-.contests-row :hover{
-    opacity: 70%;
-}
-
-.contest-card:hover{
-    opacity: 70%;
-    cursor: pointer;
 }
 .contests-container{
     margin: 0px 20px 100px 20px;
@@ -19,6 +9,9 @@
     .contest-card{
         width: 100%;
     }
+}
+tr {
+    cursor: pointer;
 }
 
 table {
@@ -32,11 +25,6 @@ td {
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
 }
-
-tr {
-    cursor: pointer;
-}
-
 
 tr:first-child {
     background-color: #333333;
@@ -76,7 +64,7 @@ tr:last-child {
     pointer-events: none;
 }
 
-.table-sort-button-content {
+.table-sort-button-user {
     pointer-events: none;
 }
 
@@ -87,4 +75,8 @@ tr:last-child {
     background-color: transparent;
     color: white;
     border: none;
+}
+
+.contests-row :hover{
+    opacity: 70%;
 }

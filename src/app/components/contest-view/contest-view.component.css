@@ -1,26 +1,3 @@
-.contest-card{
-    width: 48%;
-    background-color: antiquewhite;
-}
-
-.contests-row :hover{
-    opacity: 70%;
-}
-
-.contest-card:hover{
-    opacity: 70%;
-    cursor: pointer;
-}
-.contests-container{
-    margin: 0px 20px 100px 20px;
-    padding-bottom: 50px;
-}
-@media screen and (max-width: 600px) {
-    .contest-card{
-        width: 100%;
-    }
-}
-
 table {
     width: 90%;
     margin: 0px 5% 0px 5%
@@ -36,7 +13,6 @@ td {
 tr {
     cursor: pointer;
 }
-
 
 tr:first-child {
     background-color: #333333;
@@ -87,4 +63,17 @@ tr:last-child {
     background-color: transparent;
     color: white;
     border: none;
+}
+
+.user-id {
+    width: 40px;
+}
+
+.contest-problem-index {
+    width: 3%;
+    text-align: center;
+}
+
+.narrow-col {
+    width: 40px;
 }

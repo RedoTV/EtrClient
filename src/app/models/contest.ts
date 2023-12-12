@@ -2,27 +2,27 @@ import { Time } from "@angular/common";
 import { RequestProblem } from "./request.problem";
 
 export class Contest {
-    city:string = '';
-    country:string = '';
-    description:string = '';
-    difficulty:number = 0;
-    duration_seconds:number = 0;
-    duration_time:string = '';
-    frozen:boolean = false;
-    icpc_region:string = '';
-    id:number = 0;
-    kind:string = '';
-    name:string = '';
-    phase:string = '';
-    prepared_by:string = '';
-    problems: RequestProblem[] = [];
-    relative_time_seconds:number = 0
-    season:string = '';
-    start_datatime:string = '';
-    start_time_seconds:number = 0;
-    type:string = '';
-    type_of_contest: string = '';
-    type_of_source:string = '';
-    url:string = '';
-    website_url:string = '';
+    public id : number = 0;
+    public name : string = '';
+    public city : string | null = null;
+    public country : string | null = null;
+    public description : string | null = null;
+    public difficulty : number | null = 0;
+    public duration_seconds : number | null = 0;
+    public duration_time : string | null = null;
+    public frozen : boolean | null = null;
+    public icpc_region : string | null = null;
+    public kind : string | null = null;
+    public phase : string | null = null;
+    public prepared_by : string | null = null;
+    public problems :  RequestProblem[] = [];
+    public relative_time_seconds : number | null = 0
+    public season : string | null = null;
+    public start_datatime : string | null = null;
+    public start_time_seconds : number | null = 0;
+    public type : string | null = null;
+    public type_of_contest :  string | null = null;
+    public type_of_source : string | null = null;
+    public url : string | null = null;
+    public website_url : string | null = null;
 }
