@@ -28,9 +28,11 @@ export class UserService {
     return this.http.get('https://dl.gsu.by/etr/api/user/')
       .pipe(map(r => (<UserResponse>r).users))
   }
+
   public getUserByHandle(handle : string):Observable<User[]>
   {
     return this.http.get('https://dl.gsu.by/etr/api/user/?handles=' + handle)
       .pipe(map(r => (<UserResponse>r).users))
   }
+
 }

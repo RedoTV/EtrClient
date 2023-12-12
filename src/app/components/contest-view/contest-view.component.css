@@ -14,7 +14,6 @@ tr {
     cursor: pointer;
 }
 
-
 tr:first-child {
     background-color: #333333;
     color: white;
