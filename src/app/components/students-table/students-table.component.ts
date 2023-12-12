@@ -1,13 +1,13 @@
-import { Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-
+import { RouterLink} from "@angular/router";
 @Component({
   selector: 'app-students-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './students-table.component.html',
   styleUrl: './students-table.component.css'
 })
