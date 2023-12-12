@@ -48,13 +48,13 @@
             </th>
         </tr>
         @for (user of users; track $index) {
-            <tr>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.id}}</a></td>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.first_name}}</a></td>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.last_name}}</a></td>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.organization}}</a></td>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.city}}</a></td>
-                <td><a routerLink="/students/table/user/{{user.id}}">{{user.grade}}</a></td>
+            <tr routerLink="/students/{{user.handle}}">
+                <td>{{user.id}}</td>
+                <td>{{user.first_name}}</td>
+                <td>{{user.last_name}}</td>
+                <td>{{user.organization}}</td>
+                <td>{{user.city}}</td>
+                <td>{{user.grade}}</td>
             </tr>
         }
         <tr></tr>

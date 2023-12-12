@@ -33,7 +33,7 @@ export const routes: Routes = [
         component: AboutComponent
     },
     {
-        path: 'student/:id',
+        path: 'students/:userHandle',
         component: StudentViewComponent
     }
 ];
