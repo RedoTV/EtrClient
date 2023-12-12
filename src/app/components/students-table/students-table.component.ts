@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-import { Component, EventEmitter, HostListener, OnChanges, SimpleChanges } from '@angular/core';
-=======
 import { Component, HostListener, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
->>>>>>> 428a16e90eafc22a2949874ea82fbc9746794153
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-<<<<<<< HEAD
 import { RouterLink} from "@angular/router";
-=======
 import { Observable, Subscription } from 'rxjs';
 
->>>>>>> 428a16e90eafc22a2949874ea82fbc9746794153
 @Component({
   selector: 'app-students-table',
   standalone: true,
