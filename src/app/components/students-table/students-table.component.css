@@ -77,7 +77,6 @@ tr:last-child {
     border: none;
 }
 
-a {
-    color: #000 !important;
-    text-decoration: none
+.contests-row :hover{
+    opacity: 70%;
 }
