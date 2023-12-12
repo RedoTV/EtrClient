@@ -19,6 +19,7 @@ class Participant extends ContestUserEntry {
   public problemsResults : ProblemResults[] = [];
   public totalCorrect : number = 0;
   public totalSubmissionsCount = 0;
+  public points = 0;
 }
 
 
@@ -108,7 +109,16 @@ export class ContestViewComponent implements OnDestroy {
           problemResults.totalSubmissions++;
           participant.problemsResults[problemIndex] = problemResults;
         }
-        
+
+      });
+
+      participant.problemsResults.forEach(problemResult => {
+        if (problemResult.bestVerdict === "OK")
+        {
+          let addedPoints = this.contestInfo.contest.problems.find(problem => problemResult.id === problem.id)!.points; 
+          participant.points += addedPoints ? addedPoints : 0;
+          participant.totalCorrect++;
+        }
       });
 
       if (participant.problemsResults.length < this.contestInfo.contest.problems.length)
@@ -206,6 +216,20 @@ export class ContestViewComponent implements OnDestroy {
           return 1;
 
         return (a.user.first_name + a.user.last_name)!.localeCompare(b.user.first_name + b.user.last_name) * sortDirection;
+      });
+      return;
+    }
+    else if (buttonElement.id == "sort-by-points")
+    {
+      this.participants.sort((a, b) => {
+        return (b.points - a.points) * sortDirection;
+      });
+      return;
+    }
+    else if (buttonElement.id == "sort-by-total-correct")
+    {
+      this.participants.sort((a, b) => {
+        return (b.totalCorrect - a.totalCorrect) * sortDirection;
       });
       return;
     }

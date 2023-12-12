@@ -73,3 +73,7 @@ tr:last-child {
     width: 3%;
     text-align: center;
 }
+
+.narrow-col {
+    width: 40px;
+}

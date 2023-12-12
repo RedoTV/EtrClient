@@ -1,5 +1,16 @@
-<h1><img src="{{user.title_photo}}" alt="avatar"> {{user.first_name}} {{user.last_name}}</h1>
-
-<pre>
-    
-</pre>
+<div class="card">
+    <div class="mb-5">
+        <img class="avatar" src="{{user.title_photo}}"/>
+        <h3 class="title">{{user.first_name}} {{user.last_name}}</h3>
+        <div class="meta-title">
+            <div class="meta-title-content">{{user.handle}}</div>
+            <div class="meta-title-content">Рейтинг: {{user.rating}}</div>
+            <div class="meta-title-content">Ранг: {{user.rank}}</div>
+            @if (user.max_rank !== user.rank)
+            {
+                <div class="meta-title-content">Максимальный ранг: {{user.max_rank}}</div>
+            }
+            <div class="meta-title-content">DL ID: {{user.dl_id ? user.dl_id : "н/д"}}</div>
+        </div>
+    </div>
+</div>
