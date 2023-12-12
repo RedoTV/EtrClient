@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './contests.component.html',
   styleUrl: './contests.component.css'
 })
@@ -35,7 +35,6 @@ export class ContestsComponent implements OnInit{
   sortTable(event : Event) {
     var sortButtons = document.getElementsByClassName("table-sort-button");
     var clickedButton = event.target as Element;
-    console.log(clickedButton);
     for (var i = 0; i < sortButtons.length; i++)
     {
       if (sortButtons.item(i)?.id == clickedButton.id)
@@ -84,11 +83,7 @@ export class ContestsComponent implements OnInit{
     else if (buttonElement.id == "sort-by-name")
     {
       this.contests.sort((a, b) => {
-        if (a.name > b.name)
-          return sortDirection;
-        else if (a.name < b.name)
-          return sortDirection * -1;
-        return 0;
+        return a.name.localeCompare(b.name) * sortDirection;
       });
       return;
     }

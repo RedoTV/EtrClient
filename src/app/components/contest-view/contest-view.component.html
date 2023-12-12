@@ -1,1 +1,36 @@
-<p>contest-view works!</p>
+<h1 class="text-center">{{contestInfo.contest.name}}</h1>
+<table>
+    <tr>
+        <td class="user-id">
+            <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                <div class="table-sort-button-content">ID</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-handle" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Никнейм</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Имя</div>
+            </button>
+        </td>
+        @for (contestProblem of contestInfo.contest.problems; track $index) {
+            <td class="contest-problem-index">{{contestProblem.index}}</td>
+        }
+    </tr>
+    
+
+    @for (participant of participants; track $index) {
+        <tr>
+            <td>{{participant.user!.id}}</td>
+            <td>{{participant.user!.handle}}</td>
+            <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
+            @for (participantProblemResult of participant.problemsResults; track $index) {
+                <td class="contest-problem-index">{{participantProblemResult.bestVerdict}}</td>
+            }
+        </tr>
+    }
+    <tr></tr>
+</table>

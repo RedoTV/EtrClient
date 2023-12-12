@@ -4,11 +4,16 @@ import { AddContestsComponent } from './components/add-contests/add-contests.com
 import { StudentsTableComponent } from './components/students-table/students-table.component';
 import { StudentsAddComponent } from './components/students-add/students-add.component';
 import { AboutComponent } from './components/about/about.component';
+import { ContestViewComponent } from './components/contest-view/contest-view.component';
 
 export const routes: Routes = [
     {
         path: 'contests/table',
         component: ContestsComponent,
+    },
+    {
+        path: 'contests/:id',
+        component: ContestViewComponent,
     },
     {
         path: 'contests/add',

@@ -18,8 +18,8 @@
             <td>
                 <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
                     <div class="table-sort-button-content">ID</div>
-            </button>
-        </td>
+                </button>
+            </td>
             <td>
                 <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
                     <div class="table-sort-button-content">Название</div>
@@ -32,12 +32,13 @@
             </td>
         </tr>
         @for (contest of contests; track $index) {
-            <tr>
+            <tr routerLink="/contests/{{contest.id}}">
                 <td>{{contest.id}}</td>
                 <td>{{contest.name}}</td>
                 <td>{{contest.start_datatime}}</td>
             </tr>
             
         }
+        <tr></tr>
     </table>
 }

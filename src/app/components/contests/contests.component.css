@@ -23,6 +23,11 @@ td {
     font-size: large;
 }
 
+tr {
+    cursor: pointer;
+}
+
+
 tr:first-child {
     background-color: #333333;
     color: white;
@@ -31,6 +36,13 @@ tr:first-child {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
+
+tr:last-child {
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: unset;
 }
 
 .sort-start-higher::after {
