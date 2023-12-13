@@ -5,5 +5,5 @@ export class Team {
     public id : number = 0;
     public team_name : string = "";
     public users : User[] = [];
-    public submissions : Submission[] = [];
+    //public submissions : Submission[] = []; Submissions are not given!
 }

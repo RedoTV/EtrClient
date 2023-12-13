@@ -1,4 +1,4 @@
-import { ContestUserEntry } from './../models/contestUserEntry';
+import { ContestEntry } from '../models/contestEntry';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
@@ -10,7 +10,7 @@ class ContestResponse{
 
 export class ContestInfo {
   contest : Contest = new Contest;
-  rows : ContestUserEntry[] = [];
+  rows : ContestEntry[] = [];
 }
 
 @Injectable({
