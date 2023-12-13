@@ -3,8 +3,8 @@
     background-color: antiquewhite;
 }
 
-.contests-row :hover{
-    opacity: 70%;
+.contests-row:hover{
+    color: grey;
 }
 
 .contest-card:hover{
@@ -36,7 +36,6 @@ td {
 tr {
     cursor: pointer;
 }
-
 
 tr:first-child {
     background-color: #333333;

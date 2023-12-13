@@ -10,6 +10,10 @@ td {
     font-size: large;
 }
 
+.contests-row:hover{
+    color: grey;
+}
+
 tr {
     cursor: pointer;
 }
