@@ -10,6 +10,9 @@
         width: 100%;
     }
 }
+tr {
+    cursor: pointer;
+}
 
 table {
     width: 90%;
@@ -31,4 +34,49 @@ tr:first-child {
 
 tr:nth-child(even) {
     background-color: #dddddd;
+}
+
+tr:last-child {
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: unset;
+}
+
+.sort-start-higher::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid white;
+    pointer-events: none;
+}
+.sort-start-lower::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid white;
+    pointer-events: none;
+}
+
+.table-sort-button-user {
+    pointer-events: none;
+}
+
+.table-sort-button {
+    width: 100%;
+    text-align: left;
+    padding-right: 20px;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.contests-row:hover{
+    color: grey;
 }

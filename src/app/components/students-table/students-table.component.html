@@ -1,21 +1,62 @@
 <h1 class="text-center">Students Table</h1>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Организация</th>
-        <th>Город</th>
-        <th>Класс</th>
-    </tr>
-    @for (item of users; track $index) {
+@if (width < 768) {
+    <div class="d-flex contests-container gap-1 flex-wrap justify-content-center" style="cursor: pointer">
+        @for (user of users; track $index) {
+            <div class="border rounded contest-card" routerLink="/students/{{user.handle}}">
+                <h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
+                <div>
+                    <div>Организация: {{user.organization}}</div>
+                    <div>Город: {{user.city}}</div>
+                    <div>Класс: {{user.grade}}</div>
+                </div>
+            </div>
+        }
+    </div>
+}
+@else {
+    <table>
         <tr>
-            <td>{{item.id}}</td>
-            <td>{{item.first_name}}</td>
-            <td>{{item.last_name}}</td>
-            <td>{{item.organization}}</td>
-            <td>{{item.city}}</td>
-            <td>{{item.grade}}</td>
+            <th>
+                <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">ID</div>
+                </button>
+            </th>
+            <th>
+                <button class="table-sort-button" id="sort-by-first-name" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">Имя</div>
+                </button>
+            </th>
+            <th>
+                <button class="table-sort-button" id="sort-by-last-name" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">Фамилия</div>
+                </button>
+            </th>
+            <th>
+                <button class="table-sort-button" id="sort-by-organization" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">Организация</div>
+                </button>
+            </th>
+            <th>
+                <button class="table-sort-button" id="sort-by-city" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">Город</div>
+                </button>
+            </th>
+            <th>
+                <button class="table-sort-button" id="sort-by-grade" (click)="sortTable($event)">
+                    <div class="table-sort-button-user">Класс</div>
+                </button>
+            </th>
         </tr>
-    }
-</table>
+        @for (user of users; track $index) {
+            <tr class="contests-row" routerLink="/students/{{user.handle}}">
+                <td>{{user.id}}</td>
+                <td>{{user.first_name}}</td>
+                <td>{{user.last_name}}</td>
+                <td>{{user.organization}}</td>
+                <td>{{user.city}}</td>
+                <td>{{user.grade}}</td>
+            </tr>
+        }
+        <tr></tr>
+    </table>
+}

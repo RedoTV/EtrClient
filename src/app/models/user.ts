@@ -15,13 +15,15 @@ export class User {
     public organization : string | null = null;
     public rank : string | null = null;
     public rating : string | null = null;
-    public max_rating : string | null = null;
     public max_rank : string | null = null;
     public last_online_time_seconds : number | null = null;
     public registration_time_seconds : number | null = null;
     public friend_of_count : string | null = null;
     public avatar : string | null = null;
     public title_photo : string | null = null;
+    public watch : boolean | null = null;
     public grade : number | null = null;
     public dl_id : string | null = null;
+    public teams : Team[] = [];
+    public submissions : Submission[] = [];
 }
