@@ -4,9 +4,9 @@ COPY package*.json .
 RUN npm install -g npm@10.2.5
 RUN npm ci
 COPY . .
-RUN npm run build
+RUN npm run prod
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
-COPY --from=angular /home/app/dist/etr-client/browser .
+COPY --from=angular /home/app/dist/etr-client/browser ./etrx
 EXPOSE 80
