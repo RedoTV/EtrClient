@@ -1,11 +1,11 @@
 export class RequestProblem {
-    contest_id:number = 0;
-    id:number = 0;
-    index:string = '';
-    name:string = '';
-    points:number = 0;
-    problemset_name:string = '';
-    rating:number = 0;
-    tags: string[] = [];
-    type:string = '';
+    public contest_id : number | null = null;
+    public id : number = 0;
+    public index : string = '';
+    public name : string = '';
+    public points : number | null = null;
+    public problemset_name : string | null = null;
+    public rating : number | null = null;
+    public tags : string[] = [];
+    public type : string | null = null;
 }

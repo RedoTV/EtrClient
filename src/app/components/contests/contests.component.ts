@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-contests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './contests.component.html',
   styleUrl: './contests.component.css'
 })
@@ -17,12 +17,12 @@ export class ContestsComponent implements OnInit{
   contests:Contest[];
   width:number = 0;
 
-  constructor(contestService: ContestService, public router: Router) {
+  constructor(contestService: ContestService) {
     this.contestService = contestService;
     this.contests = this.contestService.getAllContests();
   }
 
-  ngOnInit(): void {
+  ngOnInit() : void {
     this.width = document.body.clientWidth;
     this.sortContestsByDate(-1);
   }
@@ -35,7 +35,6 @@ export class ContestsComponent implements OnInit{
   sortTable(event : Event) {
     var sortButtons = document.getElementsByClassName("table-sort-button");
     var clickedButton = event.target as Element;
-    console.log(clickedButton);
     for (var i = 0; i < sortButtons.length; i++)
     {
       if (sortButtons.item(i)?.id == clickedButton.id)
@@ -84,11 +83,7 @@ export class ContestsComponent implements OnInit{
     else if (buttonElement.id == "sort-by-name")
     {
       this.contests.sort((a, b) => {
-        if (a.name > b.name)
-          return sortDirection;
-        else if (a.name < b.name)
-          return sortDirection * -1;
-        return 0;
+        return a.name.localeCompare(b.name) * sortDirection;
       });
       return;
     }
@@ -100,15 +95,25 @@ export class ContestsComponent implements OnInit{
   }
 
   private sortContestsByDate (sortDirection : number) {
-    this.contests.sort((a, b) => new Date(
-      Number.parseInt(a.start_datatime.split(' ')[2]), 
-      Number.parseInt(a.start_datatime.split(' ')[1]),
-      Number.parseInt(a.start_datatime.split(' ')[0])
-      ).valueOf() * sortDirection * -1 - new Date(
-      Number.parseInt(b.start_datatime.split(' ')[2]), 
-      Number.parseInt(b.start_datatime.split(' ')[1]),
-      Number.parseInt(b.start_datatime.split(' ')[0])
-      ).valueOf()
+    this.contests.sort((a, b) => 
+    {
+      if (a.start_datatime == null && b.start_datatime == null)
+        return 0;
+      if (a.start_datatime == null)
+        return 1;
+      if (b.start_datatime == null)
+        return -1;
+      
+      return new Date(
+        Number.parseInt(b.start_datatime!.split(' ')[2]), 
+        Number.parseInt(b.start_datatime!.split(' ')[1]),
+        Number.parseInt(b.start_datatime!.split(' ')[0])
+        ).valueOf() * sortDirection - new Date(
+        Number.parseInt(a.start_datatime!.split(' ')[2]), 
+        Number.parseInt(a.start_datatime!.split(' ')[1]),
+        Number.parseInt(a.start_datatime!.split(' ')[0])
+        ).valueOf();
+    }
     );
     return;
   }

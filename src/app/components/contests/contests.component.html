@@ -2,7 +2,7 @@
 @if (width < 768) {
     <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
         @for (contest of contests; track $index) {
-            <div class="border rounded contest-card">
+            <div routerLink="/contests/{{contest.id}}" class="border rounded contest-card">
                 <h3 class="text-center">{{contest.name}}</h3>
                 <div>
                     <div>{{contest.start_datatime}}</div>
@@ -18,8 +18,8 @@
             <td>
                 <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
                     <div class="table-sort-button-content">ID</div>
-            </button>
-        </td>
+                </button>
+            </td>
             <td>
                 <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
                     <div class="table-sort-button-content">Название</div>
@@ -32,12 +32,13 @@
             </td>
         </tr>
         @for (contest of contests; track $index) {
-            <tr>
+            <tr class="contests-row" routerLink="/contests/{{contest.id}}">
                 <td>{{contest.id}}</td>
                 <td>{{contest.name}}</td>
                 <td>{{contest.start_datatime}}</td>
             </tr>
             
         }
+        <tr></tr>
     </table>
 }
