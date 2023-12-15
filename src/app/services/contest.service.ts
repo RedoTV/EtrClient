@@ -22,13 +22,19 @@ export class ContestService {
     this.http = http;
   }
 
-  public getAllContests():Contest[]
+  public getAllContestsObsolete():Contest[]
   {
     let contests:Contest[] = []
     this.http.get('https://dl.gsu.by/etr/api/contest/')
       .pipe(map(r => (<ContestResponse>r).contests))
       .subscribe(res => res.forEach(x => contests.push(x)));
     return contests;
+  }
+
+  public getAllContests() : Observable<Contest[]>
+  {
+    return this.http.get('https://dl.gsu.by/etr/api/contest/')
+      .pipe(map(data => (<ContestResponse>data).contests));
   }
 
   public getContestInfoByID(id : number) : Observable<ContestInfo> {

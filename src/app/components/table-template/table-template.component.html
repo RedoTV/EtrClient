@@ -1,7 +1,6 @@
-<h1>help pls</h1>
 <table>
     <thead>
-        @for (tableColName of tableColNames; track $index) {
+        @for (tableColName of tableData.tableColNames; track $index) {
             @if (sortDirections[$index] === -1) {
                 <th class="sort-start-lower" (click)="sortTable($index)">
                     {{tableColName}}
@@ -19,12 +18,20 @@
             }
         }
     </thead>
-    @for (tableColContent of tableContents; track $index) {
+    @for (tableColContent of tableData.tableRows; track $index) {
         <tr>
-        @for (tableCellContent of tableColContent; track $index) {
-            <th (click)="sortTable($index)">
-                {{tableCellContent}}
-            </th>
+        @for (tableCellContent of tableColContent.contents; track $index) {
+            @if (tableColContent.routerLinks[$index] != null && tableColContent.routerLinks[$index])
+            {
+                <th routerLink="{{tableColContent.routerLinks[$index]}}">
+                    {{tableCellContent}}
+                </th>
+            }
+            @else {
+                <th>
+                    {{tableCellContent}}
+                </th>
+            }
         }
         </tr>
     }

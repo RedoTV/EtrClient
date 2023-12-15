@@ -6,9 +6,10 @@ thead {
 }
 
 th {
+    font-size: large;
     border: 1px solid grey;
     cursor: pointer;
-    padding: 0 5px 0 5px;
+    padding: 5px;
 }
 
 table {
