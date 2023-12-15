@@ -6,6 +6,7 @@ import { StudentsAddComponent } from './components/students-add/students-add.com
 import { AboutComponent } from './components/about/about.component';
 import { ContestViewComponent } from './components/contest-view/contest-view.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
+import { ProblemComponent } from './components/problem/problem.component';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: 'students/:userHandle',
         component: StudentViewComponent
+    },
+    {
+        path: 'problem',
+        component: ProblemComponent
     }
 ];

@@ -19,7 +19,7 @@
         <tr>
             <th>
                 <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">ID</div>
+                    <div class="table-sort-button-user">№</div>
                 </button>
             </th>
             <th>
@@ -45,7 +45,7 @@
         </tr>
         @for (user of users; track $index) {
             <tr class="contests-row" routerLink="/students/{{user.handle}}">
-                <td>{{user.id}}</td>
+                <td>{{$index+1}}</td>
                 <td>{{user.last_name}} {{user.first_name}}</td>
                 <td>{{user.organization}}</td>
                 <td>{{user.city}}</td>
