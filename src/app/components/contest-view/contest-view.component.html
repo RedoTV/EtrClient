@@ -7,13 +7,8 @@
             </button>
         </td>
         <td>
-            <button class="table-sort-button" id="sort-by-handle" (click)="sortTable($event)">
-                <div class="table-sort-button-content">Никнейм</div>
-            </button>
-        </td>
-        <td>
             <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
-                <div class="table-sort-button-content">Имя</div>
+                <div class="table-sort-button-content">Фамилия, Имя</div>
             </button>
         </td>
         <td class="narrow-col">
@@ -36,15 +31,13 @@
         <tr class="contests-row" routerLink="/students/{{participant?.user?.handle}}">
         @if (participant.user !== null && participant.user !== undefined) {
             <td>{{participant.user!.id}}</td>
-            <td>{{participant.user!.handle}}</td>
-            <td>{{participant.user!.first_name}} {{participant.user!.last_name}}</td>
+            <td>{{participant.user!.last_name}} {{participant.user!.first_name}}</td>
             <td>{{participant.points}}</td>
             <td>{{participant.totalCorrect}}</td>
         }
         @else {
             <td style="color:royalblue">{{participant.team!.id}}</td>
-            <td><div style="color:royalblue"> Команда:</div> @for(user of participant.team!.users; track $index) {{{user.first_name}} {{user.last_name}}@if($index < participant.team!.users.length - 1){, }}</td>
-            <td>{{participant.team!.team_name}}</td>
+            <td><div style="color:royalblue"> Команда:</div> @for(user of participant.team!.users; track $index) {{{user.last_name}} {{user.first_name}}@if($index < participant.team!.users.length - 1){, }}</td>
             <td>{{participant.points}}</td>
             <td>{{participant.totalCorrect}}</td>
         }
