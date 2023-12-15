@@ -1,0 +1,32 @@
+<h1>help pls</h1>
+<table>
+    <thead>
+        @for (tableColName of tableColNames; track $index) {
+            @if (sortDirections[$index] === -1) {
+                <th class="sort-start-lower" (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+            @else if (sortDirections[$index] === 1) {
+                <th class="sort-start-higher" (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+            @else {
+                <th (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+        }
+    </thead>
+    @for (tableColContent of tableContents; track $index) {
+        <tr>
+        @for (tableCellContent of tableColContent; track $index) {
+            <th (click)="sortTable($index)">
+                {{tableCellContent}}
+            </th>
+        }
+        </tr>
+    }
+    <tr></tr>
+</table>
