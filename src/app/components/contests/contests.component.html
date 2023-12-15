@@ -13,6 +13,16 @@
     </div>
 }
 @else {
+    <div class="">
+        <div class=" fs-4">
+            <input type="radio" (click)="filterByContests()" style="margin-left: 5%; margin-bottom: 5px" id="simple-contests" name="contests">
+            <label for="simple-contests" style="margin-left: 5px;">Контесты</label>
+        </div>
+        <div class="fs-4"> 
+            <input  type="radio" (click)="filterByGym()" style="margin-left: 5%; margin-bottom: 20px" id="gym-contests" name="contests">
+            <label class="" for="gym-contests" style="margin-left: 5px;">Тренировки</label>
+        </div>
+    </div>
     <table>
         <tr>
             <td>

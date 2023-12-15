@@ -35,4 +35,13 @@ export class UserService {
       .pipe(map(r => (<UserResponse>r).users))
   }
 
+  public addUserByHandle(userHandle:string){
+    this.http.post('https://dl.gsu.by/etr/api/user',{ handle:userHandle });
+  }
+
+  public updateCodeforcesHandle(userHandle:string){
+    this.http.get(`https://dl.gsu.by/etr/api/user/update_codeforces/${userHandle}`);
+  }
+
+  
 }
