@@ -15,11 +15,13 @@ import { Router, RouterModule } from '@angular/router';
 export class ContestsComponent implements OnInit{
   contestService: ContestService;
   contests:Contest[];
+  allContests:Contest[];
   width:number = 0;
 
   constructor(contestService: ContestService) {
     this.contestService = contestService;
-    this.contests = this.contestService.getAllContests();
+    this.allContests = this.contestService.getAllContests();
+    this.contests = this.allContests;
   }
 
   ngOnInit() : void {
@@ -30,6 +32,14 @@ export class ContestsComponent implements OnInit{
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.width = document.body.clientWidth;
+  }
+
+  filterByContests(){
+    this.contests = this.allContests.filter(el => el.type_of_source == 'codeforces_contest');
+  }
+
+  filterByGym(){
+    this.contests = this.allContests.filter(el => el.type_of_source == 'codeforces_gym');
   }
 
   sortTable(event : Event) {

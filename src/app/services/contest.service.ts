@@ -34,4 +34,14 @@ export class ContestService {
   public getContestInfoByID(id : number) : Observable<ContestInfo> {
     return this.http.get("https://dl.gsu.by/etr/api/contest/" + id.toString() + "/table") as Observable<ContestInfo>;
   }
+
+  public getSimpleContest() : Observable<Contest[]>{
+    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
+      .pipe(map((r:ContestResponse) => r.contests.filter(el => el.type_of_source == 'codeforces_contest')));
+  }
+
+  public getGymContest() : Observable<Contest[]>{
+    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
+      .pipe(map((r:ContestResponse) => r.contests.filter(el => el.type_of_source == 'codeforces_gym')));
+  }
 }
