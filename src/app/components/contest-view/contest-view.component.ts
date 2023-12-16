@@ -52,6 +52,15 @@ export class ContestViewComponent implements OnDestroy {
     this.routeSub.unsubscribe();
   }
 
+  forwardToCodeforces(contest_id:number|null, index: string){
+    if (contest_id !== null && contest_id < 10000) {
+      window.location.href = `https://codeforces.com/problemset/problem/${contest_id}/${index}`;
+    }
+    else if (contest_id !== null && contest_id >= 10000) {
+      window.location.href = `https://codeforces.com/gym/${contest_id}/problem/${index}`;
+    }
+  }
+
   fillUserResults () {
     this.contestInfo.rows.forEach(entry => {
       let participant : Participant = new Participant;
@@ -67,7 +76,6 @@ export class ContestViewComponent implements OnDestroy {
       else {
         return;
       }
-
       participant.submissions = entry.submissions;
 
       participant.submissions.forEach(submission => {

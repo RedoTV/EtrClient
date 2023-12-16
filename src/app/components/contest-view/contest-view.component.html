@@ -22,7 +22,7 @@
             </button>
         </td>
         @for (contestProblem of contestInfo.contest.problems; track $index) {
-            <td class="contest-problem-index">{{contestProblem.index}}</td>
+            <td class="contest-problem-index" (click)="forwardToCodeforces(contestProblem.contest_id, contestProblem.index)">{{contestProblem.index}}</td>
         }
     </tr>
     
