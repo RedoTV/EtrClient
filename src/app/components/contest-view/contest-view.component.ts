@@ -6,6 +6,7 @@ import { ActivatedRoute, RouterLink, Routes } from '@angular/router';
 import { Observable, Subscription, map } from 'rxjs';
 import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
+import { RequestProblem } from '../../models/request.problem';
 
 
 class ProblemResults {
@@ -38,6 +39,7 @@ export class ContestViewComponent implements OnDestroy {
   contestsService : ContestService;
   contestInfo : ContestInfo = new ContestInfo;
   participants : Participant[] = [];
+  problems : RequestProblem[] = [];
 
   constructor(private route: ActivatedRoute, contestsService : ContestService) {
     this.contestsService = contestsService;

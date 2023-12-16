@@ -1,0 +1,28 @@
+<h1 style="text-align: center;">Problems</h1>
+<table>
+    <tr>
+        <th>index</th>
+        <th>ID</th>
+        <th>contest_id</th>
+        <th>name</th>
+        <th>points</th>
+        <th>problemset_name</th>
+        <th>rating</th>
+        <th>tags</th>
+        <th>type</th>
+    </tr>
+    @for (problem of problems; track $index) {
+            <tr class="contests-row" (click)="forwardToCodeforces(problem.contest_id, problem.index)">
+                <td>{{problem.index}}</td>
+                <td>{{problem.id}}</td>
+                <td>{{problem.contest_id}}</td>
+                <td>{{problem.name}}</td>
+                <td>{{problem.points}}</td>
+                <td>{{problem.problemset_name}}</td>
+                <td>{{problem.rating}}</td>
+                <td>{{problem.tags}}</td>
+                <td>{{problem.type}}</td>
+            </tr>
+    }
+    <tr></tr>
+</table>

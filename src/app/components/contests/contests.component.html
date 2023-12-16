@@ -1,5 +1,5 @@
 <h1 class="text-center">Contests</h1>
-@if (width < 768) {
+<!--@if (width < 768) {
     <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
         @for (contest of contests; track $index) {
             <div routerLink="/contests/{{contest.id}}" class="border rounded contest-card">
@@ -12,7 +12,7 @@
         }
     </div>
 }
-@else {
+@else { -->
     <div class="">
         <div class=" fs-4">
             <input type="radio" (click)="filterByContests()" style="margin-left: 5%; margin-bottom: 5px" id="simple-contests" name="contests">
@@ -51,4 +51,4 @@
         }
         <tr></tr>
     </table>
-}
+<!--}-->
