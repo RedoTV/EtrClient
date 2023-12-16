@@ -31,11 +31,11 @@ export class ProblemComponent implements OnInit, OnDestroy {
   }
 
   forwardToCodeforces(contest_id:number|null, index:string) {
-    if (contest_id !== null && contest_id > 9999) {
+    if (contest_id !== null && contest_id < 10000) {
       window.location.href = `https://codeforces.com/problemset/problem/${contest_id}/${index}`;
     }
-    else if (contest_id !== null) {
-      window.location.href = `https://codeforces.com/gym/${contest_id}`;
+    else if (contest_id !== null && contest_id >= 10000) {
+      window.location.href = `https://codeforces.com/gym/${contest_id}/problem/${index}`;
     }
   }
 }
