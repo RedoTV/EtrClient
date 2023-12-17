@@ -1,29 +1,17 @@
-<h1 class="text-center">Contests</h1>
-<!--@if (width < 768) {
-    <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
-        @for (contest of contests; track $index) {
-            <div routerLink="/contests/{{contest.id}}" class="border rounded contest-card">
-                <h3 class="text-center">{{contest.name}}</h3>
-                <div>
-                    <div>{{contest.start_datatime}}</div>
-                    <div>Всего задач: {{contest.problems.length}}</div>
-                </div>
-            </div>
-        }
-    </div>
-}
-@else { -->
-    <div>
-        <div class="filter-margin">
-            <div (click)="filterByContests()">
-                <input type="radio" id="simple_contest" name="contests">
-                <label for="simple_contest">Контесты</label>
-            </div>
-            <div (click)="filterByGym()"> 
-                <input type="radio" id="gym_contest" name="contests">
-                <label for="gym_contest">Тренировки</label>
-            </div>
+<h1 class="text-center">Контесты</h1>
+<div>
+    <div class="filter-margin py-1 bg-body-secondary border rounded-2">
+        <div (click)="filterByContests()">
+            <input class="form-check-input mx-1" type="radio" id="simple_contest" name="contests">
+            <label class="form-check-label link-danger" for="simple_contest">Контесты</label>
         </div>
+        <div (click)="filterByGym()"> 
+            <input class="form-check-input mx-1" type="radio" id="gym_contest" name="contests">
+            <label class="form-check-label link-primary" for="gym_contest">Тренировки</label>
+        </div>
+    </div>
+    <div class="table-container">
+    
         <table>
             <tr>
                 <td>
@@ -53,5 +41,4 @@
             <tr></tr>
         </table>
     </div>
-    
-<!--}-->
+</div>

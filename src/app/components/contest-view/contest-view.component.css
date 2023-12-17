@@ -83,7 +83,7 @@ tr:last-child {
 }
 
 @media screen and (max-width:900px) {
-    .contest-view-container{
+    .table-container{
         min-width: 200px;
         max-width: 900px;
         overflow-x: scroll;

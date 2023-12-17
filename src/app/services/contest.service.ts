@@ -35,13 +35,11 @@ export class ContestService {
     return this.http.get("https://dl.gsu.by/etr/api/contest/" + id.toString() + "/table") as Observable<ContestInfo>;
   }
 
-  public getSimpleContest() : Observable<Contest[]>{
-    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
-      .pipe(map((r:ContestResponse) => r.contests.filter(el => el.type_of_source == 'codeforces_contest')));
+  public addContestByUrl(contest_url:string){
+    return this.http.post(`https://dl.gsu.by/etr/api/contest/new`,contest_url);
   }
 
-  public getGymContest() : Observable<Contest[]>{
-    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
-      .pipe(map((r:ContestResponse) => r.contests.filter(el => el.type_of_source == 'codeforces_gym')));
+  public addUserByHandle(handle:string){
+    return this.http.post(`https://dl.gsu.by/etr/api/user/`,handle);
   }
 }

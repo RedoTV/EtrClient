@@ -35,4 +35,12 @@ export class UserService {
       .pipe(map(r => (<UserResponse>r).users))
   }
 
+  public syncWithDl(){
+    return this.http.get('https://dl.gsu.by/etr/rpc/user/swdl');
+  }
+
+  public syncWithCF(users: User[]){
+    users.forEach(user => this.http.get(`https://dl.gsu.by/etr/api/user/update_codeforces/${user.handle}`).subscribe(next => console.log(next)))
+
+  }
 }

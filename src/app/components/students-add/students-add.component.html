@@ -1,1 +1,5 @@
-<p>students-add works!</p>
+<h1 class="text-center">Добавить ученика</h1>
+<form class="container d-flex flex-column gap-2 align-items-center">
+    <input placeholder="Handle ученика" class="w-100 fs-3" type="text" [(ngModel)]="handle" name="cf_url">
+    <button class="w-25 rounded btn btn-info" (click)="addUser()">Добавить</button>
+</form>
