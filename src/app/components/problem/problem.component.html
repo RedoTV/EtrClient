@@ -1,28 +1,27 @@
-<h1 style="text-align: center;">Problems</h1>
-<table>
-    <tr>
-        <th>index</th>
-        <th>ID</th>
-        <th>contest_id</th>
-        <th>name</th>
-        <th>points</th>
-        <th>problemset_name</th>
-        <th>rating</th>
-        <th>tags</th>
-        <th>type</th>
-    </tr>
-    @for (problem of problems; track $index) {
-            <tr class="contests-row" (click)="forwardToCodeforces(problem.contest_id, problem.index)">
-                <td>{{problem.index}}</td>
-                <td>{{problem.id}}</td>
-                <td>{{problem.contest_id}}</td>
-                <td>{{problem.name}}</td>
-                <td>{{problem.points}}</td>
-                <td>{{problem.problemset_name}}</td>
-                <td>{{problem.rating}}</td>
-                <td>{{problem.tags}}</td>
-                <td>{{problem.type}}</td>
-            </tr>
-    }
-    <tr></tr>
-</table>
+<h1 style="text-align: center;">Задачи</h1>
+<div class="table-container">
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Индекс</th>
+            <th class="text-nowrap">Id контеста</th>
+            <th>Название</th>
+            <th>Очки</th>
+            <th>Рейтинг</th>
+            <th>Теги</th>
+        </tr>
+        @for (problem of problems; track $index) {
+                <tr class="contests-row" (click)="forwardToCodeforces(problem.contest_id, problem.index)">
+                    <td>{{problem.id}}</td>
+                    <td>{{problem.index}}</td>
+                    <td>{{problem.contest_id}}</td>
+                    <td>{{problem.name}}</td>
+                    <td>{{problem.points}}</td>
+                    <td>{{problem.rating}}</td>
+                    <td>{{problem.tags}}</td>
+                    
+                </tr>
+        }
+        <tr></tr>
+    </table>
+</div>

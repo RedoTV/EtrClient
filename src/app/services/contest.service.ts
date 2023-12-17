@@ -32,12 +32,7 @@ export class ContestService {
     return this.http.get("https://dl.gsu.by/etr/api/contest/" + id.toString() + "/table") as Observable<ContestInfo>;
   }
 
-  public getContests(){
-    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
-      .pipe(map(r => r.contests.filter(el => el.type_of_source == 'codeforces_contest')))
-  }
-  public getTrainings(){
-    return this.http.get<ContestResponse>('https://dl.gsu.by/etr/api/contest/')
-      .pipe(map(r => r.contests.filter(el => el.type_of_source == 'codeforces_gym')))
+  public addContestByUrl(contest_url:string){
+    return this.http.post(`https://dl.gsu.by/etr/api/contest/new`,contest_url);
   }
 }

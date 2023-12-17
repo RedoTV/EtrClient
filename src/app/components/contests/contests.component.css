@@ -26,6 +26,11 @@ table {
     margin: 0px 5% 0px 5%
 }
 
+.filter-margin{
+    width: 90%;
+    margin: 10px 5% 10px 5%
+}
+
 td {
     border: 1px solid grey;
     padding: 5px;
@@ -86,4 +91,17 @@ tr:last-child {
     background-color: transparent;
     color: white;
     border: none;
+}
+
+
+@media screen and (max-width:900px) {
+    .table-container{
+        min-width: 200px;
+        max-width: 900px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+    }
+    table{
+        transform: rotateX(180deg);
+    }
 }

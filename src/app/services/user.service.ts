@@ -39,9 +39,13 @@ export class UserService {
     this.http.post('https://dl.gsu.by/etr/api/user',{ handle:userHandle });
   }
 
-  public updateCodeforcesHandle(userHandle:string){
-    this.http.get(`https://dl.gsu.by/etr/api/user/update_codeforces/${userHandle}`);
+  
+  public syncWithDl(){
+    return this.http.get('https://dl.gsu.by/etr/rpc/user/swdl');
   }
 
-  
+  public syncWithCF(users: User[]){
+    users.forEach(user => this.http.get(`https://dl.gsu.by/etr/api/user/update_codeforces/${user.handle}`).subscribe(next => console.log(next)))
+
+  }
 }

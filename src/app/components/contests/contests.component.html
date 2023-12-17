@@ -1,54 +1,44 @@
-<h1 class="text-center">Contests</h1>
-<!--@if (width < 768) {
-    <div class="d-flex contests-container gap-1 flex-wrap justify-content-center">
-        @for (contest of contests; track $index) {
-            <div routerLink="/contests/{{contest.id}}" class="border rounded contest-card">
-                <h3 class="text-center">{{contest.name}}</h3>
-                <div>
-                    <div>{{contest.start_datatime}}</div>
-                    <div>Всего задач: {{contest.problems.length}}</div>
-                </div>
-            </div>
-        }
-    </div>
-}
-@else { -->
-    <div class="">
-        <div class=" fs-4">
-            <input type="radio" (click)="filterByContests()" style="margin-left: 5%; margin-bottom: 5px" id="simple-contests" name="contests">
-            <label for="simple-contests" style="margin-left: 5px;">Контесты</label>
+<h1 class="text-center">Контесты</h1>
+<div>
+    <div class="filter-margin py-1 bg-body-secondary border rounded-2">
+        <div (click)="filterByContests()">
+            <input class="form-check-input mx-1" type="radio" id="simple_contest" name="contests">
+            <label class="form-check-label link-danger" for="simple_contest">Контесты</label>
         </div>
-        <div class="fs-4"> 
-            <input  type="radio" (click)="filterByGym()" style="margin-left: 5%; margin-bottom: 20px" id="gym-contests" name="contests">
-            <label class="" for="gym-contests" style="margin-left: 5px;">Тренировки</label>
+        <div (click)="filterByGym()"> 
+            <input class="form-check-input mx-1" type="radio" id="gym_contest" name="contests">
+            <label class="form-check-label link-primary" for="gym_contest">Тренировки</label>
         </div>
     </div>
-    <table>
-        <tr>
-            <td>
-                <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">ID</div>
-                </button>
-            </td>
-            <td>
-                <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">Название</div>
-                </button>
-            </td>
-            <td>
-                <button class="table-sort-button" id="sort-by-date" (click)="sortTable($event)">
-                    <div class="sort-start-higher table-sort-button-content">Дата</div>
-                </button>
-            </td>
-        </tr>
-        @for (contest of contests; track $index) {
-            <tr class="contests-row" routerLink="/contests/{{contest.id}}">
-                <td>{{contest.id}}</td>
-                <td>{{contest.name}}</td>
-                <td>{{contest.start_datatime}}</td>
+    <div class="table-container">
+    
+        <table>
+            <tr>
+                <td>
+                    <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                        <div class="table-sort-button-content">ID</div>
+                    </button>
+                </td>
+                <td>
+                    <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
+                        <div class="table-sort-button-content">Название</div>
+                    </button>
+                </td>
+                <td>
+                    <button class="table-sort-button" id="sort-by-date" (click)="sortTable($event)">
+                        <div class="sort-start-higher table-sort-button-content">Дата</div>
+                    </button>
+                </td>
             </tr>
-            
-        }
-        <tr></tr>
-    </table>
-<!--}-->
+            @for (contest of contests; track $index) {
+                <tr class="contests-row" routerLink="/contests/{{contest.id}}">
+                    <td>{{contest.id}}</td>
+                    <td>{{contest.name}}</td>
+                    <td>{{contest.start_datatime}}</td>
+                </tr>
+                
+            }
+            <tr></tr>
+        </table>
+    </div>
+</div>
