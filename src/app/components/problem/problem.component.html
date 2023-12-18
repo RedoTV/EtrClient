@@ -1,0 +1,31 @@
+<h1 style="text-align: center;">Задачи</h1>
+<div class="table-container">
+    <app-table [tableData]="tableData" [resetFormSubject]="refreshTable"></app-table>
+</div>
+
+<!--
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Индекс</th>
+            <th class="text-nowrap">Id контеста</th>
+            <th>Название</th>
+            <th>Очки</th>
+            <th>Рейтинг</th>
+            <th>Теги</th>
+        </tr>
+        @for (problem of problems; track $index) {
+                <tr class="contests-row" (click)="forwardToCodeforces(problem.contest_id, problem.index)">
+                    <td>{{problem.id}}</td>
+                    <td>{{problem.index}}</td>
+                    <td>{{problem.contest_id}}</td>
+                    <td>{{problem.name}}</td>
+                    <td>{{problem.points}}</td>
+                    <td>{{problem.rating}}</td>
+                    <td>{{problem.tags}}</td>
+                    
+                </tr>
+        }
+        <tr></tr>
+    </table>
+-->

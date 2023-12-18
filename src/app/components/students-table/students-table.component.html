@@ -1,3 +1,9 @@
-<h1 class="text-center">Students Table</h1>
+<h1 class="text-center">Ученики</h1>
+<div class="students-container">
+    <div class="btn btn-info text-nowrap" (click)="syncDl()">Синхронизировать с dl/codeforces</div>
+    <div class="btn btn-info mx-3 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
+</div>
 
-<app-table [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
+<div class="table-container">
+    <app-table [tableData]="tableData" [resetFormSubject]="refreshTable"></app-table>
+</div>

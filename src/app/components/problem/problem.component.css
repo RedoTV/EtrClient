@@ -1,0 +1,56 @@
+.contests-row:hover{
+    color: grey;
+}
+
+table {
+    width: 90%;
+    margin: 0px 5% 0px 5%
+}
+
+td {
+    border: 1px solid grey;
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+th {
+    border: 1px solid grey;
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+tr {
+    cursor: pointer;
+}
+
+tr:first-child {
+    background-color: #333333;
+    color: white;
+    text-align: left;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+tr:last-child {
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: unset;
+}
+
+
+@media screen and (max-width:900px) {
+    .table-container{
+        min-width: 200px;
+        max-width: 900px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+    }
+    table{
+        transform: rotateX(180deg);
+    }
+}

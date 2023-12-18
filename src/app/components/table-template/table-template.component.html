@@ -22,10 +22,10 @@
         <tr>
         @for (tableCellContent of tableRowContent.contents; track $index) {
             @if (tableRowContent.routerLinks[$index] != null && tableRowContent.routerLinks[$index] &&
-            safeHtml[$index] != null) {
-                    <td [innerHTML]="safeHtml[index][$index]" routerLink="{{tableRowContent.routerLinks[$index]}}">
-                        {{tableCellContent}}
-                    </td>
+            safeHtml[index] != null && safeHtml[index][$index] != null) {
+                <td [innerHTML]="safeHtml[index][$index]" routerLink="{{tableRowContent.routerLinks[$index]}}">
+                    {{tableCellContent}}
+                </td>
             }
             @else if (tableRowContent.routerLinks[$index] != null && tableRowContent.routerLinks[$index]) {
                 <td routerLink="{{tableRowContent.routerLinks[$index]}}">
