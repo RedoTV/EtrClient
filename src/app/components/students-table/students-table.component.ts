@@ -38,6 +38,14 @@ export class StudentsTableComponent implements OnInit, OnDestroy{
     this.width = document.body.clientWidth;
   }
 
+  syncDl(){
+    this.userService.syncWithDl();
+  }
+
+  syncCF(){
+    this.userService.syncWithCF(this.users);
+  }
+
   sortTable(event : Event) {
     var sortButtons = document.getElementsByClassName("table-sort-button");
     var clickedButton = event.target as Element;

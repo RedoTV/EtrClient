@@ -1,1 +1,5 @@
-<p>add-contests works!</p>
+<h1 class="text-center">Добавить контест</h1>
+<form class="container d-flex flex-column gap-2 align-items-center">
+    <input placeholder="Ссылка на контест" class="w-100 fs-3" type="text" [(ngModel)]="url" name="cf_url">
+    <button class="w-25 rounded btn btn-info" (click)="addContest()">Добавить</button>
+</form>
