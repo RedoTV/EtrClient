@@ -1,5 +1,9 @@
 <h1 class="text-center">{{contestInfo.contest.name}}</h1>
-<table>
+
+<app-table [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
+
+<!--
+    <table>
     <tr>
         <td class="user-id">
             <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
@@ -58,3 +62,4 @@
     }
     <tr></tr>
 </table>
+-->

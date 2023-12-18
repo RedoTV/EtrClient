@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
 import { Router, RouterModule } from '@angular/router';
 import { TableRow, TableData, TableTemplateComponent } from '../table-template/table-template.component';
-import { map } from 'rxjs';
+import { Subject, map } from 'rxjs';
 
 @Component({
   selector: 'app-contests',
@@ -18,6 +18,7 @@ export class ContestsComponent implements OnInit {
   contests:Contest[] = [];
   tableData : TableData = new TableData;
   width:number = 0;
+  resetTable: Subject<boolean> = new Subject<boolean>();
 
   constructor(contestService: ContestService) {
 
@@ -31,13 +32,14 @@ export class ContestsComponent implements OnInit {
 
           let tableRow : TableRow = new TableRow;
           tableRow.contents = [contest.id, contest.name, contest.start_datatime];
-          tableRow.routerLinks = [null, `/contests/${contest.id}`, null]
+          tableRow.routerLinks.length = this.tableData.tableColNames.length;
+          tableRow.routerLinks.fill(`/contests/${contest.id}`);
 
           if(contest.start_datatime)
             tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-          
             this.tableData.tableRows.push(tableRow);
         });
+        this.resetTable.next(true);
       });
   }
 
