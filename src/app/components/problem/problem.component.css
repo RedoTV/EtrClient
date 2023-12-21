@@ -42,11 +42,10 @@ tr:last-child {
     cursor: unset;
 }
 
-
-@media screen and (max-width:900px) {
+@media screen and (max-width:1200px) {
     .table-container{
         min-width: 200px;
-        max-width: 900px;
+        max-width: 1200px;
         overflow-x: scroll;
         transform: rotateX(180deg);
     }

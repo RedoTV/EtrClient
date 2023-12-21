@@ -56,10 +56,51 @@ export class ContestsComponent implements OnInit {
   }
 
   filterByContests(){
-    this.contests = this.allContests.filter(el => el.type_of_source == 'codeforces_contest');
+    this.tableData.tableRows = [];
+
+    this.allContests.filter(el => el.type_of_source == 'codeforces_contest').forEach(contest => {
+      let tableRow : TableRow = new TableRow;
+      tableRow.contents = [contest.id, contest.name, contest.start_datatime];
+      tableRow.routerLinks.length = this.tableData.tableColNames.length;
+      tableRow.routerLinks.fill(`/contests/${contest.id}`)
+      if(contest.start_datatime)
+        tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
+        this.tableData.tableRows.push(tableRow);
+    });
+      this.resetTable.next(true);
   }
 
   filterByGym(){
-    this.contests = this.allContests.filter(el => el.type_of_source == 'codeforces_gym');
+    this.contests = [];
+    this.tableData.tableRows = [];
+
+    this.allContests.filter(el => el.type_of_source == 'codeforces_gym').forEach(contest => {
+      let tableRow : TableRow = new TableRow;
+      tableRow.contents = [contest.id, contest.name, contest.start_datatime];
+      tableRow.routerLinks.length = this.tableData.tableColNames.length;
+      tableRow.routerLinks.fill(`/contests/${contest.id}`)
+      if(contest.start_datatime)
+        tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
+        this.tableData.tableRows.push(tableRow);
+    });
+      this.resetTable.next(true);
+  }
+
+  noFilters(){
+    this.contests = [];
+    this.tableData.tableRows = [];
+    this.allContests.forEach(contest => this.contests.push(contest));
+        this.contests.forEach(contest => {
+
+          let tableRow : TableRow = new TableRow;
+          tableRow.contents = [contest.id, contest.name, contest.start_datatime];
+          tableRow.routerLinks.length = this.tableData.tableColNames.length;
+          tableRow.routerLinks.fill(`/contests/${contest.id}`);
+
+          if(contest.start_datatime)
+            tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
+            this.tableData.tableRows.push(tableRow);
+        });
+        this.resetTable.next(true);
   }
 }

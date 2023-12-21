@@ -1,6 +1,10 @@
 <h1 class="text-center">Контесты</h1>
 
 <div class="filter-margin py-1 bg-body-secondary border rounded-2">
+    <div (click)="noFilters()"> 
+        <input class="form-check-input mx-1" checked type="radio" id="all_contest" name="contests">
+        <label class="form-check-label link-secondary" for="all_contest">Все</label>
+    </div>
     <div (click)="filterByContests()">
         <input class="form-check-input mx-1" type="radio" id="simple_contest" name="contests">
         <label class="form-check-label link-danger" for="simple_contest">Контесты</label>
@@ -11,6 +15,7 @@
     </div>
 </div>
 
-<div class="table-container">
+
+<div class="table-container table-w-90">
     <app-table class="app-table" [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
 </div>

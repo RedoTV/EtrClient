@@ -1,5 +1,30 @@
-<h1 class="text-center">Главная</h1>
+<div class="container-lg">
+    <h4>Последнее обновление:</h4>
+    <table class="table caption-top">
+      <caption></caption>
+      <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Что сделано</th>
+          <th>Кто работал</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>21.12.2023</td>
+          <td>
+            <ul>
+              <li>Совершили перенос таблиц из раздела ученики и контесты на отдельный компонент</li>
+              <li>Добавили страницу About</li>
+              <li>Нажатие на задачу теперь открывает её на codeforces</li>
+            </ul>
+          </td>
+          <td>Вадим, Александр, Андрей</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 <div class="d-flex flex-column m-3">
-    <a class="text-decoration-none fs-3 " routerLink="contest/add">Добавить контест</a>
-    <a class="text-decoration-none link-danger fs-3" routerLink="students/add">Добавить ученика</a>
+    <a class="text-decoration-none mb-3 btn btn-primary fs-3 " routerLink="contest/add">Добавить контест</a>
+    <a class="text-decoration-none mb-5 btn btn-secondary fs-3" routerLink="students/add">Добавить ученика</a>
 </div>

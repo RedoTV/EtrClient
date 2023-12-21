@@ -1,8 +1,8 @@
 <h1 class="text-center">Ученики</h1>
-<div class="students-container d-inline-flex d-flex">
-    <div class="btn btn-info m-3 text-nowrap" (click)="syncDl()">Синхронизировать с dl/codeforces</div>
-    <div class="btn btn-info m-3 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
+<div class="table-w-90 my-3 d-flex flex-wrap">
+    <div class="btn btn-primary m-1 text-nowrap" (click)="syncDl()">Синхронизировать с dl/codeforces</div>
+    <div class="btn btn-secondary m-1 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
 </div>
-<div class="table-container">
+<div class="table-container table-w-90 ">
     <app-table [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
 </div>
