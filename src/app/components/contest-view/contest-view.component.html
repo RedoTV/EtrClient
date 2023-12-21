@@ -1,62 +1,66 @@
 <h1 class="text-center">{{contestInfo.contest.name}}</h1>
 <div class="table-container">
-    <table class="contest-view-table">
-        <tr>
-            <td class="user-id">
-                <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">ID</div>
-                </button>
-            </td>
-            <td>
-                <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">Фамилия, Имя</div>
-                </button>
-            </td>
-            <td class="narrow-col">
-                <button class="table-sort-button" id="sort-by-points" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">Баллы</div>
-                </button>
-            </td>
-            <td class="narrow-col">
-                <button class="table-sort-button" id="sort-by-total-correct" (click)="sortTable($event)">
-                    <div class="table-sort-button-content">Верно</div>
-                </button>
-            </td>
-            @for (contestProblem of contestInfo.contest.problems; track $index) {
-                <td class="contest-problem-index">{{contestProblem.index}}</td>
+    <app-table [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
+</div>
+
+<!--
+    <table>
+    <tr>
+        <td class="user-id">
+            <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
+                <div class="table-sort-button-content">ID</div>
+            </button>
+        </td>
+        <td>
+            <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Фамилия, Имя</div>
+            </button>
+        </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-points" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Баллы</div>
+            </button>
+        </td>
+        <td class="narrow-col">
+            <button class="table-sort-button" id="sort-by-total-correct" (click)="sortTable($event)">
+                <div class="table-sort-button-content">Верно</div>
+            </button>
+        </td>
+        @for (contestProblem of contestInfo.contest.problems; track $index) {
+            <td class="contest-problem-index">{{contestProblem.index}}</td>
+        }
+    </tr>
+    
+
+    @for (participant of participants; track $index) {
+        <tr class="contests-row" routerLink="/students/{{participant?.user?.handle}}">
+        @if (participant.user !== null && participant.user !== undefined) {
+            <td>{{participant.user!.id}}</td>
+            <td>{{participant.user!.last_name}} {{participant.user!.first_name}}</td>
+            <td>{{participant.points}}</td>
+            <td>{{participant.totalCorrect}}</td>
+        }
+        @else {
+            <td style="color:royalblue">{{participant.team!.id}}</td>
+            <td><div style="color:royalblue"> Команда:</div> @for(user of participant.team!.users; track $index) {{{user.last_name}} {{user.first_name}}@if($index < participant.team!.users.length - 1){, }}</td>
+            <td>{{participant.points}}</td>
+            <td>{{participant.totalCorrect}}</td>
+        }
+            @for (participantProblemResult of participant.problemsResults; track $index) {
+                <td class="contest-problem-index">
+                    @if (participantProblemResult.bestVerdict === "OK") {
+                        <div style="color:green; font-size:20px">+{{participantProblemResult.totalSubmissions > 1 ? participantProblemResult.totalSubmissions : ""}}</div>
+                    }
+                    @else if (participantProblemResult.bestVerdict === "NO_SUBMISSIONS") {
+
+                    }
+                    @else {
+                        <div style="color:red; font-size:20px">-{{participantProblemResult.totalSubmissions}}</div>
+                    }
+                </td>
             }
         </tr>
-        
-    
-        @for (participant of participants; track $index) {
-            <tr class="contests-row" routerLink="/students/{{participant?.user?.handle}}">
-            @if (participant.user !== null && participant.user !== undefined) {
-                <td>{{participant.user!.id}}</td>
-                <td>{{participant.user!.last_name}} {{participant.user!.first_name}}</td>
-                <td>{{participant.points}}</td>
-                <td>{{participant.totalCorrect}}</td>
-            }
-            @else {
-                <td style="color:royalblue">{{participant.team!.id}}</td>
-                <td><div style="color:royalblue"> Команда:</div> @for(user of participant.team!.users; track $index) {{{user.last_name}} {{user.first_name}}@if($index < participant.team!.users.length - 1){, }}</td>
-                <td>{{participant.points}}</td>
-                <td>{{participant.totalCorrect}}</td>
-            }
-                @for (participantProblemResult of participant.problemsResults; track $index) {
-                    <td class="contest-problem-index">
-                        @if (participantProblemResult.bestVerdict === "OK") {
-                            <div style="color:green; font-size:20px">+{{participantProblemResult.totalSubmissions > 1 ? participantProblemResult.totalSubmissions : ""}}</div>
-                        }
-                        @else if (participantProblemResult.bestVerdict === "NO_SUBMISSIONS") {
-    
-                        }
-                        @else {
-                            <div style="color:red; font-size:20px">-{{participantProblemResult.totalSubmissions}}</div>
-                        }
-                    </td>
-                }
-            </tr>
-        }
-        <tr></tr>
-    </table>
-</div>
+    }
+    <tr></tr>
+</table>
+-->

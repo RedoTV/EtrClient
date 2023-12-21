@@ -4,43 +4,5 @@
     <div class="btn btn-info m-3 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
 </div>
 <div class="table-container">
-    <table>
-        <tr>
-            <th>
-                <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">№</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-last-name" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Фамилия, Имя</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-organization" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Организация</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-city" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Город</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-grade" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Класс</div>
-                </button>
-            </th>
-        </tr>
-        @for (user of users; track $index) {
-            <tr class="contests-row" routerLink="/students/{{user.handle}}">
-                <td>{{$index+1}}</td>
-                <td>{{user.last_name}} {{user.first_name}}</td>
-                <td>{{user.organization}}</td>
-                <td>{{user.city}}</td>
-                <td>{{user.grade}}</td>
-            </tr>
-        }
-        <tr></tr>
-    </table>
+    <app-table [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
 </div>

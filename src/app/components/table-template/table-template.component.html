@@ -1,0 +1,49 @@
+<table>
+    <thead>
+        @for (tableColName of tableData.tableColNames; track $index) {
+            @if (sortDirections[$index] === -1) {
+                <th class="sort-start-lower" (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+            @else if (sortDirections[$index] === 1) {
+                <th class="sort-start-higher" (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+            @else {
+                <th (click)="sortTable($index)">
+                    {{tableColName}}
+                </th>
+            }
+        }
+    </thead>
+    @for (tableRowContent of tableData.tableRows; let index = $index; track index) {
+        <tr>
+        @for (tableCellContent of tableRowContent.contents; track $index) {
+            @if (tableRowContent.routerLinks[$index] != null && tableRowContent.routerLinks[$index] &&
+            safeHtml[$index] != null) {
+                    <td [innerHTML]="safeHtml[index][$index]" routerLink="{{tableRowContent.routerLinks[$index]}}">
+                        {{tableCellContent}}
+                    </td>
+            }
+            @else if (tableRowContent.routerLinks[$index] != null && tableRowContent.routerLinks[$index]) {
+                <td routerLink="{{tableRowContent.routerLinks[$index]}}">
+                    {{tableCellContent}}
+                </td>
+            }
+            @else if (safeHtml[index][$index] != null) {
+                <td [innerHTML]="safeHtml[index][$index]">
+                    {{tableCellContent}}
+                </td>
+            }
+            @else {
+                <td>
+                    {{tableCellContent}}
+                </td>
+            }
+        }
+        </tr>
+    }
+    <tr></tr>
+</table>

@@ -32,10 +32,15 @@ export class ProblemComponent implements OnInit, OnDestroy {
 
   forwardToCodeforces(contest_id:number|null, index:string) {
     if (contest_id !== null && contest_id < 10000) {
-      window.location.href = `https://codeforces.com/problemset/problem/${contest_id}/${index}`;
+      window.open(`https://codeforces.com/problemset/problem/${contest_id}/${index}`, "_blank");
     }
     else if (contest_id !== null && contest_id >= 10000) {
-      window.location.href = `https://codeforces.com/gym/${contest_id}/problem/${index}`;
+      window.open(`https://codeforces.com/gym/${contest_id}/problem/${index}`, "_blank");
     }
   }
+
+  goToLink(url: string){
+    window.open(url, "_blank");
+}
+
 }

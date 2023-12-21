@@ -1,44 +1,16 @@
 <h1 class="text-center">Контесты</h1>
-<div>
-    <div class="filter-margin py-1 bg-body-secondary border rounded-2">
-        <div (click)="filterByContests()">
-            <input class="form-check-input mx-1" type="radio" id="simple_contest" name="contests">
-            <label class="form-check-label link-danger" for="simple_contest">Контесты</label>
-        </div>
-        <div (click)="filterByGym()"> 
-            <input class="form-check-input mx-1" type="radio" id="gym_contest" name="contests">
-            <label class="form-check-label link-primary" for="gym_contest">Тренировки</label>
-        </div>
+
+<div class="filter-margin py-1 bg-body-secondary border rounded-2">
+    <div (click)="filterByContests()">
+        <input class="form-check-input mx-1" type="radio" id="simple_contest" name="contests">
+        <label class="form-check-label link-danger" for="simple_contest">Контесты</label>
     </div>
-    <div class="table-container">
-    
-        <table>
-            <tr>
-                <td>
-                    <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                        <div class="table-sort-button-content">ID</div>
-                    </button>
-                </td>
-                <td>
-                    <button class="table-sort-button" id="sort-by-name" (click)="sortTable($event)">
-                        <div class="table-sort-button-content">Название</div>
-                    </button>
-                </td>
-                <td>
-                    <button class="table-sort-button" id="sort-by-date" (click)="sortTable($event)">
-                        <div class="sort-start-higher table-sort-button-content">Дата</div>
-                    </button>
-                </td>
-            </tr>
-            @for (contest of contests; track $index) {
-                <tr class="contests-row" routerLink="/contests/{{contest.id}}">
-                    <td>{{contest.id}}</td>
-                    <td>{{contest.name}}</td>
-                    <td>{{contest.start_datatime}}</td>
-                </tr>
-                
-            }
-            <tr></tr>
-        </table>
+    <div (click)="filterByGym()"> 
+        <input class="form-check-input mx-1" type="radio" id="gym_contest" name="contests">
+        <label class="form-check-label link-primary" for="gym_contest">Тренировки</label>
     </div>
+</div>
+
+<div class="table-container">
+    <app-table class="app-table" [tableData]="tableData" [resetFormSubject]="resetTable"></app-table>
 </div>

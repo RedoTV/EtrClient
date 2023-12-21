@@ -1,51 +1,50 @@
-.contest-card{
-    width: 48%;
-    background-color: antiquewhite;
+thead {
+    background-color: hsl(0, 0%, 13%);
+    color: white;
+    text-align: left;
+    height: 40px;
 }
 
-.contests-row:hover{
-    color: grey;
-}
-
-.contest-card:hover{
-    opacity: 70%;
+thead th {
+    padding: 5px;
+    padding-right: 20px;
     cursor: pointer;
-}
-.contests-container{
-    margin: 0px 20px 100px 20px;
-    padding-bottom: 50px;
-}
-@media screen and (max-width: 600px) {
-    .contest-card{
-        width: 100%;
-    }
-}
-
-table {
-    width: 90%;
-    margin: 0px 5% 0px 5%
-}
-
-.filter-margin{
-    width: 90%;
-    margin: 10px 5% 10px 5%
 }
 
 td {
+    font-size: large;
+    border: 1px solid grey;
+    cursor: pointer;
+    padding: 5px;
+}
+
+table {
+    width: auto;
+    margin: auto;
+    
+}
+
+@media screen and (max-width:900px) {
+    .table-container{
+        min-width: 200px;
+        max-width: 900px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+    }
+    table{
+        transform: rotateX(180deg);
+    }
+}
+
+tr {
     border: 1px solid grey;
     padding: 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
 }
 
-tr {
-    cursor: pointer;
-}
-
-tr:first-child {
-    background-color: #333333;
-    color: white;
-    text-align: left;
+tr:hover {
+    color: grey;
 }
 
 tr:nth-child(even) {
@@ -78,17 +77,4 @@ tr:last-child {
     border-right: 7px solid transparent;
     border-bottom: 7px solid white;
     pointer-events: none;
-}
-
-.table-sort-button-content {
-    pointer-events: none;
-}
-
-.table-sort-button {
-    width: 100%;
-    text-align: left;
-    padding-right: 20px;
-    background-color: transparent;
-    color: white;
-    border: none;
 }
