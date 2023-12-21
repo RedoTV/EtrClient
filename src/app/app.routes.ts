@@ -53,7 +53,7 @@ export const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'codeforces-link/:index:contest_id',
+        path: 'codeforces-link/:contest_id/:index',
         component: CodeforcesLinkComponent
     }
 ];
