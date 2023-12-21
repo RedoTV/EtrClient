@@ -23,10 +23,10 @@ export class CodeforcesLinkComponent {
 
   forwardToCodeforces() {
     if (this.contest_id !== null && this.contest_id < 10000) {
-      window.location.href = `https://codeforces.com/problemset/problem/${this.contest_id}/${this.index}`;
+      window.open(`https://codeforces.com/problemset/problem/${this.contest_id}/${this.index}`, '_blank');
     }
     else if (this.contest_id !== null && this.contest_id >= 10000) {
-      window.location.href = `https://codeforces.com/gym/${this.contest_id}/problem/${this.index}`;
+      window.open(`https://codeforces.com/gym/${this.contest_id}/problem/${this.index}`, '_blank');
     }
   }
 }
