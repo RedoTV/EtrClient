@@ -41,11 +41,10 @@ export class ProblemComponent implements OnInit, OnDestroy {
           ];
           
           this.tableData.tableColNames.forEach(colName => {
-            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}${problem.index}`);
-
-            this.tableData.tableRows.push(newTableRow);
+            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`);
           });
 
+          this.tableData.tableRows.push(newTableRow);
         });
 
         this.refreshTable.next(true);
@@ -59,18 +58,4 @@ export class ProblemComponent implements OnInit, OnDestroy {
   ngOnDestroy():void {
     this.problemTableSub.unsubscribe();
   }
-
-  forwardToCodeforces(contest_id:number|null, index:string) {
-    if (contest_id !== null && contest_id < 10000) {
-      window.open(`https://codeforces.com/problemset/problem/${contest_id}/${index}`, "_blank");
-    }
-    else if (contest_id !== null && contest_id >= 10000) {
-      window.open(`https://codeforces.com/gym/${contest_id}/problem/${index}`, "_blank");
-    }
-  }
-
-  goToLink(url: string){
-    window.open(url, "_blank");
-}
-
 }

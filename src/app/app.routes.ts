@@ -8,6 +8,7 @@ import { ContestViewComponent } from './components/contest-view/contest-view.com
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { ProblemComponent } from './components/problem/problem.component';
 import { HomeComponent } from './components/home/home.component';
+import { CodeforcesLinkComponent } from './components/codeforces-link/codeforces-link.component';
 
 export const routes: Routes = [
     {
@@ -45,5 +46,9 @@ export const routes: Routes = [
     {
         path: '',
         component: HomeComponent
+    },
+    {
+        path: 'codeforces-link/:contest_id/:index/:previousPage',
+        component: CodeforcesLinkComponent
     }
 ];

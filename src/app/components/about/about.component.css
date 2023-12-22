@@ -1,0 +1,11 @@
+@media screen and (max-width:1000px) {
+    .table-container{
+        min-width: 200px;
+        max-width: 1000px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+    }
+    table{
+        transform: rotateX(180deg);
+    }
+}
