@@ -11,32 +11,27 @@ import { Subscription } from 'rxjs';
   styleUrl: './codeforces-link.component.css'
 })
 export class CodeforcesLinkComponent {
-  routeSub : Subscription;
   contest_id : number | null = null;
   index : string | null = null;
   previousPageUrl: string | null = null;
+  link : string | null = null;
 
   constructor (private route : ActivatedRoute) {
-    this.routeSub = route.paramMap.subscribe(obs => { 
-      this.contest_id = Number(obs.get("contest_id")); 
-      this.index = obs.get("index");
-      this.previousPageUrl = obs.get("previousPage");
-    });
+    this.contest_id = Number(route.snapshot.paramMap.get("contest_id")); 
+    this.index = route.snapshot.paramMap.get("index");
+    this.previousPageUrl = route.snapshot.paramMap.get("previousPage");
     this.forwardToCodeforces();
-    this.formardBack();
   }
-
 
   forwardToCodeforces() {
     if (this.contest_id !== null && this.contest_id < 10000) {
-      window.open(`https://codeforces.com/problemset/problem/${this.contest_id}/${this.index}`, '_blank');
+      this.link = `https://codeforces.com/problemset/problem/${this.contest_id}/${this.index}`;
+      window.open(this.link, '_blank');
     }
     else if (this.contest_id !== null && this.contest_id >= 10000) {
-      window.open(`https://codeforces.com/gym/${this.contest_id}/problem/${this.index}`, '_blank');
+      this.link = `https://codeforces.com/gym/${this.contest_id}/problem/${this.index}`;
+      window.open(this.link, '_blank');
     }
-  }
-
-  formardBack(){
     if(this.previousPageUrl !== null){
       window.location.href = this.previousPageUrl;
     }
