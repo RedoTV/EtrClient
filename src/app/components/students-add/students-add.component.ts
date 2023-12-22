@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContestService } from '../../services/contest.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-students-add',
@@ -11,14 +12,14 @@ import { ContestService } from '../../services/contest.service';
   styleUrl: './students-add.component.css'
 })
 export class StudentsAddComponent {
-  contestService: ContestService;
+  userService: UserService;
   handle:string = '';
 
-  constructor(contestService: ContestService) {
-    this.contestService = contestService;
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
   
   addUser(){
-    this.contestService.addUserByHandle(this.handle);
+    this.userService.addUserByHandle(this.handle);
   }
 }

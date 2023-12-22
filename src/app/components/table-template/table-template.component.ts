@@ -89,6 +89,8 @@ export class TableTemplateComponent implements OnInit {
           }
         });
 
+        console.log(this.tableData);
+
       }
     });
   }
@@ -106,7 +108,7 @@ export class TableTemplateComponent implements OnInit {
         {
           if (a.stringinfied[colIndex] != undefined && b.stringinfied[colIndex] != undefined)
           {
-            if (a.stringinfied[colIndex] != null && b.stringinfied.at(colIndex) != null)
+            if (a.stringinfied[colIndex] != null && b.stringinfied[colIndex] != null)
               return (a.stringinfied[colIndex] as string).localeCompare(b.stringinfied[colIndex] as string) * this.sortDirections[colIndex] * this.tableData.directionPresets[colIndex];
           }
           if (typeof a.contents[colIndex] === "number" && typeof b.contents[colIndex] === "number")
@@ -123,6 +125,10 @@ export class TableTemplateComponent implements OnInit {
           if (a.stringinfied[colIndex] != undefined)
             return -1;
           if (b.stringinfied[colIndex] != undefined)
+            return 1;
+          if (a.contents[colIndex] != null)
+            return -1;
+          if (b.contents[colIndex] != null)
             return 1;
         }
         return 0;

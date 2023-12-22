@@ -87,9 +87,5 @@ tr:last-child {
         min-width: 200px;
         max-width: 900px;
         overflow-x: scroll;
-        transform: rotateX(180deg);
-    }
-    table{
-        transform: rotateX(180deg);
     }
 }

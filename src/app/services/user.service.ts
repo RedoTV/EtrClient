@@ -35,6 +35,11 @@ export class UserService {
       .pipe(map(r => (<UserResponse>r).users))
   }
 
+  public addUserByHandle(userHandle:string){
+    this.http.post('https://dl.gsu.by/etr/api/user',{ handle:userHandle });
+  }
+
+  
   public syncWithDl(){
     return this.http.get('https://dl.gsu.by/etr/rpc/user/swdl');
   }

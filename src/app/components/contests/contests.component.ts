@@ -1,11 +1,10 @@
-import { Component, HostListener, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
-import { HttpClient } from '@angular/common/http';
 import { Contest } from '../../models/contest';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TableRow, TableData, TableTemplateComponent } from '../table-template/table-template.component';
-import { Subject, map } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-contests',
@@ -15,11 +14,10 @@ import { Subject, map } from 'rxjs';
   styleUrl: './contests.component.css'
 })
 export class ContestsComponent implements OnInit {
-  contests:Contest[] = [];
-  allContests:Contest[] = [];
+  contests : Contest[] = [];
   tableData : TableData = new TableData;
-  width:number = 0;
-  resetTable: Subject<boolean> = new Subject<boolean>();
+  width : number = 0;
+  refreshTable : Subject<boolean> = new Subject<boolean>();
 
   constructor(contestService: ContestService) {
 
@@ -28,24 +26,18 @@ export class ContestsComponent implements OnInit {
 
     contestService.getAllContests()
       .subscribe(arr => {
-        arr.forEach(contest => this.allContests.push(contest));
-        this.allContests.forEach(contest => {
+        arr.forEach(contest => this.contests.push(contest));
 
-          let tableRow : TableRow = new TableRow;
-          tableRow.contents = [contest.id, contest.name, contest.start_datatime];
-          tableRow.routerLinks.length = this.tableData.tableColNames.length;
-          tableRow.routerLinks.fill(`/contests/${contest.id}`);
-
-          if(contest.start_datatime)
-            tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-            this.tableData.tableRows.push(tableRow);
+        this.contests.forEach(contest => {
+          this.addContestToTable(contest);
         });
-        this.resetTable.next(true);
-      });
 
-      this.contests = this.allContests;
+        this.refreshTable.next(true);
+      });
   }
 
+
+  
   ngOnInit() : void {
     this.width = document.body.clientWidth;
   }
@@ -55,52 +47,24 @@ export class ContestsComponent implements OnInit {
     this.width = document.body.clientWidth;
   }
 
-  filterByContests(){
+  filterBySourceType (sourceType : string) {
     this.tableData.tableRows = [];
-
-    this.allContests.filter(el => el.type_of_source == 'codeforces_contest').forEach(contest => {
-      let tableRow : TableRow = new TableRow;
-      tableRow.contents = [contest.id, contest.name, contest.start_datatime];
-      tableRow.routerLinks.length = this.tableData.tableColNames.length;
-      tableRow.routerLinks.fill(`/contests/${contest.id}`)
-      if(contest.start_datatime)
-        tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-        this.tableData.tableRows.push(tableRow);
+    this.contests.forEach(contest => {
+      if (contest.type_of_source == sourceType || sourceType == "any") {
+        this.addContestToTable(contest);
+      }
     });
-      this.resetTable.next(true);
+    this.refreshTable.next(true);
   }
 
-  filterByGym(){
-    this.contests = [];
-    this.tableData.tableRows = [];
-
-    this.allContests.filter(el => el.type_of_source == 'codeforces_gym').forEach(contest => {
-      let tableRow : TableRow = new TableRow;
-      tableRow.contents = [contest.id, contest.name, contest.start_datatime];
-      tableRow.routerLinks.length = this.tableData.tableColNames.length;
-      tableRow.routerLinks.fill(`/contests/${contest.id}`)
-      if(contest.start_datatime)
-        tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-        this.tableData.tableRows.push(tableRow);
-    });
-      this.resetTable.next(true);
+  private addContestToTable (contest : Contest) {
+    let tableRow : TableRow = new TableRow;
+    tableRow.contents = [contest.id, contest.name, contest.start_datatime];
+    tableRow.routerLinks.length = this.tableData.tableColNames.length;
+    tableRow.routerLinks.fill(`/contests/${contest.id}`)
+    if(contest.start_datatime)
+      tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
+      this.tableData.tableRows.push(tableRow);
   }
 
-  noFilters(){
-    this.contests = [];
-    this.tableData.tableRows = [];
-    this.allContests.forEach(contest => this.contests.push(contest));
-        this.contests.forEach(contest => {
-
-          let tableRow : TableRow = new TableRow;
-          tableRow.contents = [contest.id, contest.name, contest.start_datatime];
-          tableRow.routerLinks.length = this.tableData.tableColNames.length;
-          tableRow.routerLinks.fill(`/contests/${contest.id}`);
-
-          if(contest.start_datatime)
-            tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-            this.tableData.tableRows.push(tableRow);
-        });
-        this.resetTable.next(true);
-  }
 }

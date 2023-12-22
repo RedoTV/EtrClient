@@ -17,12 +17,14 @@ export class StudentsTableComponent implements OnInit {
   width:number = 0;
   users:User[] = [];
   tableData : TableData = new TableData;
-  resetTable: Subject<boolean> = new Subject<boolean>();
-  userService: UserService;
+  refreshTable: Subject<boolean> = new Subject<boolean>();
+  userService : UserService;
 
   constructor(userService: UserService) {
     this.tableData.tableColNames = ["ID", "Фамилия, Имя", "Организация", "Город", "Класс"];
+
     this.userService = userService;
+
     userService.getAllUsers()
       .subscribe(res => {
         res.forEach(x => this.users.push(x));
@@ -42,7 +44,8 @@ export class StudentsTableComponent implements OnInit {
           this.tableData.tableRows.push(tableRow);
           
         });
-        this.resetTable.next(true);
+        
+        this.refreshTable.next(true);
       });
   }
 
@@ -62,4 +65,5 @@ export class StudentsTableComponent implements OnInit {
   syncCF(){
     this.userService.syncWithCF(this.users);
   }
+
 }

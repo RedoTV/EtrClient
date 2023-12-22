@@ -1,7 +1,7 @@
 import { ContestEntry } from '../models/contestEntry';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { Contest } from '../models/contest';
 
 class ContestResponse{
@@ -22,15 +22,6 @@ export class ContestService {
     this.http = http;
   }
 
-  public getAllContestsObsolete():Contest[]
-  {
-    let contests:Contest[] = []
-    this.http.get('https://dl.gsu.by/etr/api/contest/')
-      .pipe(map(r => (<ContestResponse>r).contests))
-      .subscribe(res => res.forEach(x => contests.push(x)));
-    return contests;
-  }
-
   public getAllContests() : Observable<Contest[]>
   {
     return this.http.get('https://dl.gsu.by/etr/api/contest/')
@@ -43,9 +34,5 @@ export class ContestService {
 
   public addContestByUrl(contest_url:string){
     return this.http.post(`https://dl.gsu.by/etr/api/contest/new`,contest_url);
-  }
-
-  public addUserByHandle(handle:string){
-    return this.http.post(`https://dl.gsu.by/etr/api/user/`,handle);
   }
 }
