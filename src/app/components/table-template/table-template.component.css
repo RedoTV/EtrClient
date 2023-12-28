@@ -77,3 +77,22 @@ tr:last-child {
     border-bottom: 7px solid white;
     pointer-events: none;
 }
+
+div.selector {
+    position: relative;
+    left: calc(50% - 150px);
+    bottom: 75px;
+    width: 300px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+div.selector button {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    border: 1px solid #777;
+    background-color: #ddd;
+}
