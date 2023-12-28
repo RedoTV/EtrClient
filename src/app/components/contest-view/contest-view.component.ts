@@ -1,11 +1,12 @@
 import { Submission } from './../../models/submission';
 import { Contest } from './../../models/contest';
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink, Routes } from '@angular/router';
-import { Observable, Subscription, map } from 'rxjs';
+import { Observable, Subject, Subscription, map } from 'rxjs';
 import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
+import { TableData, TableRow, TableTemplateComponent } from './../table-template/table-template.component';
 
 
 class ProblemResults {
@@ -25,29 +26,91 @@ class Participant extends ContestEntry {
 @Component({
   selector: 'app-contest-view',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TableTemplateComponent],
   templateUrl: './contest-view.component.html',
   styleUrl: './contest-view.component.css'
 })
 
 export class ContestViewComponent implements OnDestroy {
-
   routeSub : Subscription;
   id : number | undefined = 0;
   contestSub : Subscription = new Subscription;
-  contestsService : ContestService;
   contestInfo : ContestInfo = new ContestInfo;
   participants : Participant[] = [];
+  tableData : TableData = new TableData;
+  refreshTable: Subject<boolean> = new Subject<boolean>();
+
+  private readonly possibleCombinations = ["FAILED", "OK", "PARTIAL", "COMPILATION_ERROR", "RUNTIME_ERROR", "WRONG_ANSWER", "PRESENTATION_ERROR", "TIME_LIMIT_EXCEEDED", "MEMORY_LIMIT_EXCEEDED", "IDLENESS_LIMIT_EXCEEDED", "SECURITY_VIOLATED", "CRASHED", "INPUT_PREPARATION_CRASHED", "CHALLENGED", "SKIPPED", "TESTING", "REJECTED"];
 
   constructor(private route: ActivatedRoute, contestsService : ContestService) {
-    this.contestsService = contestsService;
+
+    this.tableData.tableColNames = ["ID", "Фамилия, Имя", "Баллы", "Верно"];
+
     this.routeSub = this.route.params.subscribe((o : {id? : number}) => this.id = o.id );
     if (this.id !== undefined)
-      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {this.contestInfo = res as ContestInfo; this.fillUserResults(); console.log(this.contestInfo);});//console.log(this.contestInfo)
+      this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {
+        
+        this.contestInfo = res as ContestInfo;
+        this.fillUserResults();
+        
+        this.contestInfo.contest.problems.forEach(problem => this.tableData.tableColNames.push(problem.index));
+
+        this.participants.forEach((participant, index) => {
+          let tableRow : TableRow = new TableRow;
+
+          let formattedResults : string[] = [];
+
+          participant.problemsResults.forEach(result => {
+            let formattedResult : string = "";
+
+            if (result.bestVerdict == "OK")
+              formattedResult += `<div style="color: green;">+`;
+            else if (result.bestVerdict !== "NO_SUBMISSIONS")
+              formattedResult += `<div style="color: red;">-`;
+            else
+              formattedResult += `<div style="color: red;">`;
+
+            if (result.totalSubmissions > 1)
+              formattedResult += result.totalSubmissions;
+            
+            formattedResult += `</div>`
+
+            formattedResults.push(formattedResult);
+          });
+
+          tableRow.contents = [
+            index,
+            participant.user !== null ? `${participant.user?.last_name} ${participant.user?.first_name}` : participant.team,
+            participant.points,
+            participant.totalCorrect,
+          ];
+          tableRow.routerLinks = [null, `/students/${participant.user?.handle}`, null, null];
+          tableRow.htmlString = [null, null, null, null];
+          formattedResults.forEach(result => {
+            tableRow.htmlString.push(result);
+          });
+
+          this.tableData.tableRows.push(tableRow);
+        });
+
+        console.log(this.tableData);
+
+        this.refreshTable.next(true);
+
+      });
   }
   
   ngOnDestroy () {
     this.routeSub.unsubscribe();
+  }
+
+  forwardToCodeforces(contest_id:number|null, index: string){
+    if (contest_id !== null && contest_id < 10000) {
+      window.location.href = `https://codeforces.com/problemset/problem/${contest_id}/${index}`;
+    }
+    else if (contest_id !== null && contest_id >= 10000) {
+      window.location.href = `https://codeforces.com/gym/${contest_id}/problem/${index}`;
+    }
   }
 
   fillUserResults () {
@@ -65,7 +128,6 @@ export class ContestViewComponent implements OnDestroy {
       else {
         return;
       }
-
       participant.submissions = entry.submissions;
 
       participant.submissions.forEach(submission => {
@@ -83,6 +145,7 @@ export class ContestViewComponent implements OnDestroy {
         }
         else
         {
+          /*
           if (problemResults.bestVerdict === "RUNTIME_ERROR") {
             problemResults.bestVerdict = submission.verdict;
           }
@@ -117,6 +180,15 @@ export class ContestViewComponent implements OnDestroy {
               }
             }
           }
+          */
+
+          if (submission.verdict === "OK") {
+            problemResults.bestVerdict = submission.verdict;
+          }
+          else {
+            problemResults.bestVerdict = submission.verdict;
+          }
+
           problemResults.totalSubmissions++;
           participant.problemsResults[problemIndex] = problemResults;
         }
@@ -151,154 +223,6 @@ export class ContestViewComponent implements OnDestroy {
       participant.problemsResults.sort((a, b) => a.index.localeCompare(b.index));
 
       this.participants.push(participant);
-
-      /* Use to debug contest table if you need to
-      if (participant.user.id == 17) {
-        let row = this.participants.find(row => row.user.id === participant.user.id);
-        //row?.submissions.forEach(submission => {console.log(submission.verdict), console.log(submission.problem.index)});
-        row?.problemsResults.forEach(submission => {console.log(submission.bestVerdict), console.log(submission.index)});
-        //console.log(ESubmission);
-      }
-      */
-
     });
-  }
-
-  sortTable(event : Event) {
-    var sortButtons = document.getElementsByClassName("table-sort-button");
-    var clickedButton = event.target as Element;
-    for (var i = 0; i < sortButtons.length; i++)
-    {
-      if (sortButtons.item(i)?.id == clickedButton.id)
-      {
-        if (clickedButton.children.item(0)?.className == "sort-start-higher table-sort-button-content")
-        {
-          this.assertSortByElementId(-1, clickedButton);
-        }
-        else
-        {
-          this.assertSortByElementId(1, clickedButton);
-        }
-      }
-      else if (sortButtons.item(i)!.children.item(0)!.className != "table-sort-button-content")
-      {
-        sortButtons.item(i)!.children.item(0)!.className = "table-sort-button-content";
-      }
-    }
-  }
-
-  private assertSortByElementId(sortDirection : number, buttonElement : Element) {
-    if (sortDirection == 1)
-    {
-      buttonElement.children.item(0)!.className = "sort-start-higher table-sort-button-content";
-    }
-    else if (sortDirection == -1)
-    {
-      buttonElement.children.item(0)!.className = "sort-start-lower table-sort-button-content";
-    }
-    else
-      return;
-
-    if (buttonElement.id == "sort-by-ID")
-    {
-      this.participants.sort((a, b) => {
-        if (a.user && b.user)
-          return (a.user.id - b.user.id)*sortDirection;
-        else if (a.team && b.team)
-          return (a.team.id - b.team.id)*sortDirection;
-        else if (a.team && b.user)
-          return (a.team.id - b.user.id)*sortDirection;
-        else if (a.user && b.team)
-          return (a.user.id - b.team.id)*sortDirection;
-        return 0;
-      });
-      return;
-    }
-    else if (buttonElement.id == "sort-by-handle")
-    {
-      this.participants.sort((a, b) => {
-        if (a.user && b.user)
-          return a.user.handle.localeCompare(b.user.handle) * sortDirection;
-        else if (a.team && b.team)
-          return (a.team.users.length - b.team.users.length)*sortDirection;
-        else if (a.team && b.user)
-          return -1 * sortDirection;
-        else if (a.user && b.team)
-          return 1 * sortDirection;
-        return 0;
-      });
-      return;
-    }
-    else if (buttonElement.id == "sort-by-name")
-    {
-      this.participants.sort((a, b) => {
-        if (a.user && b.user)
-        {
-          if (a.user.first_name == null && b.user.first_name == null)
-            return 0;
-          else if (a.user.first_name == null)
-            return -1;
-          else if (b.user.first_name == null)
-            return 1;
-          else if (a.user.last_name == null && b.user.last_name == null)
-            return 0;
-          else if (a.user.last_name == null)
-            return -1;
-          else if (b.user.last_name == null)
-            return 1;
-
-          return (a.user.first_name + a.user.last_name)!.localeCompare(b.user.first_name + b.user.last_name) * sortDirection;
-        }
-        else if (a.team && b.team)
-        {
-          if (a.team.team_name == null && b.team.team_name == null)
-            return 0;
-          else if (a.team.team_name == null)
-            return -1;
-          else if (b.team.team_name == null)
-            return 1;
-
-          return (a.team.team_name)!.localeCompare(b.team.team_name) * sortDirection;
-        }
-        else if (a.team && b.user) {
-          if (a.team.team_name == null && b.user.first_name == null && b.user.last_name == null)
-            return 0;
-          else if (a.team.team_name == null)
-            return -1;
-          else if (b.user.first_name == null || b.user.last_name == null)
-            return 1;
-
-            return (a.team.team_name)!.localeCompare(b.user.first_name + b.user.last_name) * sortDirection;
-        }
-        else if (a.user && b.team) {
-          if (b.team.team_name == null && a.user.first_name == null && a.user.last_name == null)
-            return 0;
-          else if (b.team.team_name == null)
-            return 1;
-          else if (a.user.first_name == null || a.user.last_name == null)
-            return -1;
-
-          return (a.user.first_name + a.user.last_name)!.localeCompare(b.team.team_name) * sortDirection;
-
-        }
-        
-        return 0;
-      });
-      return;
-    }
-    else if (buttonElement.id == "sort-by-points")
-    {
-      this.participants.sort((a, b) => {
-        return (b.points - a.points) * sortDirection;
-      });
-      return;
-    }
-    else if (buttonElement.id == "sort-by-total-correct")
-    {
-      this.participants.sort((a, b) => {
-        return (b.totalCorrect - a.totalCorrect) * sortDirection;
-      });
-      return;
-    }
   }
 }

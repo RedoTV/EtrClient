@@ -1,57 +1,8 @@
-<h1 class="text-center">Students Table</h1>
-<!-- @if (width < 768) {
-    <div class="d-flex contests-container gap-1 flex-wrap justify-content-center" style="cursor: pointer">
-        @for (user of users; track $index) {
-            <div class="border rounded contest-card" routerLink="/students/{{user.handle}}">
-                <h3 class="text-center">{{user.first_name}} {{user.last_name}}</h3>
-                <div>
-                    <div>Организация: {{user.organization}}</div>
-                    <div>Город: {{user.city}}</div>
-                    <div>Класс: {{user.grade}}</div>
-                </div>
-            </div>
-        }
-    </div>
-}
-@else {
--->
-    <table>
-        <tr>
-            <th>
-                <button class="table-sort-button" id="sort-by-ID" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">ID</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-last-name" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Фамилия, Имя</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-organization" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Организация</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-city" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Город</div>
-                </button>
-            </th>
-            <th>
-                <button class="table-sort-button" id="sort-by-grade" (click)="sortTable($event)">
-                    <div class="table-sort-button-user">Класс</div>
-                </button>
-            </th>
-        </tr>
-        @for (user of users; track $index) {
-            <tr class="contests-row" routerLink="/students/{{user.handle}}">
-                <td>{{user.id}}</td>
-                <td>{{user.last_name}} {{user.first_name}}</td>
-                <td>{{user.organization}}</td>
-                <td>{{user.city}}</td>
-                <td>{{user.grade}}</td>
-            </tr>
-        }
-        <tr></tr>
-    </table>
-<!--}-->
+<h1 class="text-center">Ученики</h1>
+<div class="table-w-90 my-3 d-flex flex-wrap">
+    <div class="btn btn-primary m-1 text-nowrap" (click)="syncDl()">Синхронизировать с dl/codeforces</div>
+    <div class="btn btn-secondary m-1 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
+</div>
+<div class="table-container table-w-90 ">
+    <app-table [tableData]="tableData" [resetFormSubject]="refreshTable"></app-table>
+</div>

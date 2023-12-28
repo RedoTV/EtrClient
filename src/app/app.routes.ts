@@ -6,18 +6,21 @@ import { StudentsAddComponent } from './components/students-add/students-add.com
 import { AboutComponent } from './components/about/about.component';
 import { ContestViewComponent } from './components/contest-view/contest-view.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
+import { ProblemComponent } from './components/problem/problem.component';
+import { HomeComponent } from './components/home/home.component';
+import { CodeforcesLinkComponent } from './components/codeforces-link/codeforces-link.component';
 
 export const routes: Routes = [
     {
         path: 'contests/table',
-        component: ContestsComponent,
+        component: ContestsComponent
     },
     {
         path: 'contests/:id',
-        component: ContestViewComponent,
+        component: ContestViewComponent
     },
     {
-        path: 'contests/add',
+        path: 'contest/add',
         component: AddContestsComponent
     },
     {
@@ -35,5 +38,17 @@ export const routes: Routes = [
     {
         path: 'students/:userHandle',
         component: StudentViewComponent
+    },
+    {
+        path: 'problem',
+        component: ProblemComponent
+    },
+    {
+        path: '',
+        component: HomeComponent
+    },
+    {
+        path: 'codeforces-link/:contest_id/:index/:previousPage',
+        component: CodeforcesLinkComponent
     }
 ];
