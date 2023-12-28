@@ -12,7 +12,7 @@ Etr API — `https://dl.gsu.by/etr/docs`
 
 ## Структура компонентов
 
-![Alt text](<readme img/docs etrx.drawio.png>)
+![Alt text](<readme img/docs etrx.drawio.svg>)
 
 
 Header Component — компонент, со ссылками на другие страницы.
