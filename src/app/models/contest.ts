@@ -1,6 +1,9 @@
 import { Time } from "@angular/common";
 import { RequestProblem } from "./request.problem";
 
+/**
+ * Contest model. The same as recieved data by API.
+ */
 export class Contest {
     public id : number = 0;
     public name : string = '';

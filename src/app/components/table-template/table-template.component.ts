@@ -15,6 +15,12 @@ class TableRowSafeHTML extends TableRow {
   safeHtml : (SafeHtml | null)[][] = [];
 }
 
+
+/** 
+ * NEVER give untrusted data to tableRows.htmlString.
+ * 
+ * It bypasses DOM sanitizer!
+*/
 export class TableData {
   tableColNames : string[] = [];
   colSortableFlag : boolean[] = [];
@@ -36,7 +42,6 @@ class TableDataSafeHTML extends TableData {
   encapsulation: ViewEncapsulation.None
 })
 
-// NEVER give untrusted data to tableData.tableRows.htmlString
 export class TableTemplateComponent implements OnInit {
   @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
   @Input() tableData : TableData = null!;
@@ -45,7 +50,6 @@ export class TableTemplateComponent implements OnInit {
   sortDirections : number[] = [];
 
   private sanitizer : DomSanitizer;
-  //cringe = `<div class="demo"><b>This is my HTML.</b></div>`;
 
   constructor (private sanitizerInj: DomSanitizer) {
     this.sanitizer = sanitizerInj;
