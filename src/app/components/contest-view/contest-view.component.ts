@@ -93,8 +93,6 @@ export class ContestViewComponent implements OnDestroy {
           this.tableData.tableRows.push(tableRow);
         });
 
-        console.log(this.tableData);
-
         this.refreshTable.next(true);
 
       });

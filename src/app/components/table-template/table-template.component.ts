@@ -17,9 +17,16 @@ export class TableRow {
   routerLink : (string | null) = null;
   //routerLinks : (string | null)[] = []; - obsolete
   /**
-   * Can be used to display HTML in a cell, but be warned - 
-   * table bypasses sanitizer for it and it can be unsafe
+   * This string array is used by the table-template, which uses
+   * every string of array as HTML code of according cell of the row.
+   * Be warned - table-template bypasses DOM sanitizer 
+   * to display strings as HTML, but allows for usage of different attributes.
    * 
+   * Данный массив строк используется table-template -ом, который
+   * использует каждую строку массива как HTML код соответствующей ячейки
+   * строки. Предупреждение - table-template обходит санитизацию DOM
+   * для отображения строк как HTML, что делает его менее безопасным,
+   * но позволяет использовать различные аттрибуты.
    */
   htmlString : (string | null)[] = [];
 }
@@ -74,9 +81,15 @@ export class TableTemplateComponent implements OnInit {
     this.sanitizer = sanitizerInj;
   }
 
+  /**
+   * Subscirbes to resetFormSubject to update the table when it's true.
+   * Use to update the table when new data was given to it.
+   * 
+   * Подписка на resetFormSubject для обновлении таблицы когда даётся значение true.
+   * Используй для обновления таблицы когда ей были переданы новые данные.
+   */
   ngOnInit () {
     this.resetFormSubject.subscribe(response => {if (response) {
-
         this.tableData.tableColNames.forEach(e => {
           this.sortDirections.push(0);
         });
@@ -114,7 +127,11 @@ export class TableTemplateComponent implements OnInit {
       }
     });
   }
-
+  /**
+   * Method used to handle all of the sorting.
+   * 
+   * Метод используемый для всего связанного с сортировкой
+   */
   sortTable(colIndex : number) {
     if (this.tableData.colSortableFlag[colIndex]) {
       this.sortDirections.fill(0, 0, colIndex);
