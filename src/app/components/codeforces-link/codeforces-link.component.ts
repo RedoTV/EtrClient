@@ -14,11 +14,16 @@ export class CodeforcesLinkComponent {
   contest_id : number | null = null;
   index : string | null = null;
   link : string | null = null;
-
+  
   constructor (private route : ActivatedRoute, private router:Router) {
+    //получаем данные о странице, которая активировала переадресацию
     this.contest_id = Number(route.snapshot.paramMap.get("contest_id")); 
     this.index = route.snapshot.paramMap.get("index");
+
+    //открываем в новой вкладке задачу
     this.forwardToCodeforces();
+
+    //вовзращаемся назад  
     this.router.navigate(["/problem"]);
   }
 
