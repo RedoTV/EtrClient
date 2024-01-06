@@ -1,6 +1,9 @@
 import { Team } from "./team";
 import { Submission } from "./submission";
-import { last } from "rxjs";
+
+/**
+ * Model for user data. Matches data given by API.
+ */
 
 export class User {
     public id : number = 0;

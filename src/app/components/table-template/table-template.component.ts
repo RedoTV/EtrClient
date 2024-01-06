@@ -15,17 +15,20 @@ class TableRowSafeHTML extends TableRow {
   safeHtml : (SafeHtml | null)[][] = [];
 }
 
+/** 
+ * UI table data class that holds contents for every cell, routerLink for every cell, column names.
+ * 
+ * Also can hold and show HTML code in tableRows.htmlString array, BUT
+ * NEVER give untrusted data to tableRows.htmlString.
+ * 
+ * It bypasses DOM sanitizer!
+*/
 export class TableData {
   tableColNames : string[] = [];
   colSortableFlag : boolean[] = [];
   directionPresets : number[] = [];
   tableRows : TableRow[] = [];
 }
-
-class TableDataSafeHTML extends TableData {
-  override tableRows : TableRowSafeHTML[] = [];
-}
-
 
 @Component({
   selector: 'app-table',
@@ -36,7 +39,15 @@ class TableDataSafeHTML extends TableData {
   encapsulation: ViewEncapsulation.None
 })
 
-// NEVER give untrusted data to tableData.tableRows.htmlString
+
+/** 
+ * UI table template, has TableData as input and displays data from it's
+ * arrays according to their designation.
+ * 
+ * Be warned, again, for html data it bypasses sanitizer to allow styles,
+ * so that you wouldn't have to edit table-template css and just give some
+ * styles with html.
+*/
 export class TableTemplateComponent implements OnInit {
   @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
   @Input() tableData : TableData = null!;
@@ -45,7 +56,6 @@ export class TableTemplateComponent implements OnInit {
   sortDirections : number[] = [];
 
   private sanitizer : DomSanitizer;
-  //cringe = `<div class="demo"><b>This is my HTML.</b></div>`;
 
   constructor (private sanitizerInj: DomSanitizer) {
     this.sanitizer = sanitizerInj;
