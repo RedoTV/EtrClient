@@ -41,7 +41,7 @@ export class ProblemComponent implements OnInit, OnDestroy {
           ];
           
           this.tableData.tableColNames.forEach(colName => {
-            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`);
+            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}/${problem.index}`);
           });
 
           this.tableData.tableRows.push(newTableRow);

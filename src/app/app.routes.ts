@@ -48,7 +48,7 @@ export const routes: Routes = [
         component: HomeComponent
     },
     {
-        path: 'codeforces-link/:contest_id/:index/:previousPage',
+        path: 'codeforces-link/:contest_id/:index',
         component: CodeforcesLinkComponent
     }
 ];

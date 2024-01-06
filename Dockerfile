@@ -7,6 +7,8 @@ COPY . .
 RUN npm run prod
 
 FROM nginx:alpine
+COPY --from=angular /home/app/dist/etr-client/browser /usr/share/nginx/html/etrx
+COPY /default.conf  /etc/nginx/conf.d/default.conf
+
 WORKDIR /usr/share/nginx/html
-COPY --from=angular /home/app/dist/etr-client/browser ./etrx
 EXPOSE 80
