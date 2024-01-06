@@ -20,11 +20,11 @@
     </thead>
     @for (tableRowContent of tableData.tableRows; let i = $index; track i) {
         @if (tableRowContent.routerLink != null) {
-            <tr routerLink="{{tableRowContent.routerLink}}">
-        
+            <a [routerLink]="tableRowContent.routerLink">
             @for (tableCellContent of tableRowContent.contents; let j = $index; track j) {
-                @if (tableRowContent.routerLink != null && safeHtml[i] != null && safeHtml[i][j] != null) {
-                    <td [innerHTML]="safeHtml[i][j]" routerLink="{{tableRowContent.routerLink}}">
+                
+                @if (safeHtml[i] != null && safeHtml[i][j] != null) {
+                    <td [innerHTML]="safeHtml[i][j]">
                         {{tableCellContent}}
                     </td>
                 }
@@ -33,8 +33,9 @@
                         {{tableCellContent}}
                     </td>
                 }
+                
             }
-            </tr>
+            </a>
         }
         @else {
             <tr>

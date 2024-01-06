@@ -35,6 +35,24 @@ table {
     }
 }
 
+a {
+    all: unset;
+    
+    display: table-row;
+    border: 1px solid grey;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    vertical-align: middle;
+}
+
+a:hover {
+    color: grey;
+}
+
+a:nth-child(even) {
+    background-color: #dddddd;
+}
+
 tr {
     border: 1px solid grey;
     padding: 5px;
