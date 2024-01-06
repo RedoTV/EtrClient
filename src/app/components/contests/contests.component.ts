@@ -64,17 +64,12 @@ export class ContestsComponent implements OnInit {
     //заполнение строки
     tableRow.contents = [contest.id, contest.name, contest.start_datatime];
     //заполнение полей для переадресации
-    tableRow.routerLinks.length = this.tableData.tableColNames.length;
-    tableRow.routerLinks.fill(`/contests/${contest.id}`)
+    tableRow.routerLink = `/contests/${contest.id}`;
     //фильтрование наполнения даты, понятного обычному человеку
-    let start_datatime_sorted = null;
     if(contest.start_datatime)
-      start_datatime_sorted = contest.start_datatime!.split(' ')[2] + 
-      contest.start_datatime?.split(' ')[1] + 
-      contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3];
+      tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
 
-      tableRow.stringinfied = [null, null, start_datatime_sorted];
-      this.tableData.tableRows.push(tableRow);
+    this.tableData.tableRows.push(tableRow);
   }
 
 }

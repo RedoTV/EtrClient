@@ -23,7 +23,7 @@ export class CodeforcesLinkComponent {
     //открываем в новой вкладке задачу
     this.forwardToCodeforces();
 
-    //вовзращаемся назад  
+    //возвращаемся назад  
     this.router.navigate(["/problem"]);
   }
 

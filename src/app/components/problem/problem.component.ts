@@ -41,10 +41,7 @@ export class ProblemComponent implements OnDestroy {
             problem.tags
           ];
           
-          //добавляем переадресацию по нажатию на соответствующую строку
-          this.tableData.tableColNames.forEach(colName => {
-            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}/${problem.index}`);
-          });
+          newTableRow.routerLink = `/codeforces-link/${problem.contest_id}/${problem.index}`;
 
           //заполняем таблицу получившимися строками
           this.tableData.tableRows.push(newTableRow);
