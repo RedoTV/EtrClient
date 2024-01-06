@@ -7,7 +7,20 @@ import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
 export class TableRow {
   contents : (any | null)[] = [];
   stringinfied : (string | null)[] = [];
-  routerLinks : (string | null)[] = [];
+  /**
+   * Link used for routing, used as routerLink for the whole row.
+   * If you dont need to link anything - just don't give it value.
+   * 
+   * Ссылка для роутинга, используется как routerLink для всей строки.
+   * Если не нужно ничего связывать - можно просто не передавать значение.
+   */
+  routerLink : (string | null) = null;
+  //routerLinks : (string | null)[] = []; - obsolete
+  /**
+   * Can be used to display HTML in a cell, but be warned - 
+   * table bypasses sanitizer for it and it can be unsafe
+   * 
+   */
   htmlString : (string | null)[] = [];
 }
 
@@ -98,9 +111,6 @@ export class TableTemplateComponent implements OnInit {
             this.safeHtml[index].push(null));
           }
         });
-
-        console.log(this.tableData);
-
       }
     });
   }

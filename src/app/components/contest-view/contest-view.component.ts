@@ -84,7 +84,7 @@ export class ContestViewComponent implements OnDestroy {
             participant.points,
             participant.totalCorrect,
           ];
-          tableRow.routerLinks = [null, `/students/${participant.user?.handle}`, null, null];
+          tableRow.routerLink = `/students/${participant.user?.handle}`;
           tableRow.htmlString = [null, null, null, null];
           formattedResults.forEach(result => {
             tableRow.htmlString.push(result);
