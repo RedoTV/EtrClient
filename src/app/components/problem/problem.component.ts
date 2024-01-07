@@ -13,7 +13,7 @@ import { Buffer } from 'buffer/';
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.css'
 })
-export class ProblemComponent implements OnInit, OnDestroy {
+export class ProblemComponent implements OnDestroy {
   problemService:ProblemService;
   problems:RequestProblem[] = [];
   problemTableSub:Subscription;
@@ -24,10 +24,11 @@ export class ProblemComponent implements OnInit, OnDestroy {
     this.tableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     
     this.problemService = problemService;
+    //получаем все задачи
     this.problemTableSub = this.problemService.getAllProblems()
       .subscribe(res => {
         res.forEach(x => this.problems.push(x));
-
+        //заполняем каждую колонку соответствующими данными
         this.problems.forEach(problem => {
           let newTableRow = new TableRow;
           newTableRow.contents = [
@@ -55,17 +56,16 @@ export class ProblemComponent implements OnInit, OnDestroy {
 
           //newTableRow.routerLink = `/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`;
 
+          //заполняем таблицу получившимися строками
           this.tableData.tableRows.push(newTableRow);
         });
 
+        //перезагружаем таблицу, чтобы все данные отобразились 
         this.refreshTable.next(true);
       });
 
   }
 
-  ngOnInit(): void {
-    
-  }
   ngOnDestroy():void {
     this.problemTableSub.unsubscribe();
   }

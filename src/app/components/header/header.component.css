@@ -36,6 +36,7 @@
     padding: none;
 }
 
+/* для появления кнопки открывающей/закрывающей header страницы*/
 @media screen and (min-width: 768px) {
     .navbar-button {
         display: none;

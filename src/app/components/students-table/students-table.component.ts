@@ -41,7 +41,6 @@ export class StudentsTableComponent implements OnInit {
           tableRow.routerLink = `/students/${user.handle}`;
 
           this.tableData.tableRows.push(tableRow);
-          
         });
         
         this.refreshTable.next(true);
