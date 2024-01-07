@@ -7,8 +7,8 @@ import { AboutComponent } from './components/about/about.component';
 import { ContestViewComponent } from './components/contest-view/contest-view.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { ProblemComponent } from './components/problem/problem.component';
-import { ExternalLinkComponent } from './components/external-link/external-link.component';
 import { HomeComponent } from './components/home/home.component';
+import { ExternalLinkComponent } from './components/external-link/external-link.component';
 
 export const routes: Routes = [
     {
