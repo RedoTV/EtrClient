@@ -121,7 +121,11 @@ export class TableTemplateComponent implements OnInit {
             this.safeHtml[index].push(this.sanitizer.bypassSecurityTrustHtml(str)) : 
             this.safeHtml[index].push(null));
           }
+
+          if (row.queryParams != null)
+              row.queryParams['href'] = Buffer.from(row.queryParams['href'], 'base64').toString('binary');
         });
+
       }
     });
   }

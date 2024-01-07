@@ -45,16 +45,13 @@ export class ProblemComponent implements OnDestroy {
 
           if (problem.contest_id !== null && problem.contest_id < 10000) {
             externalUrl = `https://codeforces.com/problemset/problem/${problem.contest_id}/${problem.index}`
-            newTableRow.routerLink = `/external-link/`;
           }
           else if (problem.contest_id !== null && problem.contest_id >= 10000) {
             externalUrl = `https://codeforces.com/gym/${problem.contest_id}/problem/${problem.index}`
-            newTableRow.routerLink = `/external-link/`;
           }
 
-          newTableRow.queryParams = {externalUrl: `${Buffer.from(externalUrl).toString('base64')}`};
-
-          //newTableRow.routerLink = `/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`;
+          newTableRow.queryParams = {href: `${Buffer.from(externalUrl).toString('base64')}`};
+          
 
           //заполняем таблицу получившимися строками
           this.tableData.tableRows.push(newTableRow);
