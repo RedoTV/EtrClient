@@ -19,7 +19,25 @@
         }
     </thead>
     @for (tableRowContent of tableData.tableRows; let i = $index; track i) {
-        @if (tableRowContent.routerLink != null) {
+        @if (tableRowContent.routerLink != null && tableRowContent.queryParams != null) {
+            <a [routerLink]="tableRowContent.routerLink" [queryParams]="tableRowContent.queryParams">
+            @for (tableCellContent of tableRowContent.contents; let j = $index; track j) {
+                
+                @if (safeHtml[i] != null && safeHtml[i][j] != null) {
+                    <td [innerHTML]="safeHtml[i][j]">
+                        {{tableCellContent}}
+                    </td>
+                }
+                @else {
+                    <td>
+                        {{tableCellContent}}
+                    </td>
+                }
+                
+            }
+            </a>
+        }
+        @else if (tableRowContent.routerLink != null) {
             <a [routerLink]="tableRowContent.routerLink">
             @for (tableCellContent of tableRowContent.contents; let j = $index; track j) {
                 

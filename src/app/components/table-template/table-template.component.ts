@@ -1,8 +1,9 @@
 import { Component, Input, OnInit, OnChanges, ElementRef, ViewChild, Directive, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Params, RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
+import { Buffer } from 'buffer/';
 
 export class TableRow {
   contents : (any | null)[] = [];
@@ -14,8 +15,9 @@ export class TableRow {
    * Ссылка для роутинга, используется как routerLink для всей строки.
    * Если не нужно ничего связывать - можно просто не передавать значение.
    */
-  routerLink : (string | null) = null;
+  routerLink : string | null = null;
   //routerLinks : (string | null)[] = []; - obsolete
+  queryParams : Params | null = null;
   /**
    * This string array is used by the table-template, which uses
    * every string of array as HTML code of according cell of the row.
@@ -29,10 +31,6 @@ export class TableRow {
    * но позволяет использовать различные аттрибуты.
    */
   htmlString : (string | null)[] = [];
-}
-
-class TableRowSafeHTML extends TableRow {
-  safeHtml : (SafeHtml | null)[][] = [];
 }
 
 /** 
