@@ -1,31 +1,52 @@
 import { Component, Input, OnInit, OnChanges, ElementRef, ViewChild, Directive, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Params, RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DomSanitizer, SafeHtml, SafeStyle } from '@angular/platform-browser';
+import { Buffer } from 'buffer/';
 
 export class TableRow {
   contents : (any | null)[] = [];
   stringinfied : (string | null)[] = [];
-  routerLinks : (string | null)[] = [];
+  /**
+   * Link used for routing, used as routerLink for the whole row.
+   * If you dont need to link anything - just don't give it value.
+   * 
+   * Ссылка для роутинга, используется как routerLink для всей строки.
+   * Если не нужно ничего связывать - можно просто не передавать значение.
+   */
+  routerLink : string | null = null;
+  //routerLinks : (string | null)[] = []; - obsolete
+  queryParams : Params | null = null;
+  /**
+   * This string array is used by the table-template, which uses
+   * every string of array as HTML code of according cell of the row.
+   * Be warned - table-template bypasses DOM sanitizer 
+   * to display strings as HTML, but allows for usage of different attributes.
+   * 
+   * Данный массив строк используется table-template -ом, который
+   * использует каждую строку массива как HTML код соответствующей ячейки
+   * строки. Предупреждение - table-template обходит санитизацию DOM
+   * для отображения строк как HTML, что делает его менее безопасным,
+   * но позволяет использовать различные аттрибуты.
+   */
   htmlString : (string | null)[] = [];
 }
 
-class TableRowSafeHTML extends TableRow {
-  safeHtml : (SafeHtml | null)[][] = [];
-}
-
+/** 
+ * UI table data class that holds contents for every cell, routerLink for every cell, column names.
+ * 
+ * Also can hold and show HTML code in tableRows.htmlString array, BUT
+ * NEVER give untrusted data to tableRows.htmlString.
+ * 
+ * It bypasses DOM sanitizer!
+*/
 export class TableData {
   tableColNames : string[] = [];
   colSortableFlag : boolean[] = [];
   directionPresets : number[] = [];
   tableRows : TableRow[] = [];
 }
-
-class TableDataSafeHTML extends TableData {
-  override tableRows : TableRowSafeHTML[] = [];
-}
-
 
 @Component({
   selector: 'app-table',
@@ -36,7 +57,15 @@ class TableDataSafeHTML extends TableData {
   encapsulation: ViewEncapsulation.None
 })
 
-// NEVER give untrusted data to tableData.tableRows.htmlString
+
+/** 
+ * UI table template, has TableData as input and displays data from it's
+ * arrays according to their designation.
+ * 
+ * Be warned, again, for html data it bypasses sanitizer to allow styles,
+ * so that you wouldn't have to edit table-template css and just give some
+ * styles with html.
+*/
 export class TableTemplateComponent implements OnInit {
   @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
   @Input() tableData : TableData = null!;
@@ -45,15 +74,20 @@ export class TableTemplateComponent implements OnInit {
   sortDirections : number[] = [];
 
   private sanitizer : DomSanitizer;
-  //cringe = `<div class="demo"><b>This is my HTML.</b></div>`;
 
   constructor (private sanitizerInj: DomSanitizer) {
     this.sanitizer = sanitizerInj;
   }
 
+  /**
+   * Subscirbes to resetFormSubject to update the table when it's true.
+   * Use to update the table when new data was given to it.
+   * 
+   * Подписка на resetFormSubject для обновлении таблицы когда даётся значение true.
+   * Используй для обновления таблицы когда ей были переданы новые данные.
+   */
   ngOnInit () {
     this.resetFormSubject.subscribe(response => {if (response) {
-
         this.tableData.tableColNames.forEach(e => {
           this.sortDirections.push(0);
         });
@@ -88,13 +122,14 @@ export class TableTemplateComponent implements OnInit {
             this.safeHtml[index].push(null));
           }
         });
-
-        console.log(this.tableData);
-
       }
     });
   }
-
+  /**
+   * Method used to handle all of the sorting.
+   * 
+   * Метод используемый для всего связанного с сортировкой
+   */
   sortTable(colIndex : number) {
     if (this.tableData.colSortableFlag[colIndex]) {
       this.sortDirections.fill(0, 0, colIndex);

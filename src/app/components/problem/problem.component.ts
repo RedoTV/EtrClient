@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestProblem } from '../../models/request.problem';
 import { ProblemService } from '../../services/problem.service';
-import { Submission } from '../../models/submission';
 import { Subject, Subscription } from 'rxjs';
 import { TableData, TableRow, TableTemplateComponent } from '../table-template/table-template.component';
+import { Buffer } from 'buffer/';
 
 @Component({
   selector: 'app-problem',
@@ -39,10 +39,21 @@ export class ProblemComponent implements OnInit, OnDestroy {
             problem.rating,
             problem.tags
           ];
-          
-          this.tableData.tableColNames.forEach(colName => {
-            newTableRow.routerLinks.push(`/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`);
-          });
+
+          let externalUrl : string = "";
+
+          if (problem.contest_id !== null && problem.contest_id < 10000) {
+            externalUrl = `https://codeforces.com/problemset/problem/${problem.contest_id}/${problem.index}`
+            newTableRow.routerLink = `/external-link/`;
+          }
+          else if (problem.contest_id !== null && problem.contest_id >= 10000) {
+            externalUrl = `https://codeforces.com/gym/${problem.contest_id}/problem/${problem.index}`
+            newTableRow.routerLink = `/external-link/`;
+          }
+
+          newTableRow.queryParams = {externalUrl: `${Buffer.from(externalUrl).toString('base64')}`};
+
+          //newTableRow.routerLink = `/codeforces-link/${problem.contest_id}/${problem.index}/${window.location.pathname}`;
 
           this.tableData.tableRows.push(newTableRow);
         });

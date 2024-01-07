@@ -2,6 +2,10 @@ import { RequestProblem } from "./request.problem";
 import { User } from "./user";
 import { Team } from "./team";
 
+
+/**
+ * Model for contest submission either of user or team. Matches data given by etr API.
+ */
 export class Submission {
     public id : number = 0;
     public contest_id : number = 0;

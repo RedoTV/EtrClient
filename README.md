@@ -1,7 +1,30 @@
-## Development server
+## Тестовый сервер
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+`ng serve` Для запуски dev сервера. Приложение запускается на `http://localhost:4200/`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+`ng build` — для компиляции в html,css,js. Скомпилированные файлы располагаются в `dist/browser`.
+
+## Документация (Swagger)
+
+Etr API — `https://dl.gsu.by/etr/docs`
+
+## Структура компонентов
+
+![Alt text](<readme img/docs etrx.drawio.svg>)
+
+
+Header Component — компонент, со ссылками на другие страницы.
+
+Компоненты, зависящие от адреса:
+- Home Component — компонент главной страницы;
+- About Component — компонент, в котором отображаются все обновления;
+- Contests Component — таблица контестов и тренировок;
+- Contest-view Component — подробная информация о каждом контесте;
+- Add-contests Component — компонент добавления контестов;
+- Students-table Component — таблица учеников;
+- Student-view Component — подробная информация об ученике;
+- Students-add Component — компонент добавления учеников.
+
+Table-template Component — компонент, отвечающий за таблицы.

@@ -1,6 +1,9 @@
 import { Time } from "@angular/common";
 import { RequestProblem } from "./request.problem";
 
+/**
+ * Contest model. Matches data given by etr API.
+ */
 export class Contest {
     public id : number = 0;
     public name : string = '';

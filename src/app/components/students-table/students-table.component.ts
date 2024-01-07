@@ -38,8 +38,7 @@ export class StudentsTableComponent implements OnInit {
             user.city,
             user.grade
           ];
-          tableRow.routerLinks.length = this.tableData.tableColNames.length;
-          tableRow.routerLinks.fill(`/students/${user.handle}`);
+          tableRow.routerLink = `/students/${user.handle}`;
 
           this.tableData.tableRows.push(tableRow);
           

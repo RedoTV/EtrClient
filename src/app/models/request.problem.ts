@@ -1,3 +1,7 @@
+
+/**
+ * Model for programming problem data. Matches data given by etr API.
+ */
 export class RequestProblem {
     public contest_id : number | null = null;
     public id : number = 0;
