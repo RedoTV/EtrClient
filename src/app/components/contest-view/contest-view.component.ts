@@ -40,7 +40,13 @@ export class ContestViewComponent implements OnDestroy {
   tableData : TableData = new TableData;
   refreshTable: Subject<boolean> = new Subject<boolean>();
 
-  private readonly possibleCombinations = ["FAILED", "OK", "PARTIAL", "COMPILATION_ERROR", "RUNTIME_ERROR", "WRONG_ANSWER", "PRESENTATION_ERROR", "TIME_LIMIT_EXCEEDED", "MEMORY_LIMIT_EXCEEDED", "IDLENESS_LIMIT_EXCEEDED", "SECURITY_VIOLATED", "CRASHED", "INPUT_PREPARATION_CRASHED", "CHALLENGED", "SKIPPED", "TESTING", "REJECTED"];
+  private readonly possibleCombinations = [
+    "FAILED", "OK", "PARTIAL", "COMPILATION_ERROR",
+    "RUNTIME_ERROR", "WRONG_ANSWER", "PRESENTATION_ERROR", 
+    "TIME_LIMIT_EXCEEDED", "MEMORY_LIMIT_EXCEEDED", "IDLENESS_LIMIT_EXCEEDED", 
+    "SECURITY_VIOLATED", "CRASHED", "INPUT_PREPARATION_CRASHED",
+    "CHALLENGED", "SKIPPED", "TESTING", "REJECTED"
+  ];
 
   constructor(private route: ActivatedRoute, contestsService : ContestService) {
 
@@ -64,9 +70,9 @@ export class ContestViewComponent implements OnDestroy {
             let formattedResult : string = "";
 
             if (result.bestVerdict == "OK")
-              formattedResult += `<div style="color: green;">+`;
+              formattedResult += `<div style="color: green;"> +`;
             else if (result.bestVerdict !== "NO_SUBMISSIONS")
-              formattedResult += `<div style="color: red;">-`;
+              formattedResult += `<div style="color: red;"> -`;
             else
               formattedResult += `<div style="color: red;">`;
 
@@ -100,15 +106,6 @@ export class ContestViewComponent implements OnDestroy {
   
   ngOnDestroy () {
     this.routeSub.unsubscribe();
-  }
-
-  forwardToCodeforces(contest_id:number|null, index: string){
-    if (contest_id !== null && contest_id < 10000) {
-      window.location.href = `https://codeforces.com/problemset/problem/${contest_id}/${index}`;
-    }
-    else if (contest_id !== null && contest_id >= 10000) {
-      window.location.href = `https://codeforces.com/gym/${contest_id}/problem/${index}`;
-    }
   }
 
   fillUserResults () {
@@ -217,9 +214,7 @@ export class ContestViewComponent implements OnDestroy {
         });
       }
 
-
       participant.problemsResults.sort((a, b) => a.index.localeCompare(b.index));
-
       this.participants.push(participant);
     });
   }

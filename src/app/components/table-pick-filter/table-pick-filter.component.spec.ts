@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExternalLinkComponent } from './external-link.component';
+import { TablePickFilterComponent } from './table-pick-filter.component';
 
-describe('ExternalLinkComponent', () => {
-  let component: ExternalLinkComponent;
-  let fixture: ComponentFixture<ExternalLinkComponent>;
+describe('TablePickFilterComponent', () => {
+  let component: TablePickFilterComponent;
+  let fixture: ComponentFixture<TablePickFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExternalLinkComponent]
+      imports: [TablePickFilterComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ExternalLinkComponent);
+    fixture = TestBed.createComponent(TablePickFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

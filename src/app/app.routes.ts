@@ -46,9 +46,5 @@ export const routes: Routes = [
     {
         path: '',
         component: HomeComponent
-    },
-    {
-        path: 'external-link',
-        component: ExternalLinkComponent
     }
 ];

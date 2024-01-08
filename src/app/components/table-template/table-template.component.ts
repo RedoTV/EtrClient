@@ -68,7 +68,7 @@ export class TableData {
 */
 export class TableTemplateComponent implements OnInit {
   @Input() resetFormSubject: Subject<boolean> = new Subject<boolean>();
-  @Input() tableData : TableData = null!;
+  @Input({required: true}) tableData : TableData = null!;
 
   safeHtml : (SafeHtml | null)[][] = [];
   sortDirections : number[] = [];
@@ -113,15 +113,14 @@ export class TableTemplateComponent implements OnInit {
             }
           }
         }
+
+        this.refreshHTML();
         
         this.tableData.tableRows.forEach((row, index) => {
-          if (row.htmlString.length != 0) { 
-            this.safeHtml.push(new Array<Array<SafeHtml>>); 
-            row.htmlString.forEach(str => str != undefined && str != null ? 
-            this.safeHtml[index].push(this.sanitizer.bypassSecurityTrustHtml(str)) : 
-            this.safeHtml[index].push(null));
-          }
+          if (row.queryParams != null)
+              row.queryParams['href'] = Buffer.from(row.queryParams['href'], 'base64').toString('binary');
         });
+
       }
     });
   }
@@ -132,13 +131,16 @@ export class TableTemplateComponent implements OnInit {
    */
   sortTable(colIndex : number) {
     if (this.tableData.colSortableFlag[colIndex]) {
+      
       this.sortDirections.fill(0, 0, colIndex);
       this.sortDirections.fill(0, colIndex + 1, this.sortDirections.length);
+      
       this.sortDirections[colIndex] == 1 ? 
       this.sortDirections[colIndex] = -1 : 
       this.sortDirections[colIndex] = 1;
 
       this.tableData.tableRows.sort((a, b) => {
+
         if (a != null && b != null && a && b)
         {
           if (a.stringinfied[colIndex] != undefined && b.stringinfied[colIndex] != undefined)
@@ -146,8 +148,10 @@ export class TableTemplateComponent implements OnInit {
             if (a.stringinfied[colIndex] != null && b.stringinfied[colIndex] != null)
               return (a.stringinfied[colIndex] as string).localeCompare(b.stringinfied[colIndex] as string) * this.sortDirections[colIndex] * this.tableData.directionPresets[colIndex];
           }
+
           if (typeof a.contents[colIndex] === "number" && typeof b.contents[colIndex] === "number")
             return ((a.contents[colIndex] as number) - (b.contents[colIndex] as number)) * this.sortDirections[colIndex] * this.tableData.directionPresets[colIndex];
+
           if (typeof a.contents[colIndex] === "string" && typeof b.contents[colIndex] === "string")
           {
             if (a.contents[colIndex] !== "" && b.contents[colIndex] !== "")
@@ -157,6 +161,7 @@ export class TableTemplateComponent implements OnInit {
             if (b.contents[colIndex] !== "")
               return 1;
           }
+
           if (a.stringinfied[colIndex] != undefined)
             return -1;
           if (b.stringinfied[colIndex] != undefined)
@@ -166,8 +171,26 @@ export class TableTemplateComponent implements OnInit {
           if (b.contents[colIndex] != null)
             return 1;
         }
+
         return 0;
+
       });
     }
+
+    this.refreshHTML();
+
   }
+
+  refreshHTML () {
+    this.safeHtml = [];
+    this.tableData.tableRows.forEach((row, index) => {
+      if (row.htmlString.length != 0) { 
+        this.safeHtml.push(new Array<Array<SafeHtml>>); 
+        row.htmlString.forEach(str => str != undefined && str != null ? 
+        this.safeHtml[index].push(this.sanitizer.bypassSecurityTrustHtml(str)) : 
+        this.safeHtml[index].push(null));
+      }
+    });
+  }
+
 }

@@ -10,5 +10,4 @@ import { AppComponent } from '../../app.component';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  appComponent : AppComponent = new AppComponent;
 }

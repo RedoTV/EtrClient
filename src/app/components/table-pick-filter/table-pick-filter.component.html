@@ -1,0 +1,17 @@
+<div class="filter-box">
+    <div class="filter-chosen-values">
+        @for (category of filteredValues; track $index) {
+            @for (value of category.values; track $index) {
+                <div class="problem-tag" (click)="deselectValue(category.name, value)">{{value}}<div class="cross"></div></div>
+            }
+        }
+    </div>
+    <div class="filter-picker">
+        @for (category of filterCathegories; track $index) {
+            @for (value of category.values; track $index) {
+                <div class="problem-tag" (click)="selectValue(category.name, value)">{{value}}</div>
+            }
+        }
+    </div>
+    <div></div>
+</div>

@@ -1,11 +1,14 @@
+/* создаёт горизонтальный scroll сверху по достижении размера экрана в 1000px и менее*/
 @media screen and (max-width:1000px) {
     .table-container{
         min-width: 200px;
         max-width: 1000px;
         overflow-x: scroll;
+        /* разворачиваем таблицу для переворачивания scrollbar снизу в вверх */
         transform: rotateX(180deg);
     }
     table{
+        /* опять разворачиваем таблицу, чтобы она выглядела нормально,а scrollbar сверху*/
         transform: rotateX(180deg);
     }
 }

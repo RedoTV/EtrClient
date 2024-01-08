@@ -47,6 +47,7 @@ export class ContestsComponent implements OnInit {
     this.width = document.body.clientWidth;
   }
 
+  //обобщенный фильтр для разных типов контеста
   filterBySourceType (sourceType : string) {
     this.tableData.tableRows = [];
     this.contests.forEach(contest => {
@@ -57,13 +58,18 @@ export class ContestsComponent implements OnInit {
     this.refreshTable.next(true);
   }
 
+  //добавляем строку в таблицу с контестами
   private addContestToTable (contest : Contest) {
     let tableRow : TableRow = new TableRow;
+    //заполнение строки
     tableRow.contents = [contest.id, contest.name, contest.start_datatime];
+    //заполнение полей для переадресации
     tableRow.routerLink = `/contests/${contest.id}`;
+    //фильтрование наполнения даты, понятного обычному человеку
     if(contest.start_datatime)
       tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
-      this.tableData.tableRows.push(tableRow);
+
+    this.tableData.tableRows.push(tableRow);
   }
 
 }
