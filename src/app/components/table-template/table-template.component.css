@@ -46,7 +46,8 @@ a {
 }
 
 a:hover {
-    color: grey;
+    color: #475e93;
+    transition-duration: 200ms;
 }
 
 a:nth-child(even) {
