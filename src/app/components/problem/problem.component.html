@@ -1,6 +1,6 @@
 <h1 style="text-align: center;">Задачи</h1>
 <div class="table-container table-w-90">
     <h4>Фильтр по тегам:</h4>
-    <app-table-pick-filter [filterCathegories]="[tagsFilterCategory]" (filterFeedback)="handleTagsFilter($event)"></app-table-pick-filter>
+    <app-table-pick-filter [filterCategories]="tagsFilterCategories" (filterFeedback)="handleTagsFilter($event)"></app-table-pick-filter>
     <app-table [tableData]="filteredTableData" [resetFormSubject]="refreshTable"></app-table>
 </div>

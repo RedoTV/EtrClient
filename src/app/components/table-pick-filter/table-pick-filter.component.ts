@@ -15,7 +15,7 @@ export class FilterCategory {
   styleUrl: './table-pick-filter.component.css'
 })
 export class TablePickFilterComponent {
-  @Input({required: true}) filterCathegories : FilterCategory[] = [];
+  @Input({required: true}) filterCategories : FilterCategory[] = [];
 
   /**
    * Filter categories with the same names as in input ones, 
@@ -30,19 +30,19 @@ export class TablePickFilterComponent {
   filteredValues : FilterCategory[] = [];
 
 
-  deselectValue(categoryName : string, value : string) {
-    this.filterCathegories.filter(filterCat => {
+  deselectValue (categoryName : string, value : string) {
+    this.filterCategories.filter(filterCat => {
       return filterCat.name == categoryName;
     })[0].values.add(value);
 
-    this.filteredValues.filter(filterCat => {
-      return filterCat.name == categoryName;
-    })[0].values.delete(value);
+
+    let matchedCategory = this.filteredValues.filter(filterCat => filterCat.name == categoryName)[0];
+    matchedCategory.values.delete(value);
 
     this.filterFeedback.emit(this.filteredValues);
   }
   
-  selectValue(categoryName : string, value : string) {
+  selectValue (categoryName : string, value : string) {
     if (this.filteredValues.filter(filterCat => {return filterCat.name == categoryName}).length == 0)
     {
       let missingCategory : FilterCategory = new FilterCategory;
@@ -54,7 +54,7 @@ export class TablePickFilterComponent {
       return filterCat.name == categoryName;
     })[0].values.add(value);
 
-    this.filterCathegories.filter(filterCat => {
+    this.filterCategories.filter(filterCat => {
       return filterCat.name == categoryName;
     })[0].values.delete(value);
 

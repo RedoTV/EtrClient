@@ -6,7 +6,6 @@ import { Subject, Subscription } from 'rxjs';
 import { TableData, TableRow, TableTemplateComponent } from '../table-template/table-template.component';
 import { Buffer } from 'buffer/';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
-import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-problem',
@@ -24,7 +23,7 @@ export class ProblemComponent implements OnDestroy {
   filteredTableData : TableData = new TableData;
   refreshTable : Subject<boolean> = new Subject<boolean>();
 
-  tagsFilterCategory : FilterCategory = new FilterCategory;
+  tagsFilterCategories : FilterCategory[] = [];
 
   constructor(problemService: ProblemService) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
@@ -34,7 +33,14 @@ export class ProblemComponent implements OnDestroy {
     //получаем все задачи
     this.problemTableSub = this.problemService.getAllProblems()
       .subscribe(res => {
+
         res.forEach(x => this.problems.push(x));
+
+        this.tagsFilterCategories.push(new FilterCategory);
+        this.tagsFilterCategories.push(new FilterCategory);
+        this.tagsFilterCategories[0].name = "Tags";
+        this.tagsFilterCategories[1].name = "Index";
+
         //заполняем каждую колонку соответствующими данными
         this.problems.forEach(problem => {
           let newTableRow = new TableRow;
@@ -48,10 +54,11 @@ export class ProblemComponent implements OnDestroy {
             problem.tags
           ];
 
-          this.tagsFilterCategory.name = "tags";
+          
           problem.tags.forEach(tag => {
-            this.tagsFilterCategory.values.add(tag);
+            this.tagsFilterCategories[0].values.add(tag);
           });
+          this.tagsFilterCategories[1].values.add(problem.index);
 
           let tagsHtml = "";
           if (problem.tags.length != 0)
@@ -105,16 +112,14 @@ export class ProblemComponent implements OnDestroy {
   }
 
   handleTagsFilter (filterEvent : FilterCategory[]) {
+    this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.formattedTableData.tableRows));
+
     filterEvent.forEach(filterCat => {
+      console.log(filterCat);
       switch (filterCat.name) {
-        case "tags":
-          if (filterCat.values.size === 0) {
-            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.formattedTableData.tableRows));
-            console.log(this.filteredTableData);
-          }
-          else {
-            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.formattedTableData.tableRows.filter(row => {
-              
+        case "Tags":
+          if (filterCat.values.size != 0) {
+            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
               if (this.problems[row.contents[0]-1])
               {
                 return this.problems[row.contents[0]-1].tags.filter(tag => filterCat.values.has(tag)).length === filterCat.values.size;
@@ -124,11 +129,23 @@ export class ProblemComponent implements OnDestroy {
             })));
           }
         break;
-          default:
+        case "Index":
+          if (filterCat.values.size != 0) {
+            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+              if (this.problems[row.contents[0]-1])
+              {
+                return filterCat.values.has(this.problems[row.contents[0]-1].index);
+              }
+              else
+                return false;
+            })));
+          }
+        break;
+        default:
         break;
       }
     });
-
+    
     this.refreshTable.next(true);
     
   }

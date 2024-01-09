@@ -26,6 +26,7 @@
 .filter-picker {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
 
     width: 100%;
     height: fit-content;
@@ -38,18 +39,35 @@
     background-color: #f8f8f8;
 }
 
-.problem-tag {
-    background-color: #00000008;
-    border: 1.5px solid gray;
+div.chosen-category-name {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 4px;
+    margin: 4px;
     font-size: 18px;
-    line-height: 16px;
+    line-height: 32px;
+
+    border: 1.5px solid #373790;
+    border-radius: 10px;
+}
+
+div.filter-variable {
     height: 26px;
     padding: 4px;
     margin: 4px;
     float: none;
+
+    text-wrap: nowrap;
+
+    background-color: #00000008;
+    border: 1.5px solid gray;
+    font-size: 18px;
+    line-height: 16px;
     border-radius: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    text-wrap: nowrap;
+
+    user-select: none;
     cursor: pointer;
 }
 
@@ -82,4 +100,60 @@ div.cross::before {
 
 div.cross::after {
     transform: rotate(-45deg);
+}
+
+section.category-variables {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    background-color: #eee;
+
+    margin: 0 5px 5px 5px;
+    padding: 10px 0 0 0;
+    border-radius: 0 0 5px 5px;
+}
+
+input.category-collapsible {
+    display: none;
+}
+
+label {
+    display: block;
+
+    height: 40px;
+    line-height: 40px;
+    margin: 5px 5px 0 5px;
+    padding: 0 10px 0 10px;
+
+    background-color: #ccc;
+    font-size: 20px;
+    
+    user-select: none;
+    cursor: pointer;
+}
+
+label::after {
+    content: "";
+    
+    margin-top: 15px;
+    float: right;
+    position: relative;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+}
+
+input[type="checkbox"]:checked + label + section.category-variables {
+    display: flex;
+}
+
+input[type="checkbox"]:checked + label::after {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid black;
+    margin-top: 5px;
+}
+
+input[type="checkbox"]:checked + label + section.category-variables + div.filter-variable {
+    user-select: text;
 }
