@@ -1,0 +1,85 @@
+.filter-box {
+    display: block;
+    width: 100%;
+    height: fit-content;
+    float: none;
+    margin: 10px 0 10px 0;
+}
+
+.filter-chosen-values {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+    min-height: 60px;
+    max-height: fit-content;
+    float: none;
+    margin: 10px 0 10px 0;
+    padding: 10px;
+
+    border: 2px solid gainsboro;
+    border-radius: 5px;
+
+    background-color: #f8f8f8;
+}
+
+.filter-picker {
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 100%;
+    height: fit-content;
+    float: none;
+    margin: 10px 0 10px 0;
+    padding: 10px;
+
+    border-radius: 5px;
+
+    background-color: #f8f8f8;
+}
+
+.problem-tag {
+    background-color: #00000008;
+    border: 1.5px solid gray;
+    font-size: 18px;
+    line-height: 16px;
+    height: 26px;
+    padding: 4px;
+    margin: 4px;
+    float: none;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+
+    cursor: pointer;
+}
+
+div.cross {
+    position: relative;
+    float: right;
+    margin-left: 4px;
+
+    width: 16px;
+    height: 16px;
+
+    background-color: #ccc;
+    border-radius: 8px;
+}
+
+div.cross::before,
+div.cross::after {
+    position: absolute;
+    top: calc(50% - 1px / 2); /*px value - height*/
+    left: calc((100% - 12px) / 2); /*px value - width*/
+    content: '';
+    width: 12px;
+    height: 1px;
+    background-color: black;
+}
+
+div.cross::before {
+    transform: rotate(45deg);
+}
+
+div.cross::after {
+    transform: rotate(-45deg);
+}

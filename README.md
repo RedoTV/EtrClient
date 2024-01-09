@@ -1,6 +1,16 @@
+## Docker
+
+`docker build -t etrx_image . --no-cache` - Для создания образа в docker.
+
+`--no-cache` для создания образа с нуля, для того, чтобы закешированные данные не помешали работе приложения.
+
+`docker run -d -p 4000:80 -it --name etrx_container etrx_image` - Для запуска образа в контейнере на порте 4000.
+
+После этого приложение доступно по адресу:  `http://localhost:4000/etrx/`
+
 ## Тестовый сервер
 
-`ng serve` Для запуски dev сервера. Приложение запускается на `http://localhost:4200/`.
+`ng serve` Для запуска dev сервера. Приложение запускается на `http://localhost:4200/`.
 
 ## Build
 
@@ -12,7 +22,7 @@ Etr API — `https://dl.gsu.by/etr/docs`
 
 ## Структура компонентов
 
-![Alt text](<readme img/docs etrx.drawio.svg>)
+![Alt text](readme_img/docs_etrx.drawio.svg)
 
 
 Header Component — компонент, со ссылками на другие страницы.
