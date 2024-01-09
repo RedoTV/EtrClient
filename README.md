@@ -37,5 +37,6 @@ Header Component — компонент, со ссылками на другие
 - Students-add Component — компонент добавления учеников.
 - Problem Component - компонент задач
 
-Table-template Component — компонент, отвечающий за таблицы.
-Table-pick-filter Component - компонент, отвечающий за фильтрацию тегов в компоненте задач
+Вспомогательные компоненты:
+- Table-template Component — компонент, отвечающий за таблицы.
+- Table-pick-filter Component - компонент, отвечающий за фильтрацию тегов в компоненте задач
