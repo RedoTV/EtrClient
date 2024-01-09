@@ -56,7 +56,7 @@ export class ProblemComponent implements OnDestroy {
           let tagsHtml = "";
           if (problem.tags.length != 0)
           {
-            const tagHtmlTemplate = '<div style="background-color: #00000008; border: 1.5px solid gray; font-size: 18px; line-height: 16px; height: 26px; padding: 4px; margin: 4px; float: left; border-radius: 10px;">'
+            const tagHtmlTemplate = '<div style="background-color: #00000008; border: 1.5px solid gray; text-wrap:nowrap; font-size: 18px; line-height: 16px; height: 26px; padding: 4px; margin: 4px; float: left; border-radius: 10px;">'
             tagsHtml = '<div style="max-width: 400px;">\n' + tagHtmlTemplate;
             tagsHtml += problem.tags.join('</div>\n'+ tagHtmlTemplate);
             tagsHtml += '</div>\n</div>';
