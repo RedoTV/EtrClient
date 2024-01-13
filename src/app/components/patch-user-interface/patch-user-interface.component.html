@@ -1,0 +1,14 @@
+<div class="pad">
+    <input #handleInput type="text" placeholder="Ник (handle) пользователя">
+    <label for="changed-val">Выберите, что изменить:</label>
+    <select #selector name="changed-val">
+        <option value="organization">Организацию</option>
+        <option value="city">Город</option>
+        <option value="country">Страну</option>
+        <option value="first_name">Имя</option>
+        <option value="last_name">Фамилию</option>
+    </select>
+    <input #newValInput type="text" placeholder="Новое значение">
+    <button (click)="submitAndSend()">Применить</button>
+    <div #errorMsg class="error-message"></div>
+</div>

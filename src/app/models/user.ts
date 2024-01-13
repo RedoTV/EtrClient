@@ -6,8 +6,8 @@ import { Submission } from "./submission";
  */
 
 export class User {
-    public id : number = 0;
-    public handle : string = "";
+    public id : number = 0; //
+    public handle : string = ""; //
     public email : string | null = null;
     public vk_id : string | null = null;
     public open_id : string | null = null;
@@ -24,9 +24,9 @@ export class User {
     public friend_of_count : string | null = null;
     public avatar : string | null = null;
     public title_photo : string | null = null;
-    public watch : boolean | null = null;
+    public watch : boolean | null = null; //
     public grade : number | null = null;
-    public dl_id : string | null = null;
-    public teams : Team[] = [];
-    public submissions : Submission[] = [];
+    public dl_id : string | null = null; //
+    public teams : Team[] = []; //
+    public submissions : Submission[] = []; //
 }

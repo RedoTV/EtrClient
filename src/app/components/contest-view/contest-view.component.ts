@@ -74,10 +74,10 @@ export class ContestViewComponent implements OnDestroy {
             else if (result.bestVerdict !== "NO_SUBMISSIONS")
               formattedResult += `<div style="color: red;"> -`;
             else
-              formattedResult += `<div style="color: red;">`;
+              formattedResult += `<div>`;
 
             if (result.totalSubmissions > 1)
-              formattedResult += result.totalSubmissions;
+              formattedResult += result.totalSubmissions.toString();
             
             formattedResult += `</div>`
 
@@ -111,6 +111,10 @@ export class ContestViewComponent implements OnDestroy {
   fillUserResults () {
     this.contestInfo.rows.forEach(entry => {
       let participant : Participant = new Participant;
+
+      if (entry.submissions.every(submission => submission.type_of_member == "OUT_OF_COMPETITION"))
+        return;
+
       if(entry.user !== null && entry.user !== undefined)
       {
         participant.user = entry.user;
@@ -129,6 +133,10 @@ export class ContestViewComponent implements OnDestroy {
         let submittedProblem = this.contestInfo.contest.problems.find(problem => problem.id === submission.problem.id);
         let problemIndex = 0;
         let problemResults = participant.problemsResults.find((problem, index) => {problemIndex = index; return problem.index === submittedProblem!.index});
+
+        if (submission.type_of_member == "OUT_OF_COMPETITION")
+          return;
+
         if (problemResults === undefined)
         {
           problemResults = new ProblemResults;

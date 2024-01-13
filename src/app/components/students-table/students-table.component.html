@@ -4,5 +4,22 @@
     <div class="btn btn-secondary m-1 text-nowrap" (click)="syncCF()">Обновить данные с codeforces</div>
 </div>
 <div class="table-container table-w-90 ">
-    <app-table [tableData]="tableData" [resetFormSubject]="refreshTable"></app-table>
+    <table-template-new>
+        <thead>
+            @for (colName of tableData.tableColNames; track $index) {
+                <th>
+                    {{colName}}
+                </th>
+            }
+        </thead>
+        @for (row of tableData.tableRows; track $index) {
+            <a class="table-row" href="{{row.routerLink}}">
+                @for (cellContents of row.contents; track $index) {
+                    <td>
+                        {{cellContents}}
+                    </td>
+                }
+            </a>
+        }
+    </table-template-new>
 </div>

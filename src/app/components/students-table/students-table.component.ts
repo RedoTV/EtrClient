@@ -5,11 +5,12 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { TableTemplateComponent } from '../table-template/table-template.component';
 import { Subject } from 'rxjs';
+import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
 
 @Component({
   selector: 'app-students-table',
   standalone: true,
-  imports: [CommonModule, TableTemplateComponent],
+  imports: [CommonModule, TableTemplateComponent, TableTemplateNewComponent],
   templateUrl: './students-table.component.html',
   styleUrl: './students-table.component.css'
 })

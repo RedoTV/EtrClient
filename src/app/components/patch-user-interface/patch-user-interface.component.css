@@ -1,0 +1,49 @@
+div.pad {
+    margin: 20vh 0 0 max(calc(50% - 250px), 10%);
+    width: min(80%, 500px);
+    display: block;
+}
+
+label {
+    width: 80%;
+    margin: 0 10% 10px 10%;
+
+    font-size: 18px;
+}
+
+select {
+    width: 70%;
+    height: 30px;
+    margin: 0 15% 10px 15%;
+
+    font-size: 16px;
+    line-height: 30px;
+}
+
+input {
+    width: 70%;
+    height: 30px;
+    margin: 0 15% 10px 15%;
+}
+
+button {
+    width: 60%;
+    height: 40px;
+    margin: 30px 20% 10px 20%;
+
+    background-color: var(--bs-blue);
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 24px;
+}
+
+div.error-message {
+    width: 80%;
+    height: 40px;
+    margin: 30px 10% 10px 10%;
+
+    color: red;
+    font-size: 18px;
+}

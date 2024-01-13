@@ -35,6 +35,25 @@ export class UserService {
       .pipe(map(r => (<UserResponse>r).users))
   }
 
+  public patchUser(user : User) : Observable<Object> {
+    let userPatchJSON : string = JSON.stringify(user, 
+      (key, value) => {
+        switch(key) {
+          case "id":
+          case "handle":
+          case "watch":
+          case "dl_id":
+          case "submissions":
+          case "teams":
+            return undefined;
+          default:
+            return value;
+        }
+    });
+    
+    return this.http.patch(`https://dl.gsu.by/etr/api/user/${user.id}`, JSON.parse(userPatchJSON));
+  }
+
   public addUserByHandle(userHandle:string){
     this.http.post('https://dl.gsu.by/etr/api/user',{ handle:userHandle });
   }

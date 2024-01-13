@@ -1,0 +1,98 @@
+:host ::ng-deep thead {
+    background-color: hsl(0, 0%, 13%);
+    color: white;
+    text-align: left;
+    height: 40px;
+}
+
+:host ::ng-deep thead th {
+    padding: 5px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+:host ::ng-deep td {
+    font-size: large;
+    border: 1px solid grey;
+    cursor: pointer;
+    padding: 5px;
+}
+
+:host ::ng-deep table {
+    width: auto;
+    margin: auto;
+}
+
+@media screen and (max-width:1000px) {
+    :host ::ng-deep .table-container{
+        min-width: 200px;
+        max-width: 1000px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+    }
+    :host ::ng-deep table{
+        transform: rotateX(180deg);
+    }
+}
+
+:host ::ng-deep a {
+    all: unset;
+    
+    display: table-row;
+    border: 1px solid grey;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    vertical-align: middle;
+}
+
+:host ::ng-deep a:hover {
+    color: #475e93;
+    transition-duration: 200ms;
+}
+
+:host ::ng-deep a:nth-child(even) {
+    background-color: #dddddd;
+}
+
+:host ::ng-deep tr {
+    border: 1px solid grey;
+    padding: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+:host ::ng-deep tr:hover {
+    color: grey;
+}
+
+:host ::ng-deep tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+:host ::ng-deep tr:last-child {
+    height: 100px;
+    background: transparent;
+    border: none;
+    cursor: unset;
+}
+
+:host ::ng-deep .sort-start-higher::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid white;
+    pointer-events: none;
+}
+:host ::ng-deep .sort-start-lower::after {
+    content: "";
+    position:absolute;
+    margin-top: 10px;
+    margin-left: 2px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid white;
+    pointer-events: none;
+}
