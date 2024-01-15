@@ -7,6 +7,7 @@ import { Observable, Subject, Subscription, map } from 'rxjs';
 import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
 import { TableData, TableRow, TableTemplateComponent } from './../table-template/table-template.component';
+import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
 
 
 class ProblemResults {
@@ -26,7 +27,7 @@ class Participant extends ContestEntry {
 @Component({
   selector: 'app-contest-view',
   standalone: true,
-  imports: [CommonModule, RouterLink, TableTemplateComponent],
+  imports: [CommonModule, RouterLink, TableTemplateComponent, TableTemplateNewComponent],
   templateUrl: './contest-view.component.html',
   styleUrl: './contest-view.component.css'
 })
@@ -70,16 +71,11 @@ export class ContestViewComponent implements OnDestroy {
             let formattedResult : string = "";
 
             if (result.bestVerdict == "OK")
-              formattedResult += `<div style="color: green;"> +`;
+              formattedResult += `+`;
             else if (result.bestVerdict !== "NO_SUBMISSIONS")
-              formattedResult += `<div style="color: red;"> -`;
-            else
-              formattedResult += `<div>`;
-
+              formattedResult += `-`;
             if (result.totalSubmissions > 1)
               formattedResult += result.totalSubmissions.toString();
-            
-            formattedResult += `</div>`
 
             formattedResults.push(formattedResult);
           });
@@ -93,7 +89,7 @@ export class ContestViewComponent implements OnDestroy {
           tableRow.routerLink = `/students/${participant.user?.handle}`;
           tableRow.htmlString = [null, null, null, null];
           formattedResults.forEach(result => {
-            tableRow.htmlString.push(result);
+            tableRow.contents.push(result);
           });
 
           this.tableData.tableRows.push(tableRow);

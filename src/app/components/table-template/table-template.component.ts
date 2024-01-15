@@ -72,11 +72,9 @@ export class TableTemplateComponent implements OnInit {
   safeHtml : (SafeHtml | null)[][] = [];
   sortDirections : number[] = [];
 
-  private sanitizer : DomSanitizer;
 
-  constructor (private sanitizerInj: DomSanitizer) {
-    this.sanitizer = sanitizerInj;
-  }
+
+  constructor (private sanitizer: DomSanitizer) {}
 
   /**
    * Subscirbes to resetFormSubject to update the table when it's true.

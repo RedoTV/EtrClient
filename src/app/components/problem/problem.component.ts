@@ -4,18 +4,17 @@ import { RequestProblem } from '../../models/request.problem';
 import { ProblemService } from '../../services/problem.service';
 import { Subject, Subscription } from 'rxjs';
 import { TableData, TableRow, TableTemplateComponent } from '../table-template/table-template.component';
-import { Buffer } from 'buffer/';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
+import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
 
 @Component({
   selector: 'app-problem',
   standalone: true,
-  imports: [CommonModule, TableTemplateComponent, TablePickFilterComponent],
+  imports: [CommonModule, TableTemplateComponent, TablePickFilterComponent, TableTemplateNewComponent],
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.css'
 })
 export class ProblemComponent implements OnDestroy {
-  problemService : ProblemService;
   problems : RequestProblem[] = [];
   problemTableSub : Subscription;
 
@@ -25,11 +24,10 @@ export class ProblemComponent implements OnDestroy {
 
   tagsFilterCategories : FilterCategory[] = [];
 
-  constructor(problemService: ProblemService) {
+  constructor(private problemService: ProblemService) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false]
     
-    this.problemService = problemService;
     //получаем все задачи
     this.problemTableSub = this.problemService.getAllProblems()
       .subscribe(res => {
@@ -87,8 +85,7 @@ export class ProblemComponent implements OnDestroy {
             externalUrl = `https://codeforces.com/gym/${problem.contest_id}/problem/${problem.index}`
           }
 
-          newTableRow.queryParams = {href: `${Buffer.from(externalUrl).toString('base64')}`};
-
+          newTableRow.routerLink = externalUrl;
 
           //заполняем таблицу получившимися строками
           this.formattedTableData.tableRows.push(newTableRow);

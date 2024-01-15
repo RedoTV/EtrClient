@@ -10,6 +10,16 @@ td {
     font-size: large;
 }
 
+td.result {
+    text-align: center;
+}
+td.result.bad {
+    color: red;
+}
+td.result.good {
+    color: green;
+}
+
 .contests-row:hover{
     color: grey;
 }

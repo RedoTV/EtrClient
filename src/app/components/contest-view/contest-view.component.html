@@ -1,4 +1,41 @@
 <h1 class="text-center">{{contestInfo.contest.name}}</h1>
 <div class="table-container table-w-90">
-    <app-table [tableData]="tableData" [resetFormSubject]="refreshTable"></app-table>
+    <table-template-new>
+        <thead>
+            @for(colName of tableData.tableColNames; track $index) {
+                <th>
+                    {{colName}}
+                </th>
+            }
+        </thead>
+        @for(row of tableData.tableRows; let i = $index; track i) {
+            <tr>
+                <a href="{{row.routerLink}}">
+                    @for(cellContents of row.contents; track $index) {
+                        @if ($index > 3) {
+                            @if (cellContents[0] == '-') {
+                                <td class="result bad">
+                                    {{cellContents}}
+                                </td>
+                            }
+                            @else if  (cellContents[0] == '+') {
+                                <td class="result good">
+                                    {{cellContents}}
+                                </td>
+                            }
+                            @else {
+                                <td></td>
+                            }
+                        }
+                        @else {
+                            <td>
+                                {{cellContents}}
+                            </td>
+                        }
+                    }
+                   
+                </a>
+            </tr>
+        }
+    </table-template-new>
 </div>

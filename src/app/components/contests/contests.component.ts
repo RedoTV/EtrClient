@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { Contest } from '../../models/contest';
 import { RouterModule } from '@angular/router';
-import { TableRow, TableData, TableTemplateComponent } from '../table-template/table-template.component';
+import { TableRow, TableData } from '../table-template/table-template.component';
 import { Subject } from 'rxjs';
+import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
 
 @Component({
   selector: 'app-contests',
   standalone: true,
-  imports: [CommonModule, RouterModule, TableTemplateComponent],
+  imports: [CommonModule, RouterModule, TableTemplateNewComponent],
   templateUrl: './contests.component.html',
   styleUrl: './contests.component.css'
 })

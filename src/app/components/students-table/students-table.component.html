@@ -13,13 +13,15 @@
             }
         </thead>
         @for (row of tableData.tableRows; track $index) {
-            <a class="table-row" href="{{row.routerLink}}">
-                @for (cellContents of row.contents; track $index) {
-                    <td>
-                        {{cellContents}}
-                    </td>
-                }
-            </a>
+                <tr>
+                    <a href="{{row.routerLink}}">
+                        @for (cellContents of row.contents; track $index) {
+                            <td>
+                                {{cellContents}}
+                            </td>
+                        }
+                    </a>
+                </tr>
         }
     </table-template-new>
 </div>

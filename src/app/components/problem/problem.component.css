@@ -1,0 +1,16 @@
+div.tag {
+    background-color: #00000008;
+    border: 1.5px solid gray;
+    text-wrap:nowrap;
+    font-size: 18px;
+    line-height: 16px;
+    height: 26px;
+    padding: 4px;
+    margin: 4px;
+    float: left;
+    border-radius: 10px;
+}
+
+td {
+    vertical-align: middle;
+}

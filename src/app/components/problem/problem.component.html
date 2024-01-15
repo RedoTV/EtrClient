@@ -2,5 +2,36 @@
 <div class="table-container table-w-90">
     <h4>Фильтр по тегам:</h4>
     <app-table-pick-filter [filterCategories]="tagsFilterCategories" (filterFeedback)="handleTagsFilter($event)"></app-table-pick-filter>
-    <app-table [tableData]="filteredTableData" [resetFormSubject]="refreshTable"></app-table>
+    
+    <table-template-new>
+        <thead>
+            @for(colName of formattedTableData.tableColNames; track $index) {
+                <th>
+                    {{colName}}
+                </th>
+            }
+        </thead>
+        @for(row of filteredTableData.tableRows; let i = $index; track i) {
+            <tr>
+                <a href="{{row.routerLink}}">
+                    @for(cellContents of row.contents; track $index) {
+                        @if ($index == row.contents.length - 1) {
+                            <td style="max-width: 400px;">
+                                @for (tagText of cellContents; track $index) {
+                                    <div class="tag">{{tagText}}</div>
+                                }
+                            </td>
+                        }
+                        @else {
+                            <td>
+                                {{cellContents}}
+                            </td>
+                        }
+                    }
+                   
+                </a>
+            </tr>
+        }
+    </table-template-new>
+    
 </div>
