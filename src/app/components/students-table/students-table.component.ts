@@ -6,11 +6,12 @@ import { UserService } from '../../services/user.service';
 import { TableTemplateComponent } from '../table-template/table-template.component';
 import { Subject } from 'rxjs';
 import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-students-table',
   standalone: true,
-  imports: [CommonModule, TableTemplateComponent, TableTemplateNewComponent],
+  imports: [CommonModule, RouterLink, TableTemplateComponent, TableTemplateNewComponent],
   templateUrl: './students-table.component.html',
   styleUrl: './students-table.component.css'
 })

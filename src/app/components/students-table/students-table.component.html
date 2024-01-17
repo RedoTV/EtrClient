@@ -14,7 +14,7 @@
         </thead>
         @for (row of tableData.tableRows; track $index) {
                 <tr>
-                    <a href="{{row.routerLink}}">
+                    <a [routerLink]="row.routerLink">
                         @for (cellContents of row.contents; track $index) {
                             <td>
                                 {{cellContents}}
