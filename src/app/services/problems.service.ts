@@ -11,7 +11,7 @@ class ProblemResponse{
 @Injectable({
   providedIn: 'root'
 })
-export class ProblemService {
+export class ProblemsService {
   http:HttpClient;
   constructor(http:HttpClient) {
     this.http = http;

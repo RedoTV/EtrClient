@@ -1,6 +1,50 @@
 import { Component, Input, ElementRef, AfterViewChecked, Renderer2, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { first } from 'rxjs';
+import { Params } from '@angular/router';
+
+export class TableRow {
+  contents : (any | null)[] = [];
+  stringinfied : (string | null)[] = [];
+  /**
+   * Link used for routing, used as routerLink for the whole row.
+   * If you dont need to link anything - just don't give it value.
+   * 
+   * Ссылка для роутинга, используется как routerLink для всей строки.
+   * Если не нужно ничего связывать - можно просто не передавать значение.
+   */
+  routerLink : string | null = null;
+  //routerLinks : (string | null)[] = []; - obsolete
+  queryParams : Params | null = null;
+  /**
+   * This string array is used by the table-template, which uses
+   * every string of array as HTML code of according cell of the row.
+   * Be warned - table-template bypasses DOM sanitizer 
+   * to display strings as HTML, but allows for usage of different attributes.
+   * 
+   * Данный массив строк используется table-template -ом, который
+   * использует каждую строку массива как HTML код соответствующей ячейки
+   * строки. Предупреждение - table-template обходит санитизацию DOM
+   * для отображения строк как HTML, что делает его менее безопасным,
+   * но позволяет использовать различные аттрибуты.
+   */
+  htmlString : (string | null)[] = [];
+}
+
+/** 
+ * UI table data class that holds contents for every cell, routerLink for every cell, column names.
+ * 
+ * Also can hold and show HTML code in tableRows.htmlString array, BUT
+ * NEVER give untrusted data to tableRows.htmlString.
+ * 
+ * It bypasses DOM sanitizer!
+*/
+export class TableData {
+  tableColNames : string[] = [];
+  colSortableFlag : boolean[] = [];
+  directionPresets : number[] = [];
+  tableRows : TableRow[] = [];
+}
+
 
 @Component({
   selector: 'table-template-new',
@@ -9,6 +53,7 @@ import { first } from 'rxjs';
   templateUrl: './table-template-new.component.html',
   styleUrl: './table-template-new.component.css'
 })
+
 export class TableTemplateNewComponent implements AfterViewInit, OnDestroy {
 
   sortDirections : number[] = [];

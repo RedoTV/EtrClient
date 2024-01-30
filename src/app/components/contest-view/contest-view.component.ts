@@ -6,8 +6,7 @@ import { ActivatedRoute, RouterLink, Routes } from '@angular/router';
 import { Observable, Subject, Subscription, map } from 'rxjs';
 import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
-import { TableData, TableRow, TableTemplateComponent } from './../table-template/table-template.component';
-import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
+import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
 
 
 class ProblemResults {
@@ -27,7 +26,7 @@ class Participant extends ContestEntry {
 @Component({
   selector: 'app-contest-view',
   standalone: true,
-  imports: [CommonModule, RouterLink, TableTemplateComponent, TableTemplateNewComponent],
+  imports: [CommonModule, RouterLink, TableTemplateNewComponent],
   templateUrl: './contest-view.component.html',
   styleUrl: './contest-view.component.css'
 })

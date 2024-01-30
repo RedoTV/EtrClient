@@ -6,7 +6,7 @@ import { StudentsAddComponent } from './components/students-add/students-add.com
 import { AboutComponent } from './components/about/about.component';
 import { ContestViewComponent } from './components/contest-view/contest-view.component';
 import { StudentViewComponent } from './components/student-view/student-view.component';
-import { ProblemComponent } from './components/problem/problem.component';
+import { ProblemsComponent as ProblemsComponent } from './components/problems/problem.component';
 import { HomeComponent } from './components/home/home.component';
 import { PatchUserInterfaceComponent } from './components/patch-user-interface/patch-user-interface.component';
 
@@ -40,8 +40,8 @@ export const routes: Routes = [
         component: StudentViewComponent
     },
     {
-        path: 'problem',
-        component: ProblemComponent
+        path: 'problems',
+        component: ProblemsComponent
     },
     {
         path: 'patch-user-interface',

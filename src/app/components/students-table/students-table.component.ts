@@ -1,17 +1,15 @@
-import { TableData, TableRow } from './../table-template/table-template.component';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-import { TableTemplateComponent } from '../table-template/table-template.component';
 import { Subject } from 'rxjs';
-import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
+import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-students-table',
   standalone: true,
-  imports: [CommonModule, RouterLink, TableTemplateComponent, TableTemplateNewComponent],
+  imports: [CommonModule, RouterLink, TableTemplateNewComponent],
   templateUrl: './students-table.component.html',
   styleUrl: './students-table.component.css'
 })

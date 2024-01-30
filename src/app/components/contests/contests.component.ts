@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ContestService } from '../../services/contest.service';
 import { Contest } from '../../models/contest';
 import { RouterModule } from '@angular/router';
-import { TableRow, TableData } from '../table-template/table-template.component';
 import { Subject } from 'rxjs';
-import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
+import { TableTemplateNewComponent, TableRow, TableData } from '../table-template-new/table-template-new.component';
 
 @Component({
   selector: 'app-contests',

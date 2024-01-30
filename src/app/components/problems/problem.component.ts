@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RequestProblem } from '../../models/request.problem';
-import { ProblemService } from '../../services/problem.service';
+import { ProblemsService } from '../../services/problems.service';
 import { Subject, Subscription } from 'rxjs';
-import { TableData, TableRow, TableTemplateComponent } from '../table-template/table-template.component';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
-import { TableTemplateNewComponent } from '../table-template-new/table-template-new.component';
+import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
 
 @Component({
   selector: 'app-problem',
   standalone: true,
-  imports: [CommonModule, TableTemplateComponent, TablePickFilterComponent, TableTemplateNewComponent],
+  imports: [CommonModule, TablePickFilterComponent, TableTemplateNewComponent],
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.css'
 })
-export class ProblemComponent implements OnDestroy {
+
+export class ProblemsComponent implements OnDestroy {
   problems : RequestProblem[] = [];
   problemTableSub : Subscription;
 
@@ -24,12 +24,12 @@ export class ProblemComponent implements OnDestroy {
 
   tagsFilterCategories : FilterCategory[] = [];
 
-  constructor(private problemService: ProblemService) {
+  constructor(private problemsService: ProblemsService) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false]
     
     //получаем все задачи
-    this.problemTableSub = this.problemService.getAllProblems()
+    this.problemTableSub = this.problemsService.getAllProblems()
       .subscribe(res => {
 
         res.forEach(x => this.problems.push(x));
