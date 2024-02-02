@@ -26,7 +26,8 @@ export class ProblemsComponent implements OnDestroy {
 
   constructor(private problemsService: ProblemsService) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
-    this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false]
+    this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false];
+    this.formattedTableData.ignoreSortingFlags = [false];
     
     //получаем все задачи
     this.problemTableSub = this.problemsService.getAllProblems()
@@ -67,16 +68,6 @@ export class ProblemsComponent implements OnDestroy {
             tagsHtml += '</div>\n</div>';
           }
 
-          newTableRow.htmlString = [
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            tagsHtml
-          ];
-
           let externalUrl : string = "";
           if (problem.contest_id !== null && problem.contest_id < 10000) {
             externalUrl = `https://codeforces.com/problemset/problem/${problem.contest_id}/${problem.index}`
@@ -98,9 +89,6 @@ export class ProblemsComponent implements OnDestroy {
         
         this.filteredTableData = this.filteredTableData;
 
-        console.log(this.filteredTableData == this.filteredTableData);
-        console.log(this.formattedTableData);
-
         //перезагружаем таблицу, чтобы все данные отобразились 
         this.refreshTable.next(true);
 
@@ -112,7 +100,6 @@ export class ProblemsComponent implements OnDestroy {
     this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.formattedTableData.tableRows));
 
     filterEvent.forEach(filterCat => {
-      console.log(filterCat);
       switch (filterCat.name) {
         case "Tags":
           if (filterCat.values.size != 0) {

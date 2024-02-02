@@ -1,41 +1,69 @@
 <h1 class="text-center">{{contestInfo.contest.name}}</h1>
-<div class="table-container table-w-90">
-    <table-template-new>
-        <thead>
-            @for(colName of tableData.tableColNames; track $index) {
-                <th>
-                    {{colName}}
-                </th>
-            }
-        </thead>
-        @for(row of tableData.tableRows; let i = $index; track i) {
-            <tr>
-                <a [routerLink]="row.routerLink">
-                    @for(cellContents of row.contents; track $index) {
-                        @if ($index > 3) {
-                            @if (cellContents[0] == '-') {
-                                <td class="result bad">
-                                    {{cellContents}}
-                                </td>
+<div class="table-w-90">
+
+    <div class="m-5">
+        <div class="input-pad">
+            <input (click)="filterByParticipantType('ANY')" class="form-check-input mx-1" checked type="radio" id="any" name="Participant filter">
+            <label (click)="filterByParticipantType('ANY')" class="form-check-label" for="any"><h6>Все</h6></label>
+        </div>
+        <div class="input-pad">
+            <input (click)="filterByParticipantType('CONTESTANT')" class="form-check-input mx-1" type="radio" id="contestant" name="Participant filter">
+            <label (click)="filterByParticipantType('CONTESTANT')" class="form-check-label" for="contestant"><h6>Участники</h6></label>
+        </div>
+        <div class="input-pad"> 
+            <input (click)="filterByParticipantType('VIRTUAL')" class="form-check-input mx-1" type="radio" id="virtual" name="Participant filter">
+            <label (click)="filterByParticipantType('VIRTUAL')" class="form-check-label" for="virtual"><h6>Виртуальный</h6></label>
+        </div>
+        <div class="input-pad"> 
+            <input (click)="filterByParticipantType('OTHER')" class="form-check-input mx-1" type="radio" id="other" name="Participant filter">
+            <label (click)="filterByParticipantType('OTHER')" class="form-check-label" for="other"><h6>Дорешивание</h6></label>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table-template-new [tableUpdate]="tableUpdateSubject" [colSortableFlags]="tableData.colSortableFlag" [sortDirectionsPresets]="tableData.directionPresets">
+            <thead>
+                @for(colName of tableData.tableColNames; track $index) {
+                    @if ($index == 5 && noPointsData) {}
+                    @else if ($index == 0) {
+                        <th id="ID-col">
+                            {{colName}}
+                        </th>
+                    }
+                    @else {
+                        <th>
+                            {{colName}}
+                        </th>
+                    }
+                }
+            </thead>
+            @for(participant of participants; let i = $index; track i) {
+                <tr>
+                    <a [routerLink]="'/students/' + participant.user?.handle">
+                        <td>{{i + 1}}</td>
+                        <td>{{participant.user?.last_name}} {{participant.user?.first_name}}</td>
+                        <td>{{participant.user?.organization}}</td>
+                        <td>{{participant.user?.city}}</td>
+                        <td>{{participant.user?.grade}}</td>
+                        @if (!noPointsData) {
+                            <td>{{participant.points}}</td>
+                        }
+                        <td>{{participant.totalCorrect}}</td>
+                        @for(problemReults of participant.problemsResults; track $index)
+                        {
+                            @if(problemReults.bestVerdict == 'OK') {
+                                <td class="result good">+{{problemReults.totalSubmissions > 1 ? problemReults.totalSubmissions : ""}}</td>
                             }
-                            @else if  (cellContents[0] == '+') {
-                                <td class="result good">
-                                    {{cellContents}}
-                                </td>
+                            @else if(problemReults.bestVerdict != 'NO_SUBMISSIONS') {
+                                <td class="result bad">-{{problemReults.totalSubmissions > 0 ? problemReults.totalSubmissions : ""}}</td>
                             }
                             @else {
                                 <td></td>
                             }
                         }
-                        @else {
-                            <td>
-                                {{cellContents}}
-                            </td>
-                        }
-                    }
-                   
-                </a>
-            </tr>
-        }
-    </table-template-new>
+                    </a>
+                </tr>
+            }
+        </table-template-new>
+    </div>
 </div>

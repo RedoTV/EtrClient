@@ -14,3 +14,18 @@ div.tag {
 td {
     vertical-align: middle;
 }
+
+.table-container {
+    padding-bottom: 100px;
+}
+
+@media screen and (max-width:1000px) {
+    .table-container {
+        min-width: 200px;
+        max-width: 1000px;
+        overflow-x: scroll;
+        transform: rotateX(180deg);
+        padding-bottom: 0px;
+        padding-top: 100px;
+    }
+}

@@ -1,9 +1,13 @@
-<h1 style="text-align: center;">Задачи</h1>
-<div class="table-container table-w-90">
+
+
+<div class="table-w-90">
+    <h1 style="text-align: center;">Задачи</h1>
     <h4>Фильтр по тегам:</h4>
     <app-table-pick-filter [filterCategories]="tagsFilterCategories" (filterFeedback)="handleTagsFilter($event)"></app-table-pick-filter>
-    
-    <table-template-new>
+</div>
+
+<div class="table-container table-w-90">
+    <table-template-new [ignoreSortingFlags]="formattedTableData.ignoreSortingFlags">
         <thead>
             @for(colName of formattedTableData.tableColNames; track $index) {
                 <th>

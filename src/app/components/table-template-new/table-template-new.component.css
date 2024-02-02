@@ -7,13 +7,14 @@
 }
 
 :host ::ng-deep thead th {
+    font-size: medium;
     padding: 5px;
     padding-right: 20px;
     cursor: pointer;
 }
 
 :host ::ng-deep td {
-    font-size: large;
+    font-size: medium;
     border: 1px solid grey;
     cursor: pointer;
     padding: 5px;
@@ -25,12 +26,6 @@
 }
 
 @media screen and (max-width:1000px) {
-    .table-container{
-        min-width: 200px;
-        max-width: 1000px;
-        overflow-x: scroll;
-        transform: rotateX(180deg);
-    }
     table{
         transform: rotateX(180deg);
     }
@@ -57,14 +52,6 @@
     background-color: #dddddd;
 }
 
-:host ::ng-deep tr:last-child {
-    display: block;
-    height: 100px;
-    background: transparent;
-    border: none;
-    cursor: unset;
-}
-
 tr.table-row {
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
@@ -87,7 +74,7 @@ tr.table-row:nth-child(even) {
     margin-left: 2px;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-top: 7px solid white;
+    border-bottom: 7px solid white;
     pointer-events: none;
 }
 :host ::ng-deep .sort-start-higher::after {
@@ -97,6 +84,6 @@ tr.table-row:nth-child(even) {
     margin-left: 2px;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-bottom: 7px solid white;
+    border-top: 7px solid white;
     pointer-events: none;
 }

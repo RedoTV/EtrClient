@@ -1,9 +1,7 @@
-import { Submission } from './../../models/submission';
-import { Contest } from './../../models/contest';
-import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink, Routes } from '@angular/router';
-import { Observable, Subject, Subscription, map } from 'rxjs';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
 import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
 import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
@@ -14,6 +12,7 @@ class ProblemResults {
   public id : number = 0;
   public totalSubmissions : number = 0;
   public bestVerdict : string = ""; 
+  public points : number = 0;
 }
 
 class Participant extends ContestEntry {
@@ -38,7 +37,10 @@ export class ContestViewComponent implements OnDestroy {
   contestInfo : ContestInfo = new ContestInfo;
   participants : Participant[] = [];
   tableData : TableData = new TableData;
-  refreshTable: Subject<boolean> = new Subject<boolean>();
+
+  tableUpdateSubject = new Subject<boolean>;
+
+  noPointsData : boolean = false;
 
   private readonly possibleCombinations = [
     "FAILED", "OK", "PARTIAL", "COMPILATION_ERROR",
@@ -50,52 +52,20 @@ export class ContestViewComponent implements OnDestroy {
 
   constructor(private route: ActivatedRoute, contestsService : ContestService) {
 
-    this.tableData.tableColNames = ["ID", "Фамилия, Имя", "Баллы", "Верно"];
+    this.tableData.tableColNames = ['#', 'Фамилия, Имя', 'Город', 'Организация', 'Класс',  'Баллы', 'Верно'];
+    this.tableData.colSortableFlag = [false, true, true, true, true, true, true];
+    this.tableData.directionPresets = [0, 0, 0, 0, 0, 1];
 
     this.routeSub = this.route.params.subscribe((o : {id? : number}) => this.id = o.id );
     if (this.id !== undefined)
       this.contestSub = contestsService.getContestInfoByID(this.id).subscribe(res => {
         
         this.contestInfo = res as ContestInfo;
-        this.fillUserResults();
+        this.fillProblemResults([]);
+
+        console.log(this.contestInfo);
         
         this.contestInfo.contest.problems.forEach(problem => this.tableData.tableColNames.push(problem.index));
-
-        this.participants.forEach((participant, index) => {
-          let tableRow : TableRow = new TableRow;
-
-          let formattedResults : string[] = [];
-
-          participant.problemsResults.forEach(result => {
-            let formattedResult : string = "";
-
-            if (result.bestVerdict == "OK")
-              formattedResult += `+`;
-            else if (result.bestVerdict !== "NO_SUBMISSIONS")
-              formattedResult += `-`;
-            if (result.totalSubmissions > 1)
-              formattedResult += result.totalSubmissions.toString();
-
-            formattedResults.push(formattedResult);
-          });
-
-          tableRow.contents = [
-            index,
-            participant.user !== null ? `${participant.user?.last_name} ${participant.user?.first_name}` : participant.team,
-            participant.points,
-            participant.totalCorrect,
-          ];
-          tableRow.routerLink = `/students/${participant.user?.handle}`;
-          tableRow.htmlString = [null, null, null, null];
-          formattedResults.forEach(result => {
-            tableRow.contents.push(result);
-          });
-
-          this.tableData.tableRows.push(tableRow);
-        });
-
-        this.refreshTable.next(true);
-
       });
   }
   
@@ -103,11 +73,31 @@ export class ContestViewComponent implements OnDestroy {
     this.routeSub.unsubscribe();
   }
 
-  fillUserResults () {
+  filterByParticipantType(type : string) {
+    this.participants = [];
+    switch(type) {
+      case "ANY":
+        this.fillProblemResults([]);
+        break;
+      case "CONTESTANT":
+        this.fillProblemResults(['PRACTICE', 'VIRTUAL', 'MANAGER', 'OUT_OF_COMPETITION']);
+        break;
+      case "VIRTUAL":
+        this.fillProblemResults(['PRACTICE', 'CONTESTANT', 'MANAGER', 'OUT_OF_COMPETITION']);
+        break;
+      case "OTHER":
+        this.fillProblemResults(['VIRTUAL', 'CONTESTANT', 'MANAGER']);
+        break;
+      default:
+        break;
+    }
+  }
+
+  fillProblemResults (participantTypeFilter : string[]) {
     this.contestInfo.rows.forEach(entry => {
       let participant : Participant = new Participant;
 
-      if (entry.submissions.every(submission => submission.type_of_member == "OUT_OF_COMPETITION"))
+      if (entry.submissions.every(submission => participantTypeFilter.includes(submission.type_of_member)))
         return;
 
       if(entry.user !== null && entry.user !== undefined)
@@ -129,7 +119,7 @@ export class ContestViewComponent implements OnDestroy {
         let problemIndex = 0;
         let problemResults = participant.problemsResults.find((problem, index) => {problemIndex = index; return problem.index === submittedProblem!.index});
 
-        if (submission.type_of_member == "OUT_OF_COMPETITION")
+        if (participantTypeFilter.includes(submission.type_of_member))
           return;
 
         if (problemResults === undefined)
@@ -139,52 +129,26 @@ export class ContestViewComponent implements OnDestroy {
           problemResults.id = submittedProblem!.id;
           problemResults.index = submittedProblem!.index;
           problemResults.totalSubmissions++;
+
+          if (submittedProblem!.points)
+            problemResults.points = submittedProblem!.points;
+          else
+            problemResults.points = 0;
+
           participant.problemsResults.push(problemResults);
         }
         else
         {
-          /*
-          if (problemResults.bestVerdict === "RUNTIME_ERROR") {
-            problemResults.bestVerdict = submission.verdict;
-          }
-          else if (submission.verdict !== "RUNTIME_ERROR")
-          {
-            if (problemResults.bestVerdict === "COMPILATION_ERROR")
-            {
-              problemResults.bestVerdict = submission.verdict;
-            }
-            else if (submission.verdict !== "COMPILATION_ERROR")
-            {
-              if (problemResults.bestVerdict === "WRONG_ANSWER") {
-                problemResults.bestVerdict = submission.verdict;
-              }
-              else if (submission.verdict !== "WRONG_ANSWER")
-              {
-                if (problemResults.bestVerdict === "MEMORY_LIMIT_EXCEEDED") {
-                  problemResults.bestVerdict = submission.verdict;
-                }
-                else if (submission.verdict !== "MEMORY_LIMIT_EXCEEDED")
-                {
-                  if (problemResults.bestVerdict === "TIME_LIMIT_EXCEEDED") {
-                    problemResults.bestVerdict = submission.verdict;
-                  }
-                  else if (submission.verdict !== "TIME_LIMIT_EXCEEDED")
-                  {
-                    if (problemResults.bestVerdict === "CHALLENGED") {
-                      problemResults.bestVerdict = submission.verdict;
-                    }
-                  }
-                }
-              }
-            }
-          }
-          */
-
           if (submission.verdict === "OK") {
             problemResults.bestVerdict = submission.verdict;
           }
           else {
             problemResults.bestVerdict = submission.verdict;
+          }
+
+          if (submittedProblem!.points && problemResults.points < submittedProblem!.points)
+          {
+            problemResults.points = submittedProblem!.points;
           }
 
           problemResults.totalSubmissions++;
@@ -196,8 +160,8 @@ export class ContestViewComponent implements OnDestroy {
       participant.problemsResults.forEach(problemResult => {
         if (problemResult.bestVerdict === "OK")
         {
-          let addedPoints = this.contestInfo.contest.problems.find(problem => problemResult.id === problem.id)!.points; 
-          participant.points += addedPoints ? addedPoints : 0;
+          //let addedPoints = this.contestInfo.contest.problems.find(problem => problemResult.id === problem.id)!.points; 
+          //participant.points += addedPoints ? addedPoints : 0;
           participant.totalCorrect++;
         }
       });
@@ -220,5 +184,14 @@ export class ContestViewComponent implements OnDestroy {
       participant.problemsResults.sort((a, b) => a.index.localeCompare(b.index));
       this.participants.push(participant);
     });
+
+    this.noPointsData = this.participants.every(participant => participant.points == 0);
+
+    if (this.noPointsData) {
+      this.tableData.colSortableFlag.length = this.tableData.tableColNames.length + this.contestInfo.contest.problems.length;
+      this.tableData.colSortableFlag.fill(true, 1, this.tableData.tableColNames.length - 2);
+      this.tableData.colSortableFlag.fill(false, this.tableData.tableColNames.length - 1, this.contestInfo.contest.problems.length - 1);
+      this.tableUpdateSubject.next(true);
+    }
   }
 }
