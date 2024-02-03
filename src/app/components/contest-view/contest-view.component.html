@@ -1,7 +1,7 @@
 <h1 class="text-center">{{contestInfo.contest.name}}</h1>
-<div class="table-w-90">
 
-    <div class="m-5">
+<div class="filters-container">
+    <div class="filter-pad">
         <div class="input-pad">
             <input (click)="filterByParticipantType('ANY')" class="form-check-input mx-1" checked type="radio" id="any" name="Participant filter">
             <label (click)="filterByParticipantType('ANY')" class="form-check-label" for="any"><h6>Все</h6></label>
@@ -20,6 +20,22 @@
         </div>
     </div>
 
+    @if (!noPointsData) {
+        <div class="filter-pad">
+            <div class="input-pad">
+                <input (click)="showPointsSwitch(false)" class="form-check-input mx-1" type="radio" id="show-tries" name="Points/tries switch" checked>
+                <label (click)="showPointsSwitch(false)" class="form-check-label" for="show-tries"><h6>Показывать попытки</h6></label>
+            </div>
+            <div class="input-pad">
+                <input (click)="showPointsSwitch(true)" class="form-check-input mx-1" type="radio" id="show-points" name="Points/tries switch">
+                <label (click)="showPointsSwitch(true)" class="form-check-label" for="show-points"><h6>Показывать баллы</h6></label>
+            </div>
+        </div>
+    }
+    
+</div>
+<div class="table-w-90">
+
     <div class="table-container">
         <table-template-new [tableUpdate]="tableUpdateSubject" [colSortableFlags]="tableData.colSortableFlag" [sortDirectionsPresets]="tableData.directionPresets">
             <thead>
@@ -37,14 +53,43 @@
                     }
                 }
             </thead>
-            @for(participant of participants; let i = $index; track i) {
+            @for(participant of participantsFiltered; let i = $index; track i) {
                 <tr>
                     <a [routerLink]="'/students/' + participant.user?.handle">
                         <td>{{i + 1}}</td>
-                        <td>{{participant.user?.last_name}} {{participant.user?.first_name}}</td>
-                        <td>{{participant.user?.organization}}</td>
-                        <td>{{participant.user?.city}}</td>
-                        <td>{{participant.user?.grade}}</td>
+                        @if (participant.user != null) {
+                            <td>{{participant.user.last_name}} {{participant.user.first_name}}</td>
+                            <td>{{participant.user.organization}}</td>
+                            <td>{{participant.user.city}}</td>
+                            <td>{{participant.user.grade}}</td>
+                        }
+                        @if (participant.team != null) {
+                            <td>
+                                Команда: {{participant.team.team_name}} <br/> 
+                                @for (user of participant.team.users; track $index) {
+                                    {{user.last_name}} {{user.first_name}} <br/>
+                                }
+                            </td>
+                            <td>
+                                <br/>
+                                @for (user of participant.team.users; track $index) {
+                                    {{user.city}} <br/>
+                                }
+                            </td>
+                            <td>
+                                <br/>
+                                @for (user of participant.team.users; track $index) {
+                                    {{user.organization}} <br/>
+                                }
+                            </td>
+                            <td>
+                                <br/>
+                                @for (user of participant.team.users; track $index) {
+                                    {{user.grade}} <br/>
+                                }
+                            </td>
+                        }
+                        
                         @if (!noPointsData) {
                             <td>{{participant.points}}</td>
                         }
@@ -52,10 +97,21 @@
                         @for(problemReults of participant.problemsResults; track $index)
                         {
                             @if(problemReults.bestVerdict == 'OK') {
-                                <td class="result good">+{{problemReults.totalSubmissions > 1 ? problemReults.totalSubmissions : ""}}</td>
+                                @if (showPoints) {
+                                    <td class="result good">{{problemReults.points}}</td>
+                                }
+                                @else {
+                                    <td class="result good">+{{problemReults.totalSubmissions > 1 ? problemReults.totalSubmissions : ""}}</td>
+                                }
                             }
                             @else if(problemReults.bestVerdict != 'NO_SUBMISSIONS') {
-                                <td class="result bad">-{{problemReults.totalSubmissions > 0 ? problemReults.totalSubmissions : ""}}</td>
+                                @if (showPoints) {
+                                    <td class="result bad">{{problemReults.points}}</td>
+                                }
+                                @else {
+                                    <td class="result bad">-{{problemReults.totalSubmissions > 0 ? problemReults.totalSubmissions : ""}}</td>
+                                }
+                                
                             }
                             @else {
                                 <td></td>

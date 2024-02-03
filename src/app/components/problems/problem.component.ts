@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RequestProblem } from '../../models/request.problem';
+import { Problem } from '../../models/request.problem';
 import { ProblemsService } from '../../services/problems.service';
 import { Subject, Subscription } from 'rxjs';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
@@ -15,7 +15,7 @@ import { TableTemplateNewComponent, TableData, TableRow } from '../table-templat
 })
 
 export class ProblemsComponent implements OnDestroy {
-  problems : RequestProblem[] = [];
+  problems : Problem[] = [];
   problemTableSub : Subscription;
 
   formattedTableData : TableData = new TableData;

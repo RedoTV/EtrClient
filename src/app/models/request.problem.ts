@@ -2,7 +2,7 @@
 /**
  * Model for programming problem data. Matches data given by etr API.
  */
-export class RequestProblem {
+export class Problem {
     public contest_id : number | null = null;
     public id : number = 0;
     public index : string = '';

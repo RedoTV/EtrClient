@@ -1,5 +1,5 @@
 import { Time } from "@angular/common";
-import { RequestProblem } from "./request.problem";
+import { Problem } from "./request.problem";
 
 /**
  * Contest model. Matches data given by etr API.
@@ -18,7 +18,7 @@ export class Contest {
     public kind : string | null = null;
     public phase : string | null = null;
     public prepared_by : string | null = null;
-    public problems :  RequestProblem[] = [];
+    public problems :  Problem[] = [];
     public relative_time_seconds : number | null = 0
     public season : string | null = null;
     public start_datatime : string | null = null;
