@@ -13,6 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AppComponent {
   readonly title = 'EtrClient';
-  readonly version = [0, 10, 0];
-  readonly lastUpdate = new Date('2024.02.03');
+  readonly version = [0, 10, 1];
+  readonly lastUpdate = new Date('2024.02.04');
 }

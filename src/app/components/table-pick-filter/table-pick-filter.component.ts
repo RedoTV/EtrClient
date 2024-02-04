@@ -43,7 +43,7 @@ export class TablePickFilterComponent {
   }
   
   selectValue (categoryName : string, value : string) {
-    if (this.filteredValues.filter(filterCat => {return filterCat.name == categoryName}).length == 0)
+    if (this.filteredValues.findIndex(filterCat => filterCat.name === categoryName) === -1)
     {
       let missingCategory : FilterCategory = new FilterCategory;
       missingCategory.name = categoryName;
