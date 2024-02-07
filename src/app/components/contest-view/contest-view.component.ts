@@ -6,6 +6,7 @@ import { ContestInfo, ContestService } from '../../services/contest.service';
 import { ContestEntry } from '../../models/contestEntry';
 import { TableTemplateNewComponent, TableData } from '../table-template-new/table-template-new.component';
 import { StandingsService } from '../../services/standings.service';
+import { Problem } from '../../models/request.problem';
 
 
 class ProblemResults {
@@ -113,16 +114,18 @@ export class ContestViewComponent implements OnDestroy {
         this.participantsFiltered.push(new Participant);
         this.participantsFiltered[filterIndex].totalCorrect = 0;
         this.participantsFiltered[filterIndex].totalSubmissionsCount = 0;
-        //this.participantsFiltered[filterIndex].problemsResults = JSON.parse(JSON.stringify(participant.problemsResults));
+
         this.participantsFiltered[filterIndex].submissions = JSON.parse(JSON.stringify(participant.submissions));
 
         this.participantsFiltered[filterIndex].user = participant.user;
         this.participantsFiltered[filterIndex].team = participant.team;
 
         this.participantsFiltered[filterIndex] = this.participantProblemResults(this.participantsFiltered[filterIndex], participantTypeFilter);
+        this.participantsFiltered[filterIndex].problemsResults.sort((a, b) => a.index.localeCompare(b.index));
         filterIndex++;
       }
     });
+    
 
     this.tableUpdateSubject.next(true);
 
@@ -178,8 +181,7 @@ export class ContestViewComponent implements OnDestroy {
 
       // Recieve points from CF as a backup.
       this.standingsService.getStandingsOfUsersCF(userHandles, this.contestInfo.contest.id).subscribe(standings => {
-        //console.log(standings);
-
+        
         standings.rows.forEach(row => {
           // Checks if PartyCF is actually a team
           if (row.party.teamId != null) {
@@ -223,7 +225,10 @@ export class ContestViewComponent implements OnDestroy {
         this.participants = [];
         this.evaluateParticipantsResults();
         // Check for noPoints data again...
-        this.noPointsData = this.participants.every(participant => participant.points === 0 || participant.points === 1);
+        this.noPointsData = this.participants.every(
+          participant => participant.problemsResults.every(
+            problemRes => problemRes.points === 0 || problemRes.points === 1
+        ));
         
         // May stuck in loop of always requesting standings from CF if got no data from it...
         // Until we are rate-limited, or this boolean will stop it...
@@ -242,22 +247,18 @@ export class ContestViewComponent implements OnDestroy {
       let problemResults = participant.problemsResults.find(problem => problem.index === submittedProblem!.index);
 
       if (participantTypeFilter.includes(submission.type_of_member))
+      {
+        if (problemResults === undefined)
+          participant.problemsResults.push(this.newProblemResults(submittedProblem, "NO_SUBMISSIONS"));
         return;
+      }
 
       if (problemResults === undefined)
       {
-        problemResults = new ProblemResults;
-        problemResults.bestVerdict = submission.verdict;
-        problemResults.id = submittedProblem!.id;
-        problemResults.index = submittedProblem!.index;
+        problemResults = this.newProblemResults(submittedProblem, submission.verdict);
         problemResults.points = submission.points ? submission.points : 0;
-
         problemResults.totalSubmissions++;
-
-        // if (submittedProblem!.points)
-        //   problemResults.points = submittedProblem!.points;
-        // else
-        //   problemResults.points = 0;
+        
         participant.problemsResults.push(problemResults);
       }
       else
@@ -276,6 +277,7 @@ export class ContestViewComponent implements OnDestroy {
 
         problemResults.totalSubmissions++;
       }
+
     });
 
     participant.problemsResults.forEach(problemResults => {
@@ -290,12 +292,7 @@ export class ContestViewComponent implements OnDestroy {
       this.contestInfo.contest.problems.forEach(contestProblem => {
         if (participant.problemsResults.find(problemResult => problemResult.index === contestProblem.index) === undefined)
         {
-          let problemResults = new ProblemResults;
-          problemResults.bestVerdict = "NO_SUBMISSIONS";
-          problemResults.id = contestProblem.id;
-          problemResults.index = contestProblem.index;
-          problemResults.totalSubmissions++;
-          participant.problemsResults.push(problemResults);
+          participant.problemsResults.push(this.newProblemResults(contestProblem, "NO_SUBMISSIONS"));
         }
       });
     }
@@ -305,6 +302,17 @@ export class ContestViewComponent implements OnDestroy {
     return participant;
   }
   
+  newProblemResults (problem : Problem | undefined, bestVerdict : string | undefined) : ProblemResults {
+    let problemResults = new ProblemResults;
+    if (bestVerdict)
+      problemResults.bestVerdict = bestVerdict;
+    if (problem) {
+      problemResults.id = problem.id;
+      problemResults.index = problem.index;
+    }
+    return problemResults;
+  } 
+
   showPointsSwitch(state : boolean) {
     this.showPoints = state;
   }
