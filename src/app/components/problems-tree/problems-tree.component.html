@@ -3,7 +3,7 @@
     @for (tag of tags; track $index) {
         <tr (click)="look(tag)">{{tag}}</tr>
         <div id="{{tag}}" style="display:none" class="table-container table-w-90">
-            <table-template-new [ignoreSortingFlags]="formattedTableData.ignoreSortingFlags">
+            <table-template-new [colSortableFlags]="formattedTableData.colSortableFlag">
                 <thead>
                     @for(colName of formattedTableData.tableColNames; track $index) {
                         <th>
