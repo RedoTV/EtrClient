@@ -30,14 +30,18 @@
                   </a>
                 
                   <ul class="dropdown-menu dropdown-menu-dark mw-50 mx-auto" aria-labelledby="dropdownMenuLink">
-                    <li><a routerLink="/contests/table" class="dropdown-item transition-1"><span class="fs-5">Список Контестов</span></a></li>
-                    <li><a routerLink="/contest/add" class="dropdown-item transition-1"><span class="fs-5">Добавить Контест</span></a></li>
+                    <li><a routerLink="/contests/table" class="dropdown-item transition-1"><span class="fs-5">Список контестов</span></a></li>
+                    <li><a routerLink="/contest/add" class="dropdown-item transition-1"><span class="fs-5">Добавить контест</span></a></li>
                   </ul>
                 </div>
                 <div class="dropdown rounded p-1 text-center">
-                  <a routerLink="/problems" class="btn text-decoration-none transition-1">
+                  <a a class="btn dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="fs-4 text-light">Задачи</span>
                   </a>
+                  <ul class="dropdown-menu dropdown-menu-dark mw-50 mx-auto" aria-labelledby="dropdownMenuLink">
+                    <li><a routerLink="/problems" class="dropdown-item transition-1"><span class="fs-5">Список задач</span></a></li>
+                    <li><a routerLink="/problems/tree" class="dropdown-item transition-1"><span class="fs-5">Дерево задач</span></a></li>
+                  </ul>
                 </div>
                 <div class="nav-item text-center p-1">
                     <a routerLink="/about" class="btn text-decoration-none transition-1">
