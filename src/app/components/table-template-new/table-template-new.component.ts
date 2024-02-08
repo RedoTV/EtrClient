@@ -7,30 +7,16 @@ import { Subject, Subscription, noop } from 'rxjs';
 export class TableRow {
   contents : (any | null)[] = [];
   stringinfied : (string | null)[] = [];
-  /**
-   * Link used for routing, used as routerLink for the whole row.
-   * If you dont need to link anything - just don't give it value.
-   * 
-   * Ссылка для роутинга, используется как routerLink для всей строки.
-   * Если не нужно ничего связывать - можно просто не передавать значение.
-   */
   routerLink : string | null = null;
-  //routerLinks : (string | null)[] = []; - obsolete
   queryParams : Params | null = null;
 }
 
 /** 
- * UI table data class that holds contents for every cell, routerLink for every cell, column names.
- * 
- * Also can hold and show HTML code in tableRows.htmlString array, BUT
- * NEVER give untrusted data to tableRows.htmlString.
- * 
- * It bypasses DOM sanitizer!
+ * A class to organize and prepare data to use with table template.
+ * It is completely up to you to use it.
 */
 export class TableData {
   colSortableFlag : boolean[] = [];
-  ignoreSortingFlags : boolean[] = [];
-  hideColumnsFlags : boolean[] = [];
 
   directionPresets : number[] = [];
 
@@ -49,13 +35,17 @@ export class TableData {
 
 export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnInit, AfterContentChecked {
 
+  /**
+   * Saves current directions of table sorting
+   */
   sortDirections : number[] = [];
 
+  /**
+   * Make columns unsortable - while cells still will be a part
+   * of their rows, user will not be able to sort table by the
+   * contents of the cells in this column.
+   */
   @Input() colSortableFlags : boolean[] = [];
-
-  @Input() ignoreSortingFlags : boolean[] = [];
-
-  @Input() hideColumnsFlags : boolean[] = [];
 
   /**
    * Negative numbers correspond to sorting from highest to lowest,
@@ -63,12 +53,18 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
    */
   @Input() sortDirectionsPresets : number[] = [];
 
+  /**
+   * Used to update the table after new data was given.
+   * 
+   * Should always be used if new columns or columns' flags
+   * added, because in other case behavior of sorting
+   * can be quite unexpected.
+   */
   @Input() tableUpdate : Subject<boolean> = new Subject<boolean>();
   tableUpdateSubscription : Subscription = new Subscription;
   externalChanges : boolean = false;
 
   nativeEl : HTMLElement;
-
   removeClickEventListeners : (() => void)[] = [];
   
   firstContentCheck : boolean = true;
@@ -82,7 +78,7 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
   }
 
   ngOnInit() {
-    this.tableUpdateSubscription = this.tableUpdate.subscribe(resetBool => this.externalChanges = resetBool);
+    this.tableUpdateSubscription = this.tableUpdate.subscribe(changes => this.externalChanges = changes);
   }
 
   ngAfterContentChecked(): void {
@@ -101,26 +97,9 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
 
     this.sortDirections.fill(0);
 
-    // if (this.colSortableFlags.length < tableHead.length) {
-    //   let deltaLen = tableHead.length - this.colSortableFlags.length;
-    //   this.colSortableFlags.length = tableHead.length;
-    //   this.colSortableFlags.fill(false, deltaLen, this.colSortableFlags.length - 1);
-    // }
-
     if (this.colSortableFlags.length < tableHead.length) {
       this.colSortableFlags.length = tableHead.length;
       this.colSortableFlags.fill(true);
-    }
-
-    if (this.ignoreSortingFlags.length < tableHead.length) {
-      let initLen = this.ignoreSortingFlags.length;
-      this.ignoreSortingFlags.length = tableHead.length;
-      this.ignoreSortingFlags.fill(false, initLen, this.ignoreSortingFlags.length);
-    }
-
-    if (this.hideColumnsFlags.length < tableHead.length) {
-      this.hideColumnsFlags.length = tableHead.length;
-      this.hideColumnsFlags.fill(false);
     }
 
     this.removeClickEventListeners.forEach(removeClickEventListener => removeClickEventListener());
@@ -157,8 +136,12 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
     this.tableUpdateSubscription.unsubscribe();
   }
 
-
-
+  /**
+   * Handles table sorting
+   * @param colIndex 
+   * Index of column which will be sorted. It is set by
+   * click event on according column head cell.
+   */
   sortTable(colIndex : number) {
     if (this.colSortableFlags[colIndex]) {
       
@@ -178,44 +161,25 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
 
       let tableRows = Array.from(this.nativeEl.getElementsByTagName('tr'));
 
-      /**
-       *  This array references elements that are under ignoreSorting flag.
-       *  These elements will be just copied back in the same order,
-       *  just to bypass sorting
-       *  This code is commented out because it's
-       *  1. BAD.
-       *  2. Not needed anymore.
-       */
-      // let unsortedCells : (Element | null)[][] = [];
-
-      // tableRows.forEach((row, i) => {
-      //   if (row.children.length > 0) {
-      //     if (row.children.item(0)?.tagName == 'A' && row.children.item(0)?.tagName == 'A') {
-      //       unsortedCells[i] = Array.from(row.children.item(0)!.children);
-      //       Array.from(row.children.item(0)!.children).forEach((child, j) => {
-      //         this.ignoreSortingFlags[j] ? unsortedCells[i][j] = child : unsortedCells[i][j] = null;
-      //       });
-      //     }
-      //     else {
-      //       unsortedCells[i] = Array.from(row.children);
-      //       Array.from(row.children).forEach((child, j) => {
-      //       this.ignoreSortingFlags[j] ? unsortedCells[i][j] = child : unsortedCells[i][j] = null;
-      //       });
-      //     }
-      //   }
-        
-      // });
-
       tableRows.sort((a, b) => {
-        let aVal, bVal;
+        let aCell, bCell;
         if (a.children.item(0)!.tagName == 'A' && b.children.item(0)!.tagName == 'A') {
-          aVal = a.children.item(0)!.children.item(colIndex)!.textContent;
-          bVal = b.children.item(0)!.children.item(colIndex)!.textContent;
+          aCell = a.children.item(0)!.children.item(colIndex)!;
+          bCell = b.children.item(0)!.children.item(colIndex)!;
         }
         else {
-          aVal = a.children.item(colIndex)!.textContent;
-          bVal = b.children.item(colIndex)!.textContent;
+          aCell = a.children.item(colIndex)!;
+          bCell = b.children.item(colIndex)!;
         }
+
+        let aVal = aCell.getAttribute('data-sortingoverride')
+        if (aVal === null)
+          aVal = aCell.textContent;
+
+        let bVal = bCell.getAttribute('data-sortingoverride')
+        if (bVal === null)
+          bVal = bCell.textContent;
+
 
           if (aVal == null || aVal.trim() == "")
             return 1;
@@ -227,36 +191,8 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
           
           return aVal!.localeCompare(bVal!) * this.sortDirections[colIndex];
       });
-
-      let table = Array.from(this.nativeEl.getElementsByTagName('table'))[0];
       
-
-      /**
-       *  Same thing applies here
-       */
-      // inserting cells that are "ignored" in sorting
-      // tableRows.forEach((row, i) => {
-      //   if (row.children.length > 0) {
-      //     // checks for link - if present, replaces it's cells
-      //     if (row.children.item(0)?.tagName == 'A' && row.children.item(0)?.tagName == 'A') {
-
-      //       unsortedCells[i].forEach((cell, cellIndex) => {
-      //         if (cell != null) {
-      //           row.children.item(0)?.replaceChild(cell.cloneNode(true), row.children.item(0)!.childNodes.item(cellIndex));
-      //         }
-      //       });
-      //     }
-      //     // if not - replaces cells of the row itself
-      //     else {
-      //       unsortedCells[i].forEach((cell, cellIndex) => {
-      //         if (cell != null) {
-      //           row.replaceChild(cell.cloneNode(true), row.childNodes.item(cellIndex));
-      //         }
-              
-      //       });
-      //     }
-      //   }
-      // });
+      let table = Array.from(this.nativeEl.getElementsByTagName('table'))[0];
       
       // placing everything back into the table, but now sorted
       tableRows.forEach(row => {table.removeChild(row); table.appendChild(row as Node);});
@@ -265,6 +201,8 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
       // But first, we update our rows
       tableRows = Array.from(this.nativeEl.getElementsByTagName('tr'));
 
+      // Fills all cells in column with ID-col class with static id's
+      // from 1 to n, n - number of rows.
       tableRows.forEach((row, i) => {
         if (row.children.length > 0) {
           if (row.children.item(0)?.tagName == 'A' && row.children.item(0)?.tagName == 'A') {

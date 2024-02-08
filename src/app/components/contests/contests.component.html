@@ -16,7 +16,7 @@
     </div>
 </div>
 <div class="table-container table-w-90">
-    <table-template-new>
+    <table-template-new [tableUpdate]="refreshTable" [sortDirectionsPresets]="tableData.directionPresets">
         <thead>
             @for(colName of tableData.tableColNames; track $index) {
                 <th>
@@ -28,9 +28,16 @@
             <tr>
                 <a [routerLink]="row.routerLink">
                     @for(cellContents of row.contents; track $index) {
-                        <td>
-                            {{cellContents}}
-                        </td>
+                        @if (row.stringinfied[$index]) {
+                            <td [attr.data-sortingoverride]="row.stringinfied[$index]">
+                                {{cellContents}}
+                            </td>
+                        }
+                        @else {
+                            <td>
+                                {{cellContents}}
+                            </td>
+                        }
                     }
                 </a>
             </tr>

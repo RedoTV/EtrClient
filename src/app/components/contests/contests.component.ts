@@ -22,7 +22,7 @@ export class ContestsComponent implements OnInit {
   constructor(contestService: ContestService) {
 
     this.tableData.tableColNames = ["ID", "Название", "Дата"];
-    this.tableData.directionPresets = [1, 1, -1];
+    this.tableData.directionPresets = [0, 0, 1];
 
     contestService.getAllContests()
       .subscribe(arr => {
@@ -67,7 +67,7 @@ export class ContestsComponent implements OnInit {
     tableRow.routerLink = `/contests/${contest.id}`;
     //фильтрование наполнения даты, понятного обычному человеку
     if(contest.start_datatime)
-      tableRow.stringinfied = [null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3]];
+      tableRow.stringinfied = [ null, null, contest.start_datatime!.split(' ')[2] + contest.start_datatime?.split(' ')[1] + contest.start_datatime?.split(' ')[0] + contest.start_datatime!.split(' ')[3] ];
 
     this.tableData.tableRows.push(tableRow);
   }

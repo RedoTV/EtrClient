@@ -27,7 +27,6 @@ export class ProblemsComponent implements OnDestroy {
   constructor(private problemsService: ProblemsService) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false];
-    this.formattedTableData.ignoreSortingFlags = [false];
     
     //получаем все задачи
     this.problemTableSub = this.problemsService.getAllProblems()
