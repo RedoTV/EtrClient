@@ -1,5 +1,5 @@
 <div class="filter-box">
-    <div class="filter-chosen-values">
+    <div class="filter-chosen-values-box">
         @for (category of filteredValues; track $index) {
             @if (category.values.size != 0) {
                 <div class="chosen-category-box">{{category.name}}: 
@@ -10,15 +10,24 @@
             }
         }
     </div>
-    <div class="filter-picker">
+    <div class="filter-picker-box">
         @for (category of filterCategories; track $index) {
-            <input class="category-collapsible" type="checkbox" id="category-collapsible{{$index}}">
-            <label class="category-collapsible" for="category-collapsible{{$index}}">{{category.name}}</label>
-            <section class="category-variables">
-                @for (value of category.values; track $index) {
-                    <div class="filter-variable" (click)="selectValue(category.name, value)">{{value}}</div>
-                }
-            </section>
+            @if (category.type === 'picker') {
+                <input class="category-collapsible" type="checkbox" id="category-collapsible{{$index}}">
+                <label class="category-collapsible" for="category-collapsible{{$index}}">{{category.name}}</label>
+                <section class="category-variables">
+                    @for (value of category.values; track $index) {
+                        <div class="filter-variable" (click)="selectValue(category.name, value)">{{value}}</div>
+                    }
+                </section>
+            }
+            @else {
+                <input class="category-collapsible" type="checkbox" id="category-collapsible{{$index}}">
+                <label class="category-collapsible" for="category-collapsible{{$index}}">{{category.name}}</label>
+                <section class="category-variables">
+                    <input class="filter-searchbar" name="Table search bar" type="search" (change)="searchTrigger($event)">
+                </section>
+            }
         }
     </div>
     <div></div>

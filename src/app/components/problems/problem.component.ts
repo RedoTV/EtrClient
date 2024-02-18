@@ -2,14 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Problem } from '../../models/request.problem';
 import { ProblemsService } from '../../services/problems.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, map } from 'rxjs';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
 import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
+import { Params, RouterLink, ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-problem',
   standalone: true,
-  imports: [CommonModule, TablePickFilterComponent, TableTemplateNewComponent],
+  imports: [CommonModule, TablePickFilterComponent, TableTemplateNewComponent, RouterLink],
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.css'
 })
@@ -24,7 +25,7 @@ export class ProblemsComponent implements OnDestroy {
 
   tagsFilterCategories : FilterCategory[] = [];
 
-  constructor(private problemsService: ProblemsService) {
+  constructor(private problemsService: ProblemsService, ) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false];
     
@@ -36,8 +37,17 @@ export class ProblemsComponent implements OnDestroy {
 
         this.tagsFilterCategories.push(new FilterCategory);
         this.tagsFilterCategories.push(new FilterCategory);
-        this.tagsFilterCategories[0].name = "Tags";
-        this.tagsFilterCategories[1].name = "Index";
+        this.tagsFilterCategories.push(new FilterCategory);
+
+        this.tagsFilterCategories[0].name = "Теги";
+        this.tagsFilterCategories[1].name = "Индекс";
+        this.tagsFilterCategories[2].name = "Поиск";
+
+        this.tagsFilterCategories[0].type = "picker";
+        this.tagsFilterCategories[1].type = "picker";
+        this.tagsFilterCategories[2].type = "search";
+
+        
 
         //заполняем каждую колонку соответствующими данными
         this.problems.forEach(problem => {
@@ -58,15 +68,6 @@ export class ProblemsComponent implements OnDestroy {
           });
           this.tagsFilterCategories[1].values.add(problem.index);
 
-          let tagsHtml = "";
-          if (problem.tags.length != 0)
-          {
-            const tagHtmlTemplate = '<div style="background-color: #00000008; border: 1.5px solid gray; text-wrap:nowrap; font-size: 18px; line-height: 16px; height: 26px; padding: 4px; margin: 4px; float: left; border-radius: 10px;">'
-            tagsHtml = '<div style="max-width: 400px;">\n' + tagHtmlTemplate;
-            tagsHtml += problem.tags.join('</div>\n'+ tagHtmlTemplate);
-            tagsHtml += '</div>\n</div>';
-          }
-
           let externalUrl : string = "";
           if (problem.contest_id !== null && problem.contest_id < 10000) {
             externalUrl = `https://codeforces.com/problemset/problem/${problem.contest_id}/${problem.index}`
@@ -85,8 +86,6 @@ export class ProblemsComponent implements OnDestroy {
         this.filteredTableData.colSortableFlag = JSON.parse(JSON.stringify(this.formattedTableData.colSortableFlag));
         this.filteredTableData.directionPresets = JSON.parse(JSON.stringify(this.formattedTableData.directionPresets));
         this.filteredTableData.tableColNames = JSON.parse(JSON.stringify(this.formattedTableData.tableColNames));
-        
-        this.filteredTableData = this.filteredTableData;
 
         //перезагружаем таблицу, чтобы все данные отобразились 
         this.refreshTable.next(true);
@@ -100,7 +99,7 @@ export class ProblemsComponent implements OnDestroy {
 
     filterEvent.forEach(filterCat => {
       switch (filterCat.name) {
-        case "Tags":
+        case "Теги":
           if (filterCat.values.size != 0) {
             this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
               if (this.problems[row.contents[0]-1])
@@ -112,7 +111,7 @@ export class ProblemsComponent implements OnDestroy {
             })));
           }
         break;
-        case "Index":
+        case "Индекс":
           if (filterCat.values.size != 0) {
             this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
               if (this.problems[row.contents[0]-1])
@@ -123,6 +122,37 @@ export class ProblemsComponent implements OnDestroy {
                 return false;
             })));
           }
+        break;
+        case "Поиск":
+          if (filterCat.values.has(''))
+            break;
+          if (filterCat.values.size == 0) 
+            break;
+
+          this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+            let problem = this.problems[row.contents[0]-1]
+            let match = false;
+            if (problem)
+            {
+              for(let value of filterCat.values) {
+                if(value.startsWith('"') && value.endsWith('"')) {
+                  value = value.substring(1, value.length - 1);
+                  match = value == problem.name ||
+                          value == problem.index ||
+                          value == problem.id.toString() || 
+                          value == (problem.contest_id != null ? problem.contest_id.toString() : '');
+                  if (match == false)
+                    return false; 
+                }
+                else if (match == false) {
+                  match = this.fuzzyMatch(value, problem.name + problem.index + problem.id.toString() + (problem.contest_id != null ? problem.contest_id.toString() : ''));
+                }
+              }
+              return match;
+            }
+            else
+              return false;
+          })));
         break;
         default:
         break;
@@ -136,4 +166,17 @@ export class ProblemsComponent implements OnDestroy {
   ngOnDestroy() {
     this.problemTableSub.unsubscribe();
   }
+
+  // https://stackoverflow.com/questions/23305000/javascript-fuzzy-search-that-makes-sense
+  // i'm no good at regex...
+  escapeRegExp(str: string) : string {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  
+  fuzzyMatch(pattern : string, str : string) : boolean {
+    pattern = '.*' + pattern.split('').map(l => `${this.escapeRegExp(l)}.*`).join('');
+    const re = new RegExp(pattern);
+    return re.test(str);
+  }
+  
 }

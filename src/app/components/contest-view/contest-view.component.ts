@@ -76,6 +76,8 @@ export class ContestViewComponent implements OnDestroy {
         this.tableData.colSortableFlag.fill(false, this.tableData.tableColNames.length - 1, this.contestInfo.contest.problems.length - 1);
 
         this.contestInfo.contest.problems.forEach(problem => this.tableData.tableColNames.push(problem.index));
+
+        this.tableUpdateSubject.next(true);
       });
   }
   

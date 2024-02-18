@@ -6,12 +6,12 @@
     margin: 10px 0 10px 0;
 }
 
-.filter-chosen-values {
+.filter-chosen-values-box {
     display: flex;
     flex-wrap: wrap;
 
     width: 100%;
-    min-height: 60px;
+    min-height: 64px;
     max-height: fit-content;
     float: none;
     margin: 10px 0 10px 0;
@@ -23,7 +23,18 @@
     background-color: #f8f8f8;
 }
 
-.filter-picker {
+.chosen-category-box {
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+    padding: 2px 5px;
+
+    border: 1.5px solid #5b78b6;
+    border-radius: 10px;
+}
+
+.filter-picker-box {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -156,4 +167,22 @@ input[type="checkbox"]:checked + label::after {
 
 input[type="checkbox"]:checked + label + section.category-variables + div.filter-variable {
     user-select: text;
+}
+
+input.filter-searchbar::before {
+    cursor: pointer;
+}
+
+input.filter-searchbar:focus {
+    outline: none;
+}
+
+input.filter-searchbar {
+    min-width: 200px;
+    width: 30%;
+
+    padding: 2px 5px 2px 5px;
+
+    border-width: 1px;
+    border-radius: 5px;
 }

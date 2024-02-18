@@ -46,6 +46,13 @@
                             {{colName}}
                         </th>
                     }
+                    @else if (($index > 4 && noPointsData || $index > 5) && contestInfo.contest.id) {
+                        <th>
+                            <a href="https://codeforces.com/problemset/problem/{{contestInfo.contest.id}}/{{colName}}">
+                                {{colName}}
+                            </a>
+                        </th>
+                    }
                     @else {
                         <th>
                             {{colName}}
@@ -55,12 +62,12 @@
             </thead>
             @for(participant of participantsFiltered; let i = $index; track i) {
                 <tr>
-                    <a [routerLink]="'/students/' + participant.user?.handle">
+                    <a href="https://codeforces.com/profile/{{participant.user?.handle}}">
                         <td>{{i + 1}}</td>
                         @if (participant.user != null) {
                             <td>{{participant.user.last_name}} {{participant.user.first_name}}</td>
-                            <td>{{participant.user.organization}}</td>
                             <td>{{participant.user.city}}</td>
+                            <td>{{participant.user.organization}}</td>
                             <td>{{participant.user.grade}}</td>
                         }
                         @if (participant.team != null) {
