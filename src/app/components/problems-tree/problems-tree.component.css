@@ -1,3 +1,28 @@
+ul {
+    list-style-type: none;
+    cursor: pointer;
+}
+
+li {
+    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li:hover {
+    color: #475e93;
+    transition-duration: 200ms;    
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #475e93;
+    transition-duration: 200ms;
+}
+
 div.tag {
     background-color: #00000008;
     border: 1.5px solid gray;
@@ -7,38 +32,6 @@ div.tag {
     height: 26px;
     padding: 4px;
     margin: 4px;
-    float: left;
+    display: inline-block;
     border-radius: 10px;
-}
-.table-container {
-    padding-bottom: 25px;
-    padding-top: 25px;
-}
-@media screen and (max-width:1000px) {
-    .table-container {
-        min-width: 200px;
-        max-width: 1000px;
-        overflow-x: scroll;
-        transform: rotateX(180deg);
-        padding-bottom: 0px;
-        padding-top: 100px;
-    }
-}
-tr:hover {
-    color: #475e93;
-    cursor: pointer;
-    transition-duration: 200ms;
-}
-:host ::ng-deep table {
-    margin: auto;
-    
-}
-:host ::ng-deep tr:nth-child(even) {
-    background-color: #e8e8e8;
-}
-:host ::ng-deep tr {
-    border: 1px solid grey;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-    vertical-align: middle;
 }

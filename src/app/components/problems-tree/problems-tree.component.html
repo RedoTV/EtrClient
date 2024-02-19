@@ -1,40 +1,21 @@
 <h1 style="text-align: center;">Теги</h1>
-<table>
+<ul>
     @for (tag of tags; track $index) {
-        <tr (click)="look(tag)">{{tag}}</tr>
-        <div id="{{tag}}" style="display:none" class="table-container table-w-90">
-            <table-template-new [colSortableFlags]="formattedTableData.colSortableFlag">
-                <thead>
-                    @for(colName of formattedTableData.tableColNames; track $index) {
-                        <th>
-                            {{colName}}
-                        </th>
-                    }
-                </thead>
-                @for(row of filteredTableData.tableRows; let i = $index; track i) {
-                    @if (contains(row, tag.toLowerCase())) {
-                        <tr>
-                            <a href="{{row.routerLink}}">
-                                @for(cellContents of row.contents; track $index) {
-                                    @if ($index == row.contents.length - 1) {
-                                        <td style="max-width: 400px;">
-                                            @for (tagText of cellContents; track $index) {
-                                                <div class="tag">{{tagText}}</div>
-                                            }
-                                        </td>
-                                    }
-                                    @else {
-                                        <td>
-                                            {{cellContents}}
-                                        </td>
-                                    }
-                                }
-                            </a>
-                        </tr>
+        <li (click)="look(tag)">{{tag}}</li>
+        <div id="{{tag}}" style="display: none;">
+            <ul>
+                @for (problem of problems; track $index) {
+                    @if (contains(problem, tag.toLowerCase())) {
+                        <li><a [href]="RouterLink(problem)">Name: {{problem.name}} | Tags: 
+                        @for (tag of problem.tags; track $index) {
+                            <div class="tag">
+                                {{tag}}
+                            </div>
+                        }</a></li>
                     }
                 }
-            </table-template-new>
+            </ul>
         </div>
-
     }
-</table>
+</ul>
+<br>
