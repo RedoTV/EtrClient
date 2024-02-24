@@ -12,67 +12,76 @@ import { RouterModule } from '@angular/router';
   templateUrl: './problems-tree.component.html',
   styleUrl: './problems-tree.component.css'
 })
+
 export class ProblemsTreeComponent implements OnDestroy {
   problems: Problem[] = [];
-  problemTableSub: Subscription;
-  tags: Set<string> = new Set<string>;
+  problemsSub: Subscription;
+  tagsList: Set<string> = new Set<string>;
 
   constructor(private problemService : ProblemsService)
   {
 
-    this.problemTableSub = this.problemService.getAllProblems()
+    this.problemsSub = this.problemService.getAllProblems()
     .subscribe(res => {
 
       res.forEach(x => this.problems.push(x));
+
       this.problems.forEach(problem => {
         problem.tags.forEach(tag => {
-          let newTag = tag[0].toUpperCase();
-          for (let i = 1; i < tag.length; i++) 
-          {
-            newTag += tag[i];
-          }
-          this.tags.add(newTag);
+          this.tagsList.add(tag);
         })
-        for (let i = 0; i < this.problems.length-1; i++) {
-          for (let j = 0; j < this.problems.length-1-i; j++) {
-            if (this.problems[j].tags.length > this.problems[j+1].tags.length)
-            {
-              var problem: Problem;
-              problem = this.problems[j];
-              this.problems[j] = this.problems[j+1];
-              this.problems[j+1] = problem;
-            }
-          }
-        }
+        this.SortByTagsAmount(this.problems);
       });
     });
   }
 
-  look(id:string) {
+  OpenProblemsList(id:string) {
     let param = document.getElementById(id)!;
     if (param.style.display == "none") {
       param.style.display = "block"
-    } else {
+    } 
+    else {
       param.style.display = "none"
     }
-
   }
-  contains(problem: Problem, tag: string) {
+
+  ScrollToNeededTag(tag : string)
+  {
+    let param = document.getElementById(tag)!;
+    if (param.style.display == "none") {
+      param.style.display = "block"
+    }
+    param.style.scrollMarginTop = "35px"
+    param.scrollIntoView({behavior: "smooth"});
+  }
+
+  FirstToUp(tag : string)
+  {
+    let newTag = tag[0].toUpperCase();
+    for (let i = 1; i < tag.length; i++) 
+    {
+      newTag += tag[i];
+    }
+    return newTag;
+  }
+  
+  IsContainTag(problem: Problem, tag: string) {
     return problem.tags.indexOf(tag) != -1;
   }
+
   SortByTagsAmount(problems: Problem[]) {
-    for (let i = 0; i < this.problems.length-1; i++) {
-      for (let j = 0; j < this.problems.length-1-i; j++) {
-        if (this.problems[j].tags.length < this.problems[j+1].tags.length)
+    var sortedProblems : Problem[] = problems;
+    for (let i = 0; i < sortedProblems.length-1; i++) {
+      for (let j = 0; j < sortedProblems.length-1-i; j++) {
+        if (sortedProblems[j].tags.length > sortedProblems[j+1].tags.length)
         {
-          var problem: Problem;
-          problem = this.problems[j];
-          this.problems[j] = this.problems[j+1];
-          this.problems[j+1] = problem;
+          [sortedProblems[j], sortedProblems[j+1]] = [sortedProblems[j+1], sortedProblems[j]];
         }
       }
     }
+    return sortedProblems;
   }
+  
   RouterLink(problem: Problem)
   {
     let externalUrl : string = "";
@@ -84,8 +93,9 @@ export class ProblemsTreeComponent implements OnDestroy {
     }
     return externalUrl;
   }
+
   ngOnDestroy() {
-    this.problemTableSub.unsubscribe();
+    this.problemsSub.unsubscribe();
   }
 }
 

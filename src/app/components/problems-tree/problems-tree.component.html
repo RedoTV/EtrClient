@@ -1,17 +1,17 @@
 <h1 style="text-align: center;">Теги</h1>
 <ul>
-    @for (tag of tags; track $index) {
-        <li (click)="look(tag)">{{tag}}</li>
-        <div id="{{tag}}" style="display: none;">
+    @for (mainTag of tagsList; track $index) {
+        <li><div class="tag" (click)="OpenProblemsList(mainTag)">{{FirstToUp(mainTag)}}</div></li>
+        <div id="{{mainTag}}" style="display: none; white-space: nowrap;">
             <ul>
                 @for (problem of problems; track $index) {
-                    @if (contains(problem, tag.toLowerCase())) {
-                        <li><a [href]="RouterLink(problem)">Name: {{problem.name}} | Tags: 
-                        @for (tag of problem.tags; track $index) {
-                            <div class="tag">
-                                {{tag}}
+                    @if (IsContainTag(problem, mainTag)) {
+                        <li><a [href]="RouterLink(problem)">Name: {{problem.name}} | Tags: </a>
+                        @for (problemTag of problem.tags; track $index) {
+                            <div class="tag" (click)="ScrollToNeededTag(problemTag)">
+                                {{problemTag}}
                             </div>
-                        }</a></li>
+                        }</li>
                     }
                 }
             </ul>
