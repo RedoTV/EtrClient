@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Problem } from '../../models/request.problem';
 import { ProblemsService } from '../../services/problems.service';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -30,6 +30,7 @@ export class ProblemsTreeComponent implements OnDestroy {
         problem.tags.forEach(tag => {
           this.tagsList.add(tag);
         })
+        this.tagsList = new Set<string>(Array.from(this.tagsList).sort());
         this.SortByTagsAmount(this.problems);
       });
     });
