@@ -1,11 +1,13 @@
 import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { waitForAsync } from '@angular/core/testing';
+import { ExternalReference } from '@angular/compiler';
 
 export class FilterCategory {
   type : string = "";
   name : string = "none";
+  varName : string = "none";
   values : Set<string> = new Set<string>;
 }
 
@@ -18,7 +20,7 @@ export class FilterCategory {
 })
 export class TablePickFilterComponent implements AfterViewChecked {
 
-  @Input({required: true}) filterCategories : FilterCategory[] = [];
+  @Input() filterCategories : FilterCategory[] = [];
 
   /**
    * Filter categories with the same names as in input ones, 
@@ -46,18 +48,38 @@ export class TablePickFilterComponent implements AfterViewChecked {
       let searchCategory = this.filterCategories.find(category => category.type === "search");
       if (this.activatedRoute.queryParams && searchCategory)
       {
-        let searchStr : string;
-        this.activatedRoute.queryParams.subscribe(params => {
-          searchStr = params['searchStr'];
+        let params = this.activatedRoute.snapshot.queryParamMap;
 
-          if (typeof(searchStr) == 'string') {
-            searchStr.split(' ').forEach(word => searchCategory!.values.add(word));
+        this.filterCategories.forEach(category => {
+          let param = params.get(category.varName);
+          let newCategory = new FilterCategory;
+
+          if (param) {
+            param.split('\n').forEach(value => {newCategory.values.add(value); category.values.delete(value)});
           }
 
-          this.search(searchStr);
-          this.fillSearchbar(searchStr);
+          newCategory.name = category.name;
+          newCategory.type = category.type;
+          newCategory.varName = category.varName;
 
-        }).unsubscribe();
+          if (newCategory.type == 'search') {
+            this.fillSearchbar(Array.from(newCategory.values).join(' '));
+          }
+
+          this.filteredValues.push(newCategory);
+        });
+        
+
+        // searchStr = params.get('search');
+
+        // if (typeof(searchStr) == 'string') {
+        //   searchStr.split(' ').forEach(word => searchCategory!.values.add(word));
+        // }
+
+        //this.search(searchStr);
+        //this.fillSearchbar(searchStr);
+
+        this.refreshRoute();
 
       }
     }
@@ -66,34 +88,42 @@ export class TablePickFilterComponent implements AfterViewChecked {
 
 
   deselectValue (categoryName : string, value : string) {
-    this.filterCategories.filter(filterCat => {
-      return filterCat.name == categoryName;
-    })[0].values.add(value);
 
+    var chosenFilterCat = this.filterCategories.filter(filterCat => filterCat.name == categoryName)[0];
+    chosenFilterCat.values.add(value);
 
     let matchedCategory = this.filteredValues.filter(filterCat => filterCat.name == categoryName)[0];
     matchedCategory.values.delete(value);
 
-    this.filterFeedback.emit(this.filteredValues);
+    if (matchedCategory.type == 'search') {
+      this.fillSearchbar(Array.from(matchedCategory.values).join(' '));
+    }
+
+    this.refreshRoute();
   }
   
   selectValue (categoryName : string, value : string) {
     if (this.filteredValues.findIndex(filterCat => filterCat.name === categoryName) === -1)
     {
       let missingCategory : FilterCategory = new FilterCategory;
-      missingCategory.name = categoryName;
-      this.filteredValues.push(missingCategory);
+      let givenCategory = this.filterCategories.find(category => category.name === categoryName);
+
+      if (givenCategory) {
+        missingCategory.name = categoryName;
+        missingCategory.type = givenCategory.type;
+        missingCategory.varName = givenCategory.varName;
+
+        this.filteredValues.push(missingCategory);
+      }
     }
 
-    this.filteredValues.filter(filterCat => {
-      return filterCat.name == categoryName;
-    })[0].values.add(value);
+    var chosenFilterCat = this.filterCategories.filter(filterCat => filterCat.name == categoryName)[0];
+    chosenFilterCat.values.delete(value);
 
-    this.filterCategories.filter(filterCat => {
-      return filterCat.name == categoryName;
-    })[0].values.delete(value);
+    var matchedCategory = this.filteredValues.filter(filterCat => filterCat.name == categoryName)[0];
+    matchedCategory.values.add(value);
 
-    this.filterFeedback.emit(this.filteredValues);
+    this.refreshRoute();
   }
 
   searchTrigger (event : Event) {
@@ -102,17 +132,19 @@ export class TablePickFilterComponent implements AfterViewChecked {
   }
 
   search (searchQuery : string) {
-    let searchCategory = this.filterCategories.find(cathegory => cathegory.type === "search");
+    let searchCategory = this.filteredValues.find(cathegory => cathegory.type === "search");
+    if(!searchCategory)
+    {
+      searchCategory = this.filterCategories.find(cathegory => cathegory.type === "search");
+      if (searchCategory)
+        this.filteredValues.push(searchCategory);
+    }
 
     if (searchCategory) {
       searchCategory.values.clear();
-      searchQuery.split(' ').forEach(word => searchCategory?.values.add(word));
+      searchQuery.split(' ').forEach(word => searchCategory!.values.add(word));
 
-      var state = { searchStr: Array.from(searchCategory.values).join(' ')}; 
-      var url = this.router.createUrlTree([], { relativeTo: this.activatedRoute, queryParams: state }).toString();
-      this.router.navigateByUrl(url);
-
-      this.filterFeedback.emit([searchCategory]);
+      this.refreshRoute();
     }
   }
 
@@ -121,6 +153,23 @@ export class TablePickFilterComponent implements AfterViewChecked {
     
     if (searchbar)
       searchbar.value = value;
+  }
+
+  refreshRoute () {
+    var params : Params = {};
+    this.filteredValues.forEach(matchedCategory => {
+      params[matchedCategory.varName] = Array.from(matchedCategory.values).join('\n');
+    });
+
+    var mathcedCategories = this.filteredValues.filter(category => category.values.size > 0);
+    console.log(mathcedCategories);
+
+    var url = this.router.createUrlTree([], { relativeTo: this.activatedRoute, queryParams: params }).toString();
+
+    this.router.navigateByUrl(url).then(() => {
+      if (mathcedCategories)
+        this.filterFeedback.emit(mathcedCategories);
+    });
   }
 
 }

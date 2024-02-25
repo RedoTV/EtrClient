@@ -15,7 +15,7 @@
     max-height: fit-content;
     float: none;
     margin: 10px 0 10px 0;
-    padding: 10px;
+    padding: 5px;
 
     border: 2px solid gainsboro;
     border-radius: 5px;
@@ -29,6 +29,7 @@
 
     align-items: center;
     padding: 2px 5px;
+    margin: 5px;
 
     border: 1.5px solid #5b78b6;
     border-radius: 10px;

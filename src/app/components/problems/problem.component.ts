@@ -5,7 +5,7 @@ import { ProblemsService } from '../../services/problems.service';
 import { Subject, Subscription, map } from 'rxjs';
 import { FilterCategory, TablePickFilterComponent } from '../table-pick-filter/table-pick-filter.component';
 import { TableTemplateNewComponent, TableData, TableRow } from '../table-template-new/table-template-new.component';
-import { Params, RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-problem',
@@ -25,7 +25,7 @@ export class ProblemsComponent implements OnDestroy {
 
   tagsFilterCategories : FilterCategory[] = [];
 
-  constructor(private problemsService: ProblemsService, ) {
+  constructor(private problemsService: ProblemsService, private route : ActivatedRoute) {
     this.formattedTableData.tableColNames = ["ID", "Индекс", "ID контеста", "Название", "Очки", "Рейтинг", "Теги"];
     this.formattedTableData.colSortableFlag = [true, true, true, true, true, true, false];
     
@@ -42,6 +42,10 @@ export class ProblemsComponent implements OnDestroy {
         this.tagsFilterCategories[0].name = "Теги";
         this.tagsFilterCategories[1].name = "Индекс";
         this.tagsFilterCategories[2].name = "Поиск";
+
+        this.tagsFilterCategories[0].varName = "tags";
+        this.tagsFilterCategories[1].varName = "index";
+        this.tagsFilterCategories[2].varName = "search";
 
         this.tagsFilterCategories[0].type = "picker";
         this.tagsFilterCategories[1].type = "picker";
@@ -98,69 +102,136 @@ export class ProblemsComponent implements OnDestroy {
     this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.formattedTableData.tableRows));
 
     filterEvent.forEach(filterCat => {
-      switch (filterCat.name) {
-        case "Теги":
-          if (filterCat.values.size != 0) {
-            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-              if (this.problems[row.contents[0]-1])
-              {
+      let values : string[] = [];
+      let paramSnapshot = this.route.snapshot.queryParamMap.get(filterCat.varName);
+      if (paramSnapshot)
+      {
+        values = paramSnapshot.split('\n');
+        console.log(values);
+      }
+      else
+        return;
+
+      this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+        if (filterCat.values.size != 0) {
+          switch (filterCat.name) {
+            case "Теги":
+              if (this.problems[row.contents[0]-1]) {
                 return this.problems[row.contents[0]-1].tags.filter(tag => filterCat.values.has(tag)).length === filterCat.values.size;
               }
-              else
-                return false;
-            })));
-          }
-        break;
-        case "Индекс":
-          if (filterCat.values.size != 0) {
-            this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-              if (this.problems[row.contents[0]-1])
-              {
+
+              return false;
+            case "Индекс":
+              if (this.problems[row.contents[0]-1]) {
                 return filterCat.values.has(this.problems[row.contents[0]-1].index);
               }
+
+              return false;
+            case "Поиск":
+              if (filterCat.values.has(''))
+                break;
+    
+              let problem = this.problems[row.contents[0]-1];
+              let match = false;
+              if (problem)
+              { 
+                for(let value of values) {
+                  if(value.startsWith('"') && value.endsWith('"')) {
+                    value = value.substring(1, value.length - 1);
+                    match = value == problem.name ||
+                            value == problem.index ||
+                            value == problem.id.toString() || 
+                            value == (problem.contest_id != null ? problem.contest_id.toString() : '');
+
+                    if (match == false)
+                      return false;
+                  }
+                  else if (match == false) {
+                    match = this.fuzzyMatch(value, problem.name + problem.index + problem.id.toString() + (problem.contest_id != null ? problem.contest_id.toString() : ''));
+                  }
+                }
+                return match;
+              }
               else
                 return false;
-            })));
-          }
-        break;
-        case "Поиск":
-          if (filterCat.values.has(''))
-            break;
-          if (filterCat.values.size == 0) 
-            break;
 
-          this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-            let problem = this.problems[row.contents[0]-1]
-            let match = false;
-            if (problem)
-            {
-              for(let value of filterCat.values) {
-                if(value.startsWith('"') && value.endsWith('"')) {
-                  value = value.substring(1, value.length - 1);
-                  match = value == problem.name ||
-                          value == problem.index ||
-                          value == problem.id.toString() || 
-                          value == (problem.contest_id != null ? problem.contest_id.toString() : '');
-                  if (match == false)
-                    return false; 
-                }
-                else if (match == false) {
-                  match = this.fuzzyMatch(value, problem.name + problem.index + problem.id.toString() + (problem.contest_id != null ? problem.contest_id.toString() : ''));
-                }
-              }
-              return match;
-            }
-            else
-              return false;
-          })));
-        break;
-        default:
-        break;
-      }
+            default:
+              break;
+          }
+        }
+        return false;
+      })));
+
+    //   switch (filterCat.name) {
+    //     case "Теги":
+    //       if (filterCat.values.size != 0) {
+    //         this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+    //           if (this.problems[row.contents[0]-1])
+    //           {
+    //             return this.problems[row.contents[0]-1].tags.filter(tag => filterCat.values.has(tag)).length === filterCat.values.size;
+    //           }
+    //           else
+    //             return false;
+    //         })));
+    //       }
+    //     break;
+    //     case "Индекс":
+    //       if (filterCat.values.size != 0) {
+    //         this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+    //           if (this.problems[row.contents[0]-1])
+    //           {
+    //             return filterCat.values.has(this.problems[row.contents[0]-1].index);
+    //           }
+    //           else
+    //             return false;
+    //         })));
+    //       }
+    //     break;
+    //     case "Поиск":
+    //       if (filterCat.values.has(''))
+    //         break;
+    //       if (filterCat.values.size == 0) 
+    //         break;
+
+    //       console.log(paramSnapshot);
+    //       if (paramSnapshot != null)
+    //         values = paramSnapshot.split(' ');
+
+    //       this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
+    //         let problem = this.problems[row.contents[0]-1];
+    //         let match = false;
+    //         if (problem)
+    //         { 
+    //           for(let value of values) {
+    //             if(value.startsWith('"') && value.endsWith('"')) {
+    //               value = value.substring(1, value.length - 1);
+    //               match = value == problem.name ||
+    //                       value == problem.index ||
+    //                       value == problem.id.toString() || 
+    //                       value == (problem.contest_id != null ? problem.contest_id.toString() : '');
+
+    //               if (match == false)
+    //                 return false;
+    //             }
+    //             else if (match == false) {
+    //               match = this.fuzzyMatch(value, problem.name + problem.index + problem.id.toString() + (problem.contest_id != null ? problem.contest_id.toString() : ''));
+    //             }
+    //           }
+    //           return match;
+    //         }
+    //         else
+    //           return false;
+    //       })));
+    //     break;
+    //     default:
+    //     break;
+    //   }
+    // });
+    
+    
     });
-    
+
     this.refreshTable.next(true);
-    
   }
 
   ngOnDestroy() {
