@@ -8,6 +8,7 @@ import { ContestViewComponent } from './components/contest-view/contest-view.com
 import { StudentViewComponent } from './components/student-view/student-view.component';
 import { ProblemsComponent as ProblemsComponent } from './components/problems/problem.component';
 import { HomeComponent } from './components/home/home.component';
+import { ProblemsTreeComponent } from './components/problems-tree/problems-tree.component';
 import { PatchUserInterfaceComponent } from './components/patch-user-interface/patch-user-interface.component';
 
 export const routes: Routes = [
@@ -50,5 +51,9 @@ export const routes: Routes = [
     {
         path: '',
         component: HomeComponent
+    },
+    {
+        path: 'problems/tree',
+        component:  ProblemsTreeComponent
     }
 ];

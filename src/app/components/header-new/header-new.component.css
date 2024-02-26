@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+}
+header {
+    background-color: #5b78b6;
+    font-size: 18px;
+    height: 55px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-large;
+    color: white;
+    
+}
+
+#top_menu {
+    display: inline-block;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    cursor: default;
+}
+
+#top_menu > li {
+    display: inline-block;  
+    position: relative;
+}
+
+#top_menu > li > a {
+    display: inline-block;
+    padding: 9.5px 20px; 
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none; 
+    transition: background-color 0.25s, color 0.15s;
+}
+
+#top_menu > li > a:hover {
+    color: white;
+    background-color: #6383c7;
+}
+
+#top_menu > li:hover > ul a {
+    opacity: 1;
+    padding: 10px 20px;
+}
+
+#top_menu > li:hover > ul li {
+    height: 50px;
+    width:auto;
+    opacity: 1;
+}
+
+.inner_menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    padding-left: 0;
+    text-align: left;
+    white-space: nowrap;
+    background-color: #5b78b6;
+}
+
+.inner_menu > li {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    transition: height 0.3s, opacity 0.4s;
+}
+
+.inner_menu > li > a {
+    width: 100%;
+    display: inline-block;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none; 
+    height: inherit;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.inner_menu > li > a:hover {
+    color: white;
+    background-color: #6383c7; 
+}
+
+img.logo {
+    width: 41px;
+    vertical-align: middle;
+    margin-left: 7px;
+    margin-bottom: 3px;
+}
+
+body {
+    margin: 0;
+}
