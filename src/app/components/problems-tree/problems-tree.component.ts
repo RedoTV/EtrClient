@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 
 export class ProblemsTreeComponent implements OnDestroy {
   problems: Problem[] = [];
+  problemsSortedByTags: Problem[][] = [];
   problemsSub: Subscription;
   tagsList: Set<string> = new Set<string>;
 
@@ -30,10 +31,16 @@ export class ProblemsTreeComponent implements OnDestroy {
         problem.tags.forEach(tag => {
           this.tagsList.add(tag);
         })
-        this.tagsList = new Set<string>(Array.from(this.tagsList).sort());
         this.SortByTagsAmount(this.problems);
       });
     });
+    for (let i = 0; i < this.tagsList.size; i++) {
+      for (let j = 0; j < this.problems.length; j++) {
+        if (this.problems[j].tags.indexOf(Array.from(this.tagsList)[i])) {
+          this.problemsSortedByTags[i][j] = this.problems[j];
+        }
+      }
+    }
   }
 
   OpenProblemsList(id:string) {

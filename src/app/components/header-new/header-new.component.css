@@ -33,11 +33,6 @@ header {
     transition: background-color 0.25s, color 0.15s;
 }
 
-#top_menu > li > a:hover {
-    color: white;
-    background-color: #6383c7;
-}
-
 #top_menu > li:hover > ul a {
     opacity: 1;
     padding: 10px 20px;
@@ -78,11 +73,6 @@ header {
     opacity: 0;
 }
 
-.inner_menu > li > a:hover {
-    color: white;
-    background-color: #6383c7; 
-}
-
 img.logo {
     width: 41px;
     vertical-align: middle;
@@ -92,4 +82,40 @@ img.logo {
 
 body {
     margin: 0;
+}
+
+.main-logo{
+    margin-top: 5px;
+    margin-left: 10px;
+    height: 45px;
+    width: 45px;
+    line-height: 47.5px;
+    text-align: center;
+    background-color: #0d47a1;
+    color: white;
+    float: inline-start;
+    font-size: large;
+    border-radius: 15px;
+    text-decoration: none;
+}
+
+@media (hover: hover) {
+    .inner_menu > li > a:hover {
+        color: white;
+        background-color: #6383c7; 
+    }
+    #top_menu > li > a:hover {
+        color: white;
+        background-color: #6383c7;
+    }    
+}
+@media (hover: none) {
+    .inner_menu > li > a:active {
+        color: white;
+        background-color: #6383c7; 
+    }
+    #top_menu > li > a:active {
+        color: white;
+        background-color: #6383c7;
+    }
 }
