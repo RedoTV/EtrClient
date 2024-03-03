@@ -7,7 +7,7 @@
 </div>
 
 <div class="table-container table-w-90">
-    <table-template-new>
+    <table-template-new [tableUpdate]="tableUpdate">
         <thead>
             @for(colName of formattedTableData.tableColNames; track $index) {
                 <th>

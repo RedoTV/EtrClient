@@ -28,20 +28,20 @@ export class StudentsTableComponent implements OnInit {
     userService.getAllUsers()
       .subscribe(res => {
         res.forEach(x => this.users.push(x));
+        
+        // this.users.forEach((user, index) => {
+        //   let tableRow = new TableRow;
+        //   tableRow.contents = [
+        //     user.id, 
+        //     `${user.last_name} ${user.first_name}`,
+        //     user.organization,
+        //     user.city,
+        //     user.grade
+        //   ];
+        //   tableRow.routerLink = `/students/${user.handle}`;
 
-        this.users.forEach((user, index) => {
-          let tableRow = new TableRow;
-          tableRow.contents = [
-            user.id, 
-            `${user.last_name} ${user.first_name}`,
-            user.organization,
-            user.city,
-            user.grade
-          ];
-          tableRow.routerLink = `/students/${user.handle}`;
-
-          this.tableData.tableRows.push(tableRow);
-        });
+        //   this.tableData.tableRows.push(tableRow);
+        // });
         
         this.refreshTable.next(true);
       });

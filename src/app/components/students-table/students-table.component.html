@@ -12,14 +12,14 @@
                 </th>
             }
         </thead>
-        @for (row of tableData.tableRows; track $index) {
+        @for (user of users; track $index) {
                 <tr>
-                    <a [routerLink]="row.routerLink">
-                        @for (cellContents of row.contents; track $index) {
-                            <td>
-                                {{cellContents}}
-                            </td>
-                        }
+                    <a href="https://codeforces.com/profile/{{user.handle}}">
+                        <td>{{user.id}}</td>
+                        <td>{{user.last_name}} {{user.first_name}}</td>
+                        <td>{{user.organization}}</td>
+                        <td>{{user.city}}</td>
+                        <td>{{user.grade}}</td>
                     </a>
                 </tr>
         }

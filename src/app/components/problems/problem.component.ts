@@ -21,7 +21,7 @@ export class ProblemsComponent implements OnDestroy {
 
   formattedTableData : TableData = new TableData;
   filteredTableData : TableData = new TableData;
-  refreshTable : Subject<boolean> = new Subject<boolean>();
+  tableUpdate : Subject<boolean> = new Subject<boolean>();
 
   tagsFilterCategories : FilterCategory[] = [];
 
@@ -92,7 +92,7 @@ export class ProblemsComponent implements OnDestroy {
         this.filteredTableData.tableColNames = JSON.parse(JSON.stringify(this.formattedTableData.tableColNames));
 
         //перезагружаем таблицу, чтобы все данные отобразились 
-        this.refreshTable.next(true);
+        this.tableUpdate.next(true);
 
       });
 
@@ -161,77 +161,10 @@ export class ProblemsComponent implements OnDestroy {
         }
         return false;
       })));
-
-    //   switch (filterCat.name) {
-    //     case "Теги":
-    //       if (filterCat.values.size != 0) {
-    //         this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-    //           if (this.problems[row.contents[0]-1])
-    //           {
-    //             return this.problems[row.contents[0]-1].tags.filter(tag => filterCat.values.has(tag)).length === filterCat.values.size;
-    //           }
-    //           else
-    //             return false;
-    //         })));
-    //       }
-    //     break;
-    //     case "Индекс":
-    //       if (filterCat.values.size != 0) {
-    //         this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-    //           if (this.problems[row.contents[0]-1])
-    //           {
-    //             return filterCat.values.has(this.problems[row.contents[0]-1].index);
-    //           }
-    //           else
-    //             return false;
-    //         })));
-    //       }
-    //     break;
-    //     case "Поиск":
-    //       if (filterCat.values.has(''))
-    //         break;
-    //       if (filterCat.values.size == 0) 
-    //         break;
-
-    //       console.log(paramSnapshot);
-    //       if (paramSnapshot != null)
-    //         values = paramSnapshot.split(' ');
-
-    //       this.filteredTableData.tableRows = JSON.parse(JSON.stringify(this.filteredTableData.tableRows.filter(row => {
-    //         let problem = this.problems[row.contents[0]-1];
-    //         let match = false;
-    //         if (problem)
-    //         { 
-    //           for(let value of values) {
-    //             if(value.startsWith('"') && value.endsWith('"')) {
-    //               value = value.substring(1, value.length - 1);
-    //               match = value == problem.name ||
-    //                       value == problem.index ||
-    //                       value == problem.id.toString() || 
-    //                       value == (problem.contest_id != null ? problem.contest_id.toString() : '');
-
-    //               if (match == false)
-    //                 return false;
-    //             }
-    //             else if (match == false) {
-    //               match = this.fuzzyMatch(value, problem.name + problem.index + problem.id.toString() + (problem.contest_id != null ? problem.contest_id.toString() : ''));
-    //             }
-    //           }
-    //           return match;
-    //         }
-    //         else
-    //           return false;
-    //       })));
-    //     break;
-    //     default:
-    //     break;
-    //   }
-    // });
-    
     
     });
 
-    this.refreshTable.next(true);
+    this.tableUpdate.next(true);
   }
 
   ngOnDestroy() {

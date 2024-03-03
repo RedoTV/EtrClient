@@ -1,7 +1,7 @@
 import { Component, Input, ElementRef, Renderer2, OnDestroy, AfterViewInit, OnInit, AfterContentChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Params } from '@angular/router';
-import { Subject, Subscription, noop } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
 
 
 export class TableRow {
@@ -73,7 +73,7 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
 
 
 
-  constructor (private elRef : ElementRef, private renderer : Renderer2) {
+  constructor (private elRef : ElementRef, private renderer : Renderer2, private route : ActivatedRoute, private router : Router) {
     this.nativeEl = elRef.nativeElement;
   }
 
@@ -128,6 +128,20 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
         this.sortTable(presetCol);
       }
     }
+
+    let settings = this.route.snapshot.queryParamMap.get('sortingSettings');
+    let sortedCol, sortDirection;
+    if (settings && Number(settings.split(' ')[0]) && Number(settings.split(' ')[1])) {
+      sortedCol = Number(settings?.split(' ')[0]);
+      sortDirection = Number(settings?.split(' ')[1]);
+      this.sortDirections[sortedCol] = -1 * sortDirection;
+
+      this.sortDirections.fill(0, 0, sortedCol);
+      this.sortDirections.fill(0, sortedCol + 1, this.sortDirections.length);
+
+      this.sortTable(sortedCol);
+    }
+
   }
 
   ngOnDestroy () {
@@ -144,6 +158,8 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
    */
   sortTable(colIndex : number) {
     if (this.colSortableFlags[colIndex]) {
+
+      console.log('sorted!');
       
       this.sortDirections.fill(0, 0, colIndex);
       this.sortDirections.fill(0, colIndex + 1, this.sortDirections.length);
@@ -217,6 +233,9 @@ export class TableTemplateNewComponent implements AfterViewInit, OnDestroy, OnIn
           }
         }
       });
+
+      var url = this.router.createUrlTree([], { relativeTo: this.route, queryParams: {sortingSettings: `${colIndex} ${this.sortDirections[colIndex]}`}, queryParamsHandling: 'merge'}).toString();
+      this.router.navigateByUrl(url);
 
     }
   }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { waitForAsync } from '@angular/core/testing';
 import { ExternalReference } from '@angular/compiler';
+import { Subject } from 'rxjs';
 
 export class FilterCategory {
   type : string = "";
@@ -164,7 +165,7 @@ export class TablePickFilterComponent implements AfterViewChecked {
     var mathcedCategories = this.filteredValues.filter(category => category.values.size > 0);
     console.log(mathcedCategories);
 
-    var url = this.router.createUrlTree([], { relativeTo: this.activatedRoute, queryParams: params }).toString();
+    var url = this.router.createUrlTree([], { relativeTo: this.activatedRoute, queryParams: params, queryParamsHandling: 'merge' }).toString();
 
     this.router.navigateByUrl(url).then(() => {
       if (mathcedCategories)
