@@ -4,13 +4,13 @@
         <li><div class="tag" (click)="OpenProblemsList(mainTag)">{{FirstToUp(mainTag)}}</div></li>
         <div id="{{mainTag}}" style="display: none; white-space: nowrap;">
             <ul>
-                @for (problem of problems; track $index) {
-                    @if (IsContainTag(problem, mainTag)) {
+                @for (problemList of problemsSortedByTags; track $index) {
+                    @for (problem of problemList; track $index) {
                         <li><a [href]="RouterLink(problem)">Name: {{problem.name}} | Tags: </a>
-                        @for (problemTag of problem.tags; track $index) {
-                            <div class="tag" (click)="ScrollToNeededTag(problemTag)">
-                                {{problemTag}}
-                            </div>
+                            @for (problemTag of problem.tags; track $index) {
+                                <div class="tag" (click)="ScrollToNeededTag(problemTag)">
+                                    {{problemTag}}
+                                </div>
                         }</li>
                     }
                 }
