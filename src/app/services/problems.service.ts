@@ -17,4 +17,10 @@ export class ProblemsService {
     return this.http.get('https://dl.gsu.by/etr/api/problem/')
     .pipe(map(r => r[<keyof Object>'problems'] as Object as Problem[]));
   }
+
+  public getProblemsWithRating(rating: number):Observable<Problem[]>
+  {
+    return this.http.get(`https://dl.gsu.by/etr/api/problem/?rating=${rating}`)
+    .pipe(map(r => r[<keyof Object>'problems'] as Object as Problem[]));
+  }
 }

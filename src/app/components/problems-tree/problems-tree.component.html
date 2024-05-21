@@ -1,5 +1,13 @@
 <h1 style="text-align: center;">Теги</h1>
-<ul>
+<div class="form-group w-50 mx-auto ">
+  <label for="formGroupExampleInput" class="">Введите сложность задачи</label>
+  <input type="number" class="form-control w-50 m-2" [(ngModel)]="rating" id="formGroupExampleInput" placeholder="Example input">
+  <div type="button" class="btn btn-secondary" (click)="FindWithRating(rating)">найти</div>
+</div>
+
+@if (hardBtnIsClicked == true)
+{
+  <ul>
     @for (mainTag of tagsList; track $index) {
         <li><div class="tag" (click)="OpenProblemsList(mainTag)">{{FirstToUp(mainTag)}}</div></li>
         <div id="{{mainTag}}" style="display: none; white-space: nowrap;">
@@ -19,3 +27,4 @@
     }
 </ul>
 <br>
+}
