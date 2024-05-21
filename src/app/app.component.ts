@@ -15,5 +15,5 @@ import { HeaderNewComponent } from './components/header-new/header-new.component
 export class AppComponent {
   readonly title = 'EtrClient';
   readonly version = [0, 13, 0];
-  readonly lastUpdate = new Date('2024.03.03');
+  readonly lastUpdate = new Date('2024.05.21');
 }
