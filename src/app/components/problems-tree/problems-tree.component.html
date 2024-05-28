@@ -7,24 +7,31 @@
 
 @if (hardBtnIsClicked == true)
 {
-  <ul>
+    <ul>
     @for (mainTag of tagsList; track $index) {
-        <li><div class="tag" (click)="OpenProblemsList(mainTag)">{{FirstToUp(mainTag)}}</div></li>
-        <div id="{{mainTag}}" style="display: none; white-space: nowrap;">
-            <ul>
-                @for (problemList of problemsSortedByTags; track $index) {
-                    @for (problem of problemList; track $index) {
-                        <li><a [href]="RouterLink(problem)">Name: {{problem.name}} | Tags: </a>
-                            @for (problemTag of problem.tags; track $index) {
-                                <div class="tag" (click)="ScrollToNeededTag(problemTag)">
-                                    {{problemTag}}
-                                </div>
-                        }</li>
-                    }
+        <div class="tag header-tag" (click)="OpenProblemsList(mainTag)">{{FirstToUp(mainTag)}}</div>
+            <div id="{{mainTag}}" class="problems-list" style="display: none; white-space: nowrap;">
+                
+                @for (problem of tagToProblems.get(mainTag); track $index)
+                {
+                    <div class="problem-card">
+                        <div>
+                            <a [href]="RouterLink(problem)">
+                                {{problem.name}}
+                            </a>
+                            <div class="problem-tags">
+                                @for (problemTag of problem.tags; track $index) {
+                                    <div class="tag" (click)="ScrollToNeededTag(problemTag)">
+                                        {{problemTag}}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 }
-            </ul>
-        </div>
+            </div>
+        
     }
-</ul>
+    </ul>
 <br>
 }

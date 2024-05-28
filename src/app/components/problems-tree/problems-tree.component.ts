@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class ProblemsTreeComponent implements OnDestroy{
   problems: Problem[] = [];
   problemsSortedByTags: Problem[][] = [];
+  tagToProblems: Map<string, Problem[]> = new Map<string, Problem[]>;
   problemsSub: Subscription;
   tagsList: Set<string> = new Set<string>;
   hardBtnIsClicked: boolean;
@@ -57,7 +58,7 @@ export class ProblemsTreeComponent implements OnDestroy{
   FindWithRating(rating: number)
   {
     this.hardBtnIsClicked = true;
-    this.problemsSub = this.problemService.getProblemsWithRating(rating)
+    this.problemService.getProblemsWithRating(rating)
     .subscribe(res => {
 
       res.forEach(x => this.problems.push(x));
@@ -66,16 +67,18 @@ export class ProblemsTreeComponent implements OnDestroy{
         problem.tags.forEach(tag => {
           this.tagsList.add(tag);
         })
-        this.SortByTagsAmount(this.problems);
+        
       });
+      
+      this.tagsList.forEach(tag => {
+        this.tagToProblems.set(tag, this.SortByTagsAmount(this.problems.filter(
+            problem => problem.tags.find(probTag => probTag == tag))
+        ));
+        
+      });
+      
     });
-    for (let i = 0; i < this.tagsList.size; i++) {
-      for (let j = 0; j < this.problems.length; j++) {
-        if (this.problems[j].tags.indexOf(Array.from(this.tagsList)[i])) {
-          this.problemsSortedByTags[i][j] = this.problems[j];
-        }
-      }
-    }
+    
   }
 
   OpenProblemsList(id:string) {
@@ -90,12 +93,15 @@ export class ProblemsTreeComponent implements OnDestroy{
 
   ScrollToNeededTag(tag : string)
   {
-    let param = document.getElementById(tag)!;
-    if (param.style.display == "none") {
-      param.style.display = "block"
+    let tagBox = document.getElementById(tag);
+    if(!tagBox)
+      return;
+    
+    if (tagBox.style.display == "none") {
+      tagBox.style.display = "block"
     }
-    param.style.scrollMarginTop = "35px"
-    param.scrollIntoView({behavior: "smooth"});
+    tagBox.style.scrollMarginTop = "50px"
+    tagBox.scrollIntoView({behavior: "smooth", block: "start"});
   }
 
   FirstToUp(tag : string)

@@ -35,3 +35,55 @@ div.tag {
     display: inline-block;
     border-radius: 10px;
 }
+
+div.header-tag {
+    width: 80%;
+    height: auto;
+    padding: 8px;
+    margin: 4px 10% 4px 10%;
+}
+
+div.problems-list {
+    width: 80%;
+    margin: -12px 10% 4px 10%;
+    padding: 12px 10px 0 10px;
+
+    border: 1.5px solid gray;
+    border-radius: 0 0 10px 10px;
+    border-top: none;
+
+    font-size: large;
+}
+
+div.problem-card {
+    height: fit-content;
+    margin: 5px 0 5px 0;
+    padding: 3px;
+
+    border-bottom: 1.5px solid gray; 
+}
+
+div.problem-card:last-of-type {
+    border: none;
+}
+
+div.problem-card div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+div.problem-card div a {
+    text-align: center;
+    min-width: 10vw;
+    padding-right: 5px;
+    border-right: 1.5px solid gray;
+}
+
+div.problem-tags {
+    margin-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
